@@ -148,6 +148,9 @@ public class PlayState extends GameState {
 		return this.playPanel;
 	}
 	
+	/**
+	 * Gibt den aktuellen Zustand des PlayStates zurück.
+	 */
 	public int getCurrentState() {
 		return this.currentState;
 	}
