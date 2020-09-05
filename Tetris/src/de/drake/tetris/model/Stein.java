@@ -18,6 +18,11 @@ public class Stein {
 	private Farbe farbe;
 	
 	/**
+	 * Die Farbe des Steins.
+	 */
+	private int test;
+	
+	/**
 	 * Die aktuelle Position des Mittelpunkt des Steins.
 	 */
 	private Position mittelpunkt;
