@@ -1,9 +1,12 @@
 package de.drake.tetris.input.gamepad;
 
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 class GamepadKey {
+	
+	private Component inputSource;
 	
 	private int keyCode;
 	
@@ -13,7 +16,8 @@ class GamepadKey {
 	
 	private KeyListener listener;
 
-	GamepadKey(final int keyCode, final char keyChar) {
+	GamepadKey(final Component inputSource, final int keyCode, final char keyChar) {
+		this.inputSource = inputSource;
 		this.keyCode = keyCode;
 		this.keyChar = keyChar;
 		this.ispressed = false;
@@ -23,16 +27,17 @@ class GamepadKey {
 		this.listener = listener;
 	}
 
-	void setPressed(boolean pressed) {
+	void setPressed(final boolean pressed) {
+		
 		if(this.ispressed == pressed)
 			return;
 		this.ispressed = pressed;
-		if (pressed = true) {
+		if (pressed == true) {
 			this.listener.keyPressed(
-					new KeyEvent(null, 0, System.nanoTime(), 0, this.keyCode, this.keyChar));
+					new KeyEvent(this.inputSource, 0, System.nanoTime(), 0, this.keyCode, this.keyChar));
 		} else {
 			this.listener.keyReleased(
-					new KeyEvent(null, 0, System.nanoTime(), 0, this.keyCode, this.keyChar));
+					new KeyEvent(this.inputSource, 0, System.nanoTime(), 0, this.keyCode, this.keyChar));
 		}
 	}
 }

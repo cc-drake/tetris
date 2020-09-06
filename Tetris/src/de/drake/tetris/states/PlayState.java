@@ -8,7 +8,6 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import de.drake.tetris.config.PlayerTemplate;
-import de.drake.tetris.input.KeyboardManager;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.view.PlayerGUI;
 
@@ -46,20 +45,9 @@ public class PlayState extends GameState {
 	PlayState() {
 		
 		this.playPanel = new JPanel();
-		
-		Random random = new Random();
-		long seed = random.nextLong();
-		for (PlayerTemplate template : PlayerTemplate.createPlayerTemplates()) {
-			this.spielerliste.add(new Spieler(template, this, seed));
-		}
-		
-		this.initPlayPanel();
-	}
-	
-	private void initPlayPanel() {
 		this.playPanel.setBackground(Color.white);
 		this.playPanel.setFocusable(true);
-		switch (this.spielerliste.size()) {
+		switch (PlayerTemplate.createPlayerTemplates().size()) {
 		case 1:
 			this.playPanel.setLayout(new GridLayout(1, 1, 5, 5));
 			break;
@@ -77,14 +65,15 @@ public class PlayState extends GameState {
 		default:
 			throw new Error("Mehr als 6 Spieler sind nicht zugelassen");
 		}
-		for (Spieler spieler : this.spielerliste) {
+		
+		Random random = new Random();
+		long seed = random.nextLong();
+		Spieler spieler;
+		for (PlayerTemplate template : PlayerTemplate.createPlayerTemplates()) {
+			spieler = new Spieler(template, this, seed);
+			this.spielerliste.add(spieler);
 			this.playPanel.add(new PlayerGUI(spieler));
 		}
-	}
-	
-	public void addKeyboardManager(final KeyboardManager manager) {
-		this.playPanel.addKeyListener(manager);
-		this.playPanel.addFocusListener(manager);
 	}
 	
 	/**

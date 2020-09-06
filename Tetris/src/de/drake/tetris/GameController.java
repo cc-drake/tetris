@@ -16,8 +16,9 @@ class GameController extends Thread {
 	 * Wird beim Start des Threads ausgeführt.
 	 */
 	public void run() {
-		
-		this.init();
+		Assets.init();
+		GameStateManager.setState(GameStateManager.playState);
+		this.display = new Display();
 		
 		long timePerTick = 1000000000L / Config.fps;
 		long lastTick = System.nanoTime();
@@ -29,12 +30,6 @@ class GameController extends Thread {
 			}
 		}
 		
-	}
-	
-	private void init() {
-		Assets.init();
-		GameStateManager.setState(GameStateManager.playState);
-		this.display = new Display();
 	}
 	
 }

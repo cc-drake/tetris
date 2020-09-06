@@ -13,12 +13,12 @@ import de.drake.tetris.config.Config;
 import de.drake.tetris.config.KeyBinding;
 import de.drake.tetris.data.Action;
 
-public class KeyboardManager implements InputManager, KeyListener, FocusListener {
+abstract class KeyManager implements InputManager, KeyListener, FocusListener {
 	
 	private KeyBinding keyBinding;
 	
 	/**
-	 * FIFO-Speicher zum Puffern von Tastatureingaben.
+	 * FIFO-Speicher zum Puffern von Tasteneingaben.
 	 */
 	private ConcurrentLinkedQueue<Action> actionQueue = new ConcurrentLinkedQueue<Action>();
 	
@@ -34,7 +34,7 @@ public class KeyboardManager implements InputManager, KeyListener, FocusListener
 	 */
 	private HashMap<Action, Timer> timers = new HashMap<Action, Timer>();
 	
-	public KeyboardManager(final KeyBinding keyBinding) {
+	protected KeyManager(final KeyBinding keyBinding) {
 		this.keyBinding = keyBinding;
 	}
 	
@@ -49,7 +49,6 @@ public class KeyboardManager implements InputManager, KeyListener, FocusListener
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyChar());
 		if (!this.keyBinding.isRelevant(e) || this.pressedKeys.contains(e.getKeyCode())) {
 			return;
 		}

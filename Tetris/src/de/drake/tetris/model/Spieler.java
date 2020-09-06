@@ -4,6 +4,7 @@ import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.data.Action;
 import de.drake.tetris.data.Position;
 import de.drake.tetris.input.AIManager;
+import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
 import de.drake.tetris.input.KeyboardManager;
 import de.drake.tetris.states.PlayState;
@@ -88,9 +89,10 @@ public class Spieler {
 		this.speed = playerTemplate.getSpeed();
 		switch (playerTemplate.getInputManagerType()) {
 		case InputManager.KEYBOARD:
-			KeyboardManager manager = new KeyboardManager(playerTemplate.getKeyBinding());
-			this.inputManager = manager;
-			this.playState.addKeyboardManager(manager);
+			this.inputManager = new KeyboardManager(this.playState.getJPanel(), playerTemplate.getKeyBinding());
+			break;
+		case InputManager.GAMEPAD_0:
+			this.inputManager = new GamepadManager(this.playState.getJPanel(), 0, playerTemplate.getKeyBinding());
 			break;
 		case InputManager.AI:
 			this.inputManager = new AIManager();

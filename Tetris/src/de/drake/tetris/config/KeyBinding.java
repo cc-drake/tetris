@@ -43,6 +43,19 @@ public class KeyBinding {
 		return result;
 	}
 	
+	public static KeyBinding createKeyBindingGamePad() {
+		KeyBinding result = new KeyBinding();
+		result.key2action.put(KeyEvent.VK_7, Action.PAUSE);
+		result.key2action.put(KeyEvent.VK_LEFT, Action.LINKS);
+		result.key2action.put(KeyEvent.VK_RIGHT, Action.RECHTS);
+		result.key2action.put(KeyEvent.VK_DOWN, Action.RUNTER);
+		result.key2action.put(KeyEvent.VK_4, Action.GANZ_RUNTER);
+		result.key2action.put(KeyEvent.VK_5, Action.GANZ_RUNTER);
+		result.key2action.put(KeyEvent.VK_0, Action.DREHUNG_UHRZEIGERSINN);
+		result.key2action.put(KeyEvent.VK_1, Action.DREHUNG_ENTGEGEN_UHRZEIGERSINN);
+		return result;
+	}
+	
 	private HashMap<Integer, Action> key2action = new HashMap<Integer, Action>();
 	
 	public Action getAction(final KeyEvent e) {
