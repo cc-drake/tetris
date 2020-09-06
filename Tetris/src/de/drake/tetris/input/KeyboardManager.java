@@ -49,6 +49,7 @@ public class KeyboardManager implements InputManager, KeyListener, FocusListener
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		System.out.println(e.getKeyChar());
 		if (!this.keyBinding.isRelevant(e) || this.pressedKeys.contains(e.getKeyCode())) {
 			return;
 		}

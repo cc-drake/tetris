@@ -21,7 +21,6 @@ class GameController extends Thread {
 		
 		long timePerTick = 1000000000L / Config.fps;
 		long lastTick = System.nanoTime();
-		
 		while(true) {
 			if ((System.nanoTime() - lastTick) >= timePerTick) {
 				lastTick += timePerTick;
