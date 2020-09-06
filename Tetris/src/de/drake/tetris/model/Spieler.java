@@ -161,10 +161,14 @@ public class Spieler {
 			}
 			break;
 		case DREHUNG_UHRZEIGERSINN:
-			this.bewegeStein(0, 0, true);
+			if (!this.bewegeStein(0, 0, true))
+				if (!this.bewegeStein(-1, 0, true))
+					this.bewegeStein(1, 0, true);
 			break;
 		case DREHUNG_ENTGEGEN_UHRZEIGERSINN:
-			this.bewegeStein(0, 0, false);
+			if (!this.bewegeStein(0, 0, false))
+				if (!this.bewegeStein(-1, 0, false))
+					this.bewegeStein(1, 0, false);
 			break;
 		default:
 			break;

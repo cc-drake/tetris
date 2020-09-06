@@ -129,20 +129,20 @@ class SteinFactory {
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(-1, -1));
+		relativkoordinaten.add(new Position(0, -1));
 		map.put(1, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(1, 0));
-		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(-1, 0));
+		relativkoordinaten.add(new Position(-1, -1));
 		map.put(2, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
-		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(1, 0));
+		relativkoordinaten.add(new Position(-1, 0));
+		relativkoordinaten.add(new Position(-1, -1));
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(3, relativkoordinaten);
 		
