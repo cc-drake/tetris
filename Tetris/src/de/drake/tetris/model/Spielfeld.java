@@ -14,17 +14,17 @@ public class Spielfeld {
 	/**
 	 * Die Breite des Spielfelds.
 	 */
-	private int breite = Config.breite;
+	private final int breite = Config.breite;
 	
 	/**
 	 * Die Höhe des Spielfelds.
 	 */
-	private int hoehe = Config.hoehe + Config.getMaxSteinSize();
+	private final int hoehe = Config.hoehe + Config.getMaxSteinSize();
 	
 	/**
 	 * Ein Gitter, welche die im Spielfeld enthaltenen Felder beinhält.
 	 */
-	private Gitter<Feld> gitter;
+	private final Gitter<Feld> gitter;
 	
 	/**
 	 * Erzeugt ein neues Spielfeld.

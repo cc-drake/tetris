@@ -17,12 +17,12 @@ class SteinFactory {
 	/**
 	 * Zufallsgenerator zur Erzeugung zufälliger Steine.
 	 */
-	private Random random;
+	private final Random random;
 	
 	/**
 	 * Grundgesamtheit aller erzeugbaren Steine
 	 */
-	private ArrayList<Stein> grundgesamtheit = new ArrayList<Stein>();
+	private final ArrayList<Stein> grundgesamtheit = new ArrayList<Stein>();
 	
 	/**
 	 * Erzeugt eine neue SteinFactory.

@@ -23,27 +23,27 @@ public class Spieler {
 	/**
 	 * Der PlayState, der das laufende Spiel verwaltet.
 	 */
-	private PlayState playState;
+	private final PlayState playState;
 	
 	/**
 	 * Der Name des Spielers.
 	 */
-	private String name;
+	private final String name;
 	
 	/**
 	 * Der InputManager, über den der Spieler gesteuert wird.
 	 */
-	private InputManager inputManager;
+	private final InputManager inputManager;
 	
 	/**
 	 * Das Spielfeld, in dem die Steine fallen.
 	 */
-	private Spielfeld spielfeld;
+	private final Spielfeld spielfeld;
 	
 	/**
 	 * Der Zufallsgenerator, der die neuen Steine erzeugt
 	 */
-	private SteinFactory steinFactory;
+	private final SteinFactory steinFactory;
 	
 	/**
 	 * Der Stein, der aktuell im Spielfeld fällt.
@@ -94,7 +94,7 @@ public class Spieler {
 		case InputManager.GAMEPAD_0:
 			this.inputManager = new GamepadManager(this.playState.getJPanel(), 0, playerTemplate.getKeyBinding());
 			break;
-		case InputManager.AI:
+		default:
 			this.inputManager = new AIManager();
 		}
 		this.spielfeld = new Spielfeld();

@@ -20,13 +20,13 @@ public class PlayerTemplate {
 		return result;
 	}
 	
-	private String name;
+	private final String name;
 	
-	private int inputManagerType;
+	private final int inputManagerType;
 	
-	private KeyBinding keyBinding;
+	private final KeyBinding keyBinding;
 	
-	private double speed;
+	private final double speed;
 	
 	private PlayerTemplate(final String name, final int inputManagerType,
 			final KeyBinding keyBinding, final double speed) {

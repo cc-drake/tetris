@@ -23,7 +23,7 @@ public class GamepadMonitor extends Thread {
 	private GamepadKey left;
 	private GamepadKey right;
 	
-	private HashMap<Component, GamepadKey> component2button = new HashMap<Component, GamepadKey>();
+	private final HashMap<Component, GamepadKey> component2button = new HashMap<Component, GamepadKey>();
 	
 	public GamepadMonitor(final java.awt.Component inputSource, final int gamepadNr) {
 		int currentGamepadNr = 0;

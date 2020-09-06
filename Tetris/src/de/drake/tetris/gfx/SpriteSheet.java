@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 
 class SpriteSheet {
 	
-	private BufferedImage sheet;
+	private final BufferedImage sheet;
 	
-	private int breite;
+	private final int breite;
 	
-	private int hoehe;
+	private final int hoehe;
 	
 	SpriteSheet(final BufferedImage sheet, final int breite, final int hoehe) {
 		this.sheet = sheet;

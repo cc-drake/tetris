@@ -10,7 +10,7 @@ import de.drake.tetris.view.Display;
  */
 class GameController extends Thread {
 	
-	private Display display;
+	private final Display display = new Display();
 	
 	/**
 	 * Wird beim Start des Threads ausgeführt.
@@ -18,7 +18,6 @@ class GameController extends Thread {
 	public void run() {
 		Assets.init();
 		GameStateManager.setState(GameStateManager.playState);
-		this.display = new Display();
 		
 		long timePerTick = 1000000000L / Config.fps;
 		long lastTick = System.nanoTime();

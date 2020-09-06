@@ -6,9 +6,9 @@ import de.drake.tetris.data.Action;
 
 class KeyTask extends TimerTask {
 	
-	private KeyManager manager;
+	private final KeyManager manager;
 	
-	private Action action;
+	private final Action action;
 
 	KeyTask(final KeyManager manager, final Action action) {
 		this.manager = manager;

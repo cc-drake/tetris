@@ -2,7 +2,7 @@ package de.drake.tetris.states;
 
 public class GameStateManager {
 	
-	public static GameState playState = new PlayState();
+	public final static GameState playState = new PlayState();
 	
 	private static GameState currentState;
 	

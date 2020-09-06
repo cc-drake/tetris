@@ -27,12 +27,12 @@ public class PlayState extends GameState {
 	/**
 	 * Das Panel, in dem das Spielfeld gezeichnet wird.
 	 */
-	private JPanel playPanel;
+	private final JPanel playPanel;
 	
 	/**
 	 * Eine Liste der Spieler, die gemeinsam Tetris spielen.
 	 */
-	private ArrayList<Spieler> spielerliste = new ArrayList<Spieler>(6);
+	private final ArrayList<Spieler> spielerliste = new ArrayList<Spieler>(6);
 	
 	/**
 	 * Speichert den aktuellen Zustand des Spiels.

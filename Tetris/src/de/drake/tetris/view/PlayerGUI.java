@@ -27,7 +27,7 @@ public class PlayerGUI extends JPanel {
 	/**
 	 * Der Spieler, dessen Spielfeld hier angezeigt wird.
 	 */
-	private Spieler spieler;
+	private final Spieler spieler;
 	
 	/**
 	 * Die Höhe eines Tetris-Feldes in Pixeln.
@@ -72,7 +72,7 @@ public class PlayerGUI extends JPanel {
 	/**
 	 * Anzahl der Preview-Zeilen bzw. Spalten
 	 */
-	private int previewfelder;
+	private final int previewfelder = Config.getMaxSteinSize() + 2;
 	
 	/**
 	 * Erzeugt eine neue PlayerGUI.
@@ -108,9 +108,6 @@ public class PlayerGUI extends JPanel {
 	 * @param höhe_feld Die Höhe eines Tetris-Feldes
 	 */
 	private void berechneSpielfeldaufteilung() {
-		
-		//Größe des Preview-Bereichs ermitteln (Anzahl Felder)
-		this.previewfelder = Config.getMaxSteinSize() + 2;
 		
 		//Höhe und Breite eines Tetrisfeldes auf Basis des zur Verfügung stehenden Platzes ermitteln
 		this.höhe_feld = (this.getHeight() - 4) / Config.hoehe;

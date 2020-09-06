@@ -15,24 +15,24 @@ import de.drake.tetris.data.Action;
 
 abstract class KeyManager implements InputManager, KeyListener, FocusListener {
 	
-	private KeyBinding keyBinding;
+	private final KeyBinding keyBinding;
 	
 	/**
 	 * FIFO-Speicher zum Puffern von Tasteneingaben.
 	 */
-	private ConcurrentLinkedQueue<Action> actionQueue = new ConcurrentLinkedQueue<Action>();
+	private final ConcurrentLinkedQueue<Action> actionQueue = new ConcurrentLinkedQueue<Action>();
 	
 	/**
 	 * Speichert die KeyCodes der aktuell gedrückten Tasten. Wird benötigt, um das windowseigene 
 	 * Key-Repeat bei gedrückter Taste zu unterdrücken.
 	 */
-	private HashSet<Integer> pressedKeys = new HashSet<Integer>();
+	private final HashSet<Integer> pressedKeys = new HashSet<Integer>();
 	
 	/**
 	 * Timer, die beim Gedrückthalten einer Taste nach einer bestimmten Zeit die zugehörige Aktion
 	 * automatisch erneut auslösen.
 	 */
-	private HashMap<Action, Timer> timers = new HashMap<Action, Timer>();
+	private final HashMap<Action, Timer> timers = new HashMap<Action, Timer>();
 	
 	protected KeyManager(final KeyBinding keyBinding) {
 		this.keyBinding = keyBinding;

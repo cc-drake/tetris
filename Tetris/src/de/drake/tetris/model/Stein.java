@@ -15,12 +15,12 @@ public class Stein {
 	/**
 	 * Die Farbe des Steins.
 	 */
-	private Farbe farbe;
+	private final Farbe farbe;
 	
 	/**
 	 * Die aktuelle Position des Mittelpunkt des Steins.
 	 */
-	private Position mittelpunkt;
+	private final Position mittelpunkt;
 	
 	/**
 	 * Die aktuelle Drehung des Steins.
@@ -33,7 +33,7 @@ public class Stein {
 	 * mittig (bei gerader Spielfeldbreite rechts der Mitte) in der obersten sichtbaren Zeile
 	 * des Spielfelds platziert wird.
 	 */
-	private HashMap<Integer, HashSet<Position>> relativkoordinaten;
+	private final HashMap<Integer, HashSet<Position>> relativkoordinaten;
 	
 	Stein(final Farbe farbe, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
 		this.farbe = farbe;

@@ -6,11 +6,11 @@ import java.awt.event.KeyListener;
 
 class GamepadKey {
 	
-	private Component inputSource;
+	private final Component inputSource;
 	
-	private int keyCode;
+	private final int keyCode;
 	
-	private char keyChar;
+	private final char keyChar;
 	
 	private boolean ispressed;
 	

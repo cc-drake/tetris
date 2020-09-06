@@ -12,17 +12,17 @@ public class Gitter<ContentClass> {
 	/**
 	 * Speichert den Inhalt des Gitters
 	 */
-	private HashMap<Position, ContentClass> map;
+	private final HashMap<Position, ContentClass> map;
 	
 	/**
 	 * Speichert die Breite des Gitters (Ausdehnung in X-Richtung)
 	 */
-	private int breite;
+	private final int breite;
 	
 	/**
 	 * Speichert die Höhe des Gitters (Ausdehnung in y-Richtung)
 	 */
-	private int hoehe;
+	private final int hoehe;
 	
 	/**
 	 * Konstruktor zum Erzeugen eines Gitters einer bestimmten Größe. Das Gitter wird mit null initialisiert.
