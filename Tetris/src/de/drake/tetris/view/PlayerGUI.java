@@ -154,7 +154,7 @@ public class PlayerGUI extends JPanel {
 		//Felder ausmalen
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
-				Position position = new Position(spalte, Config.hoehe - 1 - zeile);
+				Position position = new Position(spalte, zeile);
 				if (spielfeld.isBlocked(position)) {
 					g.drawImage(Assets.getAsset(spielfeld.getColor(position), false),
 							this.offsetX_sf + spalte * this.breite_feld,
@@ -173,7 +173,7 @@ public class PlayerGUI extends JPanel {
 		int zeile, spalte;
 		Stein stein = this.spieler.getStein();
 		for (Position position : stein.getPositionen()) {
-			zeile = Config.hoehe - 1 - position.getY();
+			zeile = position.getY();
 			spalte = position.getX();
 			if (zeile < 0)
 				continue;
@@ -243,7 +243,7 @@ public class PlayerGUI extends JPanel {
 		int zeile, spalte;
 		Stein stein = this.spieler.getNextStein();
 		for (Position position : stein.getRelativkoordinaten()) {
-			zeile = previewfelder / 2 - position.getY() - 1;
+			zeile = previewfelder / 2 + position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();
 			g.drawImage(Assets.getAsset(stein.getColor(), true),
 					this.offsetX_p + spalte * this.breite_feld,

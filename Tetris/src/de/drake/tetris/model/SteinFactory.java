@@ -86,7 +86,7 @@ class SteinFactory {
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(2);
-		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(0, -1));
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(1, relativkoordinaten);
 		
@@ -107,9 +107,9 @@ class SteinFactory {
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
-		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, -1));
 		map.put(1, relativkoordinaten);
 		
 		return new Stein(Color.ROT, map);
@@ -123,26 +123,26 @@ class SteinFactory {
 		HashSet<Position> relativkoordinaten;
 		
 		relativkoordinaten = new HashSet<Position>(3);
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 1));
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
 		relativkoordinaten.add(new Position(0, 0));
-		relativkoordinaten.add(new Position(-1, -1));
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(-1, 1));
+		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 1));
 		relativkoordinaten.add(new Position(-1, 0));
-		relativkoordinaten.add(new Position(-1, -1));
+		relativkoordinaten.add(new Position(-1, 1));
 		map.put(2, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(3);
 		relativkoordinaten.add(new Position(-1, 0));
-		relativkoordinaten.add(new Position(-1, -1));
+		relativkoordinaten.add(new Position(-1, 1));
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(3, relativkoordinaten);
 		
@@ -157,31 +157,31 @@ class SteinFactory {
 		HashSet<Position> relativkoordinaten;
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(-1, -1));
+		relativkoordinaten.add(new Position(-1, 1));
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(-1, 1));
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(-1, -1));
 		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
-		relativkoordinaten.add(new Position(1, 1));
+		relativkoordinaten.add(new Position(1, -1));
 		map.put(2, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(1, -1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(1, 1));
 		map.put(3, relativkoordinaten);
 		
 		return new Stein(Color.BLAU, map);
@@ -195,7 +195,7 @@ class SteinFactory {
 		HashSet<Position> relativkoordinaten;
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 1));
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
@@ -203,22 +203,22 @@ class SteinFactory {
 		
 		relativkoordinaten = new HashSet<Position>(4);
 		relativkoordinaten.add(new Position(-1, 0));
-		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, -1));
 		map.put(1, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
-		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(0, -1));
 		map.put(2, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, -1));
 		relativkoordinaten.add(new Position(1, 0));
 		map.put(3, relativkoordinaten);
 		
@@ -233,31 +233,31 @@ class SteinFactory {
 		HashSet<Position> relativkoordinaten;
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(1, -1));
+		relativkoordinaten.add(new Position(1, 1));
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(-1, -1));
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(-1, 1));
 		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
-		relativkoordinaten.add(new Position(-1, 1));
+		relativkoordinaten.add(new Position(-1, -1));
 		map.put(2, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(1, 1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(1, -1));
 		map.put(3, relativkoordinaten);
 		
 		return new Stein(Color.GRÜN, map);
@@ -273,15 +273,15 @@ class SteinFactory {
 		relativkoordinaten = new HashSet<Position>(4);
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
-		relativkoordinaten.add(new Position(0, -1));
-		relativkoordinaten.add(new Position(1, -1));
+		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(1, 1));
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(1, 1));
+		relativkoordinaten.add(new Position(1, -1));
 		relativkoordinaten.add(new Position(1, 0));
 		relativkoordinaten.add(new Position(0, 0));
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
 		return new Stein(Color.GRÜN, map);
@@ -295,17 +295,17 @@ class SteinFactory {
 		HashSet<Position> relativkoordinaten;
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(-1, -1));
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(-1, 1));
+		relativkoordinaten.add(new Position(0, 1));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(0, 1));
+		relativkoordinaten.add(new Position(0, -1));
 		relativkoordinaten.add(new Position(0, 0));
 		relativkoordinaten.add(new Position(1, 0));
-		relativkoordinaten.add(new Position(1, -1));
+		relativkoordinaten.add(new Position(1, 1));
 		map.put(1, relativkoordinaten);
 		
 		return new Stein(Color.BLAU, map);
@@ -321,8 +321,8 @@ class SteinFactory {
 		relativkoordinaten = new HashSet<Position>(4);
 		relativkoordinaten.add(new Position(-1, 0));
 		relativkoordinaten.add(new Position(0, 0));
-		relativkoordinaten.add(new Position(-1, -1));
-		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(-1, 1));
+		relativkoordinaten.add(new Position(0, 1));
 		map.put(0, relativkoordinaten);
 		
 		return new Stein(Color.GELB, map);
@@ -343,10 +343,10 @@ class SteinFactory {
 		map.put(0, relativkoordinaten);
 		
 		relativkoordinaten = new HashSet<Position>(4);
-		relativkoordinaten.add(new Position(0, 2));
-		relativkoordinaten.add(new Position(0, 1));
-		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, -2));
 		relativkoordinaten.add(new Position(0, -1));
+		relativkoordinaten.add(new Position(0, 0));
+		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
 		return new Stein(Color.ROT, map);

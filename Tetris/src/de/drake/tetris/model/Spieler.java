@@ -154,10 +154,10 @@ public class Spieler {
 			this.bewegeStein(1, 0, null);
 			break;
 		case RUNTER:
-			this.bewegeStein(0, -1, null);
+			this.bewegeStein(0, 1, null);
 			break;
 		case GANZ_RUNTER:
-			while(this.bewegeStein(0, -1, null)) {
+			while(this.bewegeStein(0, 1, null)) {
 			}
 			break;
 		case DREHUNG_UHRZEIGERSINN:
@@ -185,7 +185,7 @@ public class Spieler {
 	 * @param x Die Anzahl der Felder in horizontaler Richtung, um die der Stein verschoben werden soll.
 	 * 		Negative Werte stehen für eine Bewegung nach links, positive für eine Bewegung nach rechts.
 	 * @param y Die Anzahl der Felder in vertikaler Richtung, um die der Stein verschoben werden soll.
-	 * 		Negative Werte stehen für eine Bewegung nach unten, positive für eine Bewegung nach oben.
+	 * 		Negative Werte stehen für eine Bewegung nach oben, positive für eine Bewegung nach unten.
 	 * @param imUhrzeigersinn Drehrichtung der Drehung. null, wenn nicht gedreht werden soll.
 	 * 		true, wenn im Uhrzeigersinn gedreht werden soll.
 	 * 		false, wenn entgegen dem Uhrzeigersinn gedreht werden soll.
@@ -194,7 +194,7 @@ public class Spieler {
 	private boolean bewegeStein(final int x, final int y, final Boolean imUhrzeigersinn) {
 		for (Position position : this.stein.getBewegtePositionen(x, y, imUhrzeigersinn)) {
 			if (this.spielfeld.isBlocked(position)) {
-				if (y < 0)
+				if (y > 0)
 					this.setzeSteinAb();
 				return false;
 			}

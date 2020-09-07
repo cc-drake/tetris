@@ -7,19 +7,16 @@ import de.drake.tetris.util.Color;
 import de.drake.tetris.util.Position;
 
 /**
- * Das Spielfeld von Tetris. Dieses wird als ein Gitter angesehen - im Original mit einer Größe von 10x20 Feldern.
+ * Das Spielfeld von Tetris, in dem der Stein fällt.
  */
 public class Spielfeld {
 	
 	/**
-	 * Die Breite des Spielfelds.
+	 * Die Anzahl zusätzlicher, nicht sichtbarer Zeilen oberhalb des Spielfelds.
+	 * Diese werden benötigt, wenn ein in der obersten Zeile befindlicher Stein gedreht wird
+	 * und oben aus dem Spielfeld ragt.
 	 */
-	private final int breite = Config.breite;
-	
-	/**
-	 * Die Höhe des Spielfelds.
-	 */
-	private final int hoehe = Config.hoehe + Config.getMaxSteinSize();
+	private final int zusatzzeilen = Config.getMaxSteinSize();
 	
 	/**
 	 * Eine Liste der Felder des Spielfelds, strukturiert nach ihrer Position.
@@ -30,8 +27,8 @@ public class Spielfeld {
 	 * Erzeugt ein neues Spielfeld.
 	 */
 	Spielfeld() {
-		for (int x = 0; x < this.breite; x++) {
-			for (int y = 0; y < this.hoehe; y++) {
+		for (int x = 0; x < Config.breite; x++) {
+			for (int y = -this.zusatzzeilen; y < Config.hoehe; y++) {
 				this.felder.put(new Position(x, y), new Feld());
 			}
 		}
@@ -68,9 +65,9 @@ public class Spielfeld {
 	int entferneFertigeReihen() {
 		int fertigeReihen = 0;
 		boolean zeileFertig;
-		for (int y = this.hoehe - 1; y >= 0; y--) {
+		for (int y = -this.zusatzzeilen; y < Config.hoehe; y++) {
 			zeileFertig = true;
-			for (int x = 0; x < this.breite; x++) {
+			for (int x = 0; x < Config.breite; x++) {
 				if (!this.isBlocked(new Position(x, y))) {
 					zeileFertig = false;
 					break;
@@ -92,12 +89,12 @@ public class Spielfeld {
 	 * 
 	 */
 	private void entferneReihe(final int zeile) {
-		for (int y = zeile; y < this.hoehe; y++) {
-			for (int x = 0; x < this.breite; x++) {
-				if (y < this.hoehe - 1) {
-					this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y + 1)));
-				} else {
+		for (int y = zeile; y >= -this.zusatzzeilen; y--) {
+			for (int x = 0; x < Config.breite; x++) {
+				if (y == -this.zusatzzeilen) {
 					this.felder.get(new Position(x, y)).set(new Feld());
+				} else {
+					this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y - 1)));
 				}
 			}
 		}

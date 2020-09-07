@@ -3,7 +3,7 @@ package de.drake.tetris.util;
 /**
  * Ein Integer-Paar, welches relative oder absolute Koordinaten innerhalb des Tetrisspielfeldes beschreibt.
  * Der erste Wert x repräsentiert die horizontale Koordinate, wobei 0 am linken Spielfeldrand liegt.
- * Der zweite Wert y repräsentiert die vertikale Koordinate, wobei 0 am unteren Spielfeldrand liegt.
+ * Der zweite Wert y repräsentiert die vertikale Koordinate, wobei 0 am oberen Spielfeldrand liegt.
  */
 public class Position {
 	
@@ -20,7 +20,7 @@ public class Position {
 	/**
 	 * Erzeugt eine Positionsangabe.
 	 * @param x Der horizontale Teil der Koordinaten, wobei 0 am linken Spielfeldrand liegt.
-	 * @param y Der vertikale Teil der Koordinaten, wobei 0 am unteren Spielfeldrand liegt.
+	 * @param y Der vertikale Teil der Koordinaten, wobei 0 am oberen Spielfeldrand liegt.
 	 */
 	public Position(final int x, final int y) {
 		this.x = x;
@@ -42,7 +42,7 @@ public class Position {
 	 * 
 	 * @param x Die Zahl der Felder, die in horizontaler Richtung verschoben wird. Negative Werte verschieben nach links.
 	 * 
-	 * @param y Die Zahl der Felder, die in vertikaler Richtung verschoben wird. Negative Werte verschieben nach unten.
+	 * @param y Die Zahl der Felder, die in vertikaler Richtung verschoben wird. Negative Werte verschieben nach oben.
 	 */
 	public void verschiebe(final int x, final int y) {
 		this.x += x;

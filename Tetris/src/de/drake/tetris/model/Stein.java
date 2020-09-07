@@ -8,7 +8,7 @@ import de.drake.tetris.util.Color;
 import de.drake.tetris.util.Position;
 
 /**
- * Ein Stein, der im Tetrisspielfeld fällt. Steine können verschiedene Formen besitzen, welche durch Erweiterungen dieser Klasse gebildet werden.
+ * Ein Stein, der im Tetrisspielfeld fällt.
  */
 public class Stein {
 	
@@ -37,7 +37,7 @@ public class Stein {
 	
 	Stein(final Color color, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
 		this.color = color;
-		this.mittelpunkt = new Position(Config.breite / 2, Config.hoehe - 1);
+		this.mittelpunkt = new Position(Config.breite / 2, 0);
 		this.drehung = 0;
 		this.relativkoordinaten = relativkoordinaten;
 	}
@@ -54,7 +54,7 @@ public class Stein {
 	 * 
 	 * @param x Die Zahl der Felder, die in horizontaler Richtung verschoben wird. Negative Werte verschieben nach links.
 	 * 
-	 * @param y Die Zahl der Felder, die in vertikaler Richtung verschoben wird. Negative Werte verschieben nach unten.
+	 * @param y Die Zahl der Felder, die in vertikaler Richtung verschoben wird. Negative Werte verschieben nach oben.
 	 */
 	void verschiebe(final int x, final int y) {
 		this.mittelpunkt.verschiebe(x, y);
@@ -88,7 +88,7 @@ public class Stein {
 	 * @param x Die Anzahl der Felder in horizontaler Richtung, um die der Stein verschoben werden soll.
 	 * 		Negative Werte stehen für eine Bewegung nach links, positive für eine Bewegung nach rechts.
 	 * @param y Die Anzahl der Felder in vertikaler Richtung, um die der Stein verschoben werden soll.
-	 * 		Negative Werte stehen für eine Bewegung nach unten, positive für eine Bewegung nach oben.
+	 * 		Negative Werte stehen für eine Bewegung nach oben, positive für eine Bewegung nach unten.
 	 * @param imUhrzeigersinn Drehrichtung der Drehung. null, wenn nicht gedreht werden soll.
 	 * 		true, wenn im Uhrzeigersinn gedreht werden soll.
 	 * 		false, wenn entgegen dem Uhrzeigersinn gedreht werden soll.
