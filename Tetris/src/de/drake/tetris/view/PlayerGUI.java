@@ -7,12 +7,12 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.data.Position;
 import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
 import de.drake.tetris.states.PlayState;
+import de.drake.tetris.util.Position;
 
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.
@@ -156,7 +156,7 @@ public class PlayerGUI extends JPanel {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 				Position position = new Position(spalte, Config.hoehe - 1 - zeile);
 				if (spielfeld.isBlocked(position)) {
-					g.drawImage(Assets.getAsset(spielfeld.getFarbe(position), false),
+					g.drawImage(Assets.getAsset(spielfeld.getColor(position), false),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,
 							this.breite_feld, this.höhe_feld, null);
@@ -177,7 +177,7 @@ public class PlayerGUI extends JPanel {
 			spalte = position.getX();
 			if (zeile < 0)
 				continue;
-			g.drawImage(Assets.getAsset(stein.getFarbe(), true),
+			g.drawImage(Assets.getAsset(stein.getColor(), true),
 					this.offsetX_sf + spalte * this.breite_feld,
 					this.offsetY_sf + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);
@@ -245,7 +245,7 @@ public class PlayerGUI extends JPanel {
 		for (Position position : stein.getRelativkoordinaten()) {
 			zeile = previewfelder / 2 - position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();
-			g.drawImage(Assets.getAsset(stein.getFarbe(), true),
+			g.drawImage(Assets.getAsset(stein.getColor(), true),
 					this.offsetX_p + spalte * this.breite_feld,
 					this.offsetY_p + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);

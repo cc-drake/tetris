@@ -1,13 +1,13 @@
 package de.drake.tetris.model;
 
 import de.drake.tetris.config.PlayerTemplate;
-import de.drake.tetris.data.Action;
-import de.drake.tetris.data.Position;
 import de.drake.tetris.input.AIManager;
 import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
 import de.drake.tetris.input.KeyboardManager;
 import de.drake.tetris.states.PlayState;
+import de.drake.tetris.util.Action;
+import de.drake.tetris.util.Position;
 
 /**
  * Der Spieler verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
@@ -210,7 +210,7 @@ public class Spieler {
 	 */
 	private void setzeSteinAb() {
 		for (Position position : this.stein.getPositionen()) {
-			this.spielfeld.block(position, this.stein.getFarbe());
+			this.spielfeld.block(position, this.stein.getColor());
 		}
 		this.fertigeReihen += this.spielfeld.entferneFertigeReihen();
 		this.anzahlSteine++;

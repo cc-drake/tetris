@@ -2,7 +2,7 @@ package de.drake.tetris.input;
 
 import java.util.TimerTask;
 
-import de.drake.tetris.data.Action;
+import de.drake.tetris.util.Action;
 
 class KeyTask extends TimerTask {
 	

@@ -3,7 +3,7 @@ package de.drake.tetris.config;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-import de.drake.tetris.data.Action;
+import de.drake.tetris.util.Action;
 
 public class KeyBinding {
 	

@@ -2,7 +2,7 @@ package de.drake.tetris.gfx;
 
 import java.awt.image.BufferedImage;
 
-import de.drake.tetris.data.Farbe;
+import de.drake.tetris.util.Color;
 
 public class Assets {
 	
@@ -23,16 +23,16 @@ public class Assets {
 		Assets.gruen_inaktiv = sheet.getSprite(1, 3);
 	}
 	
-	public static BufferedImage getAsset(final Farbe farbe, final boolean isActive) {
+	public static BufferedImage getAsset(final Color color, final boolean isActive) {
 		if (isActive) {
-			switch (farbe) {
+			switch (color) {
 			case GELB: return Assets.gelb_aktiv;
 			case BLAU: return Assets.blau_aktiv;
 			case ROT: return Assets.rot_aktiv;
 			case GRÜN: return Assets.gruen_aktiv;
 			}
 		} else {
-			switch (farbe) {
+			switch (color) {
 			case GELB: return Assets.gelb_inaktiv;
 			case BLAU: return Assets.blau_inaktiv;
 			case ROT: return Assets.rot_inaktiv;

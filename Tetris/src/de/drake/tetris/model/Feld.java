@@ -1,6 +1,6 @@
 package de.drake.tetris.model;
 
-import de.drake.tetris.data.Farbe;
+import de.drake.tetris.util.Color;
 
 /**
  * Ein Feld innerhalb des Tetris-Spielfeldes.
@@ -10,7 +10,7 @@ class Feld {
 	/**
 	 * Die Farbe des Feldes, sofern es geblockt ist. 
 	 */
-	private Farbe farbe;
+	private Color color;
 	
 	/**
 	 * Gibt an, ob das Feld bereits gefüllt und damit für fallende Steine blockiert ist.
@@ -27,19 +27,19 @@ class Feld {
 	/**
 	 * Blockiert das Feld mit der angegebenen Farbe.
 	 * 
-	 * @param farbe
+	 * @param color
 	 * 		Die Farbe, mit der das Feld geblockt werden soll.
 	 */
-	void block(final Farbe farbe) {
+	void block(final Color color) {
 		this.isBlocked = true;
-		this.farbe = farbe;
+		this.color = color;
 	}
 	
 	/**
 	 * Gibt die Farbe des Feldes zurück.
 	 */
-	Farbe getFarbe() {
-		return this.farbe;
+	Color getColor() {
+		return this.color;
 	}
 	
 	/**
@@ -49,7 +49,7 @@ class Feld {
 	 * 		Das Feld, dessen Attribute übernommen werden sollen.
 	 */
 	void set(final Feld feld) {
-		this.farbe = feld.farbe;
+		this.color = feld.color;
 		this.isBlocked = feld.isBlocked;
 	}
 	

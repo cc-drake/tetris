@@ -1,6 +1,6 @@
 package de.drake.tetris.input;
 
-import de.drake.tetris.data.Action;
+import de.drake.tetris.util.Action;
 
 public class AIManager implements InputManager {
 

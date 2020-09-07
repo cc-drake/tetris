@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.data.Farbe;
-import de.drake.tetris.data.Position;
+import de.drake.tetris.util.Color;
+import de.drake.tetris.util.Position;
 
 /**
  * Ein Stein, der im Tetrisspielfeld fällt. Steine können verschiedene Formen besitzen, welche durch Erweiterungen dieser Klasse gebildet werden.
@@ -15,7 +15,7 @@ public class Stein {
 	/**
 	 * Die Farbe des Steins.
 	 */
-	private final Farbe farbe;
+	private final Color color;
 	
 	/**
 	 * Die aktuelle Position des Mittelpunkt des Steins.
@@ -35,15 +35,15 @@ public class Stein {
 	 */
 	private final HashMap<Integer, HashSet<Position>> relativkoordinaten;
 	
-	Stein(final Farbe farbe, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
-		this.farbe = farbe;
+	Stein(final Color color, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
+		this.color = color;
 		this.mittelpunkt = new Position(Config.breite / 2, Config.hoehe - 1);
 		this.drehung = 0;
 		this.relativkoordinaten = relativkoordinaten;
 	}
 	
 	Stein(final Stein stein) {
-		this.farbe = stein.farbe;
+		this.color = stein.color;
 		this.mittelpunkt = new Position(stein.mittelpunkt);
 		this.drehung = stein.drehung;
 		this.relativkoordinaten = stein.relativkoordinaten;
@@ -127,7 +127,7 @@ public class Stein {
 	/**
 	 * Gibt die Farbe des Steins zurück.
 	 */
-	public Farbe getFarbe() {
-		return this.farbe;
+	public Color getColor() {
+		return this.color;
 	}
 }

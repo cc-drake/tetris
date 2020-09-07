@@ -1,10 +1,10 @@
 package de.drake.tetris.model;
 
-import de.drake.tetris.config.Config;
+import java.util.HashMap;
 
-import de.drake.tetris.data.Farbe;
-import de.drake.tetris.data.Gitter;
-import de.drake.tetris.data.Position;
+import de.drake.tetris.config.Config;
+import de.drake.tetris.util.Color;
+import de.drake.tetris.util.Position;
 
 /**
  * Das Spielfeld von Tetris. Dieses wird als ein Gitter angesehen - im Original mit einer Größe von 10x20 Feldern.
@@ -22,32 +22,29 @@ public class Spielfeld {
 	private final int hoehe = Config.hoehe + Config.getMaxSteinSize();
 	
 	/**
-	 * Ein Gitter, welche die im Spielfeld enthaltenen Felder beinhält.
+	 * Eine Liste der Felder des Spielfelds, strukturiert nach ihrer Position.
 	 */
-	private final Gitter<Feld> gitter;
+	private final HashMap<Position, Feld> felder = new HashMap<Position, Feld>();
 	
 	/**
 	 * Erzeugt ein neues Spielfeld.
 	 */
 	Spielfeld() {
-		this.gitter = new Gitter<Feld>(this.breite, this.hoehe);
 		for (int x = 0; x < this.breite; x++) {
 			for (int y = 0; y < this.hoehe; y++) {
-				this.gitter.set(x, y, new Feld());
+				this.felder.put(new Position(x, y), new Feld());
 			}
 		}
 	}
 	
 	/**
-	 * Gibt an, ob das Spielfeld an der angegebenen Position blockiert ist. Liegt die Position links, rechts oder unten außerhalb des Spielfeldes,
-	 * so wird stets true zurückgegeben.
+	 * Gibt an, ob das Spielfeld an der angegebenen Position blockiert ist.
+	 * Für Positionen außerhalb des Spielfelds wird stets true zurückgegeben.
 	 */
 	public boolean isBlocked(final Position position) {
-		if (position.getX() < 0 || position.getX() >= this.breite || position.getY() < 0)
+		if (!this.felder.containsKey(position))
 			return true;
-		if (position.getY() >= this.hoehe)
-			throw new Error ("Maximale Spielfeldhöhe überschritten");
-		return this.gitter.get(position).isBlocked();
+		return this.felder.get(position).isBlocked();
 	}
 	
 	/**
@@ -55,11 +52,11 @@ public class Spielfeld {
 	 * 
 	 * @param position
 	 * 		Die Position des Feldes, das geblockt werden soll.
-	 * @param farbe
+	 * @param color
 	 * 		Die Farbe, mit der das Feld geblockt werden soll.
 	 */
-	void block(final Position position, final Farbe farbe) {
-		this.gitter.get(position).block(farbe);
+	void block(final Position position, final Color color) {
+		this.felder.get(position).block(color);
 	}
 	
 	/**
@@ -71,16 +68,16 @@ public class Spielfeld {
 	int entferneFertigeReihen() {
 		int fertigeReihen = 0;
 		boolean zeileFertig;
-		for (int zeilenindex = this.hoehe - 1; zeilenindex >= 0; zeilenindex--) {
+		for (int y = this.hoehe - 1; y >= 0; y--) {
 			zeileFertig = true;
-			for (Feld feld : this.gitter.getZeile(zeilenindex)) {
-				if (!feld.isBlocked()) {
+			for (int x = 0; x < this.breite; x++) {
+				if (!this.isBlocked(new Position(x, y))) {
 					zeileFertig = false;
 					break;
 				}
 			}
 			if (zeileFertig) {
-				this.entferneReihe(zeilenindex);
+				this.entferneReihe(y);
 				fertigeReihen++;
 			}
 		}
@@ -98,9 +95,9 @@ public class Spielfeld {
 		for (int y = zeile; y < this.hoehe; y++) {
 			for (int x = 0; x < this.breite; x++) {
 				if (y < this.hoehe - 1) {
-					this.gitter.get(x, y).set(this.gitter.get(x, y + 1));
+					this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y + 1)));
 				} else {
-					this.gitter.get(x, y).set(new Feld());
+					this.felder.get(new Position(x, y)).set(new Feld());
 				}
 			}
 		}
@@ -109,7 +106,7 @@ public class Spielfeld {
 	/**
 	 * Gibt die Farbe des Spielfelds an der angegebenen Position zurück.
 	 */
-	public Farbe getFarbe(final Position position) {
-		return this.gitter.get(position).getFarbe();
+	public Color getColor(final Position position) {
+		return this.felder.get(position).getColor();
 	}
 }

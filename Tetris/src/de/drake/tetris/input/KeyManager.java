@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.KeyBinding;
-import de.drake.tetris.data.Action;
+import de.drake.tetris.util.Action;
 
 abstract class KeyManager implements InputManager, KeyListener, FocusListener {
 	
