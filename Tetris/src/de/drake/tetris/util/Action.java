@@ -1,4 +1,4 @@
-package de.drake.tetris.data;
+package de.drake.tetris.util;
 
 /**
  * Repräsentiert eine Aktion eines Spielers.
