@@ -5,7 +5,7 @@ import de.drake.tetris.util.Action;
 public class AIManager implements InputManager {
 
 	@Override
-	public Action getNextAction(final int currentState) {
+	public Action getNextAction() {
 		return null;
 	}
 

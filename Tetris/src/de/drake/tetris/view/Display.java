@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import de.drake.tetris.states.GameStateManager;
+import de.drake.tetris.states.State;
 
 /**
  * Das Display, in dem die GameStates angezeigt werden.
@@ -17,7 +17,7 @@ public class Display extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel currentPanel;
+	private JPanel currentScreen;
 	
 	/**
 	 * Konstruktor zum Erzeugen des Displays
@@ -33,15 +33,15 @@ public class Display extends JFrame {
 	}
 	
 	public void render() {
-		if (this.currentPanel != GameStateManager.getState().getJPanel()) {
-			if (this.currentPanel != null)
-				this.remove(this.currentPanel);
-			this.currentPanel = GameStateManager.getState().getJPanel();
-			this.add(this.currentPanel);
+		if (this.currentScreen != State.getCurrentState().getScreen()) {
+			if (this.currentScreen != null)
+				this.remove(this.currentScreen);
+			this.currentScreen = State.getCurrentState().getScreen();
+			this.add(this.currentScreen);
 			this.revalidate();
-			this.currentPanel.requestFocusInWindow();
+			this.currentScreen.requestFocusInWindow();
 		}
-		this.currentPanel.repaint();
+		this.currentScreen.repaint();
 	}
 	
 }

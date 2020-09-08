@@ -5,7 +5,7 @@ import de.drake.tetris.input.AIManager;
 import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
 import de.drake.tetris.input.KeyboardManager;
-import de.drake.tetris.states.PlayState;
+import de.drake.tetris.states.GameState;
 import de.drake.tetris.util.Action;
 import de.drake.tetris.util.Position;
 
@@ -19,11 +19,6 @@ public class Spieler {
 	public final static int LOSER = 2;
 	
 	public final static int WINNER = 3;
-	
-	/**
-	 * Der PlayState, der das laufende Spiel verwaltet.
-	 */
-	private final PlayState playState;
 	
 	/**
 	 * Der Name des Spielers.
@@ -78,21 +73,20 @@ public class Spieler {
 	/**
 	 * Gibt den aktuellen Zustand des Spielers an.
 	 */
-	private int currentState = Spieler.ACTIVE;
+	private int state = Spieler.ACTIVE;
 	
 	/**
 	 * Erzeugt einen neuen Spieler aus einem SpielerTemplate.
 	 */
-	public Spieler(final PlayerTemplate playerTemplate, final PlayState playState, final long seed) {
-		this.playState = playState;
+	public Spieler(final PlayerTemplate playerTemplate, final GameState gameState, final long seed) {
 		this.name = playerTemplate.getName();
 		this.speed = playerTemplate.getSpeed();
 		switch (playerTemplate.getInputManagerType()) {
 		case InputManager.KEYBOARD:
-			this.inputManager = new KeyboardManager(this.playState.getJPanel(), playerTemplate.getKeyBinding());
+			this.inputManager = new KeyboardManager(gameState.getScreen(), playerTemplate.getKeyBinding());
 			break;
 		case InputManager.GAMEPAD_0:
-			this.inputManager = new GamepadManager(this.playState.getJPanel(), 0, playerTemplate.getKeyBinding());
+			this.inputManager = new GamepadManager(gameState.getScreen(), 0, playerTemplate.getKeyBinding());
 			break;
 		default:
 			this.inputManager = new AIManager();
@@ -105,46 +99,18 @@ public class Spieler {
 	
 	/**
 	 * Führt die nächte vom InputManager gewünschte Action aus.
-	 * @param currentState Gibt an, ob das Spiel derzeit pausiert ist.
-	 * @param currentTime 
 	 */
-	public void performNextInputAction(final int currentState) {
-		
-		Action action = this.inputManager.getNextAction(currentState);
-		
-		if (action == null) {
-			return;
-		} else if (action == Action.PAUSE) {
-			this.playState.togglePause();
-			return;
-		} else if (currentState == PlayState.RUNNING){
-			this.performMoveAction(action);
-		}
+	public Action getInputAction() {
+		return this.inputManager.getNextAction();
 	}
 	
 	/**
-	 * Prüft, ob es Zeit für den nächsten automatischen "Steinfall" ist, und führt diesen ggfs. aus.
+	 * Führt die angegebene Bewegungsaktion aus, sofern der Spieler noch aktiv ist.
 	 */
-	public void performSteinfall(final int currentState, final long currentTime) {
+	public void performMoveAction(final Action action) {
 		
-		switch (currentState) {
-		case PlayState.PREPARED:
-		case PlayState.PAUSED:
-			this.letzteFallzeit = currentTime;
+		if (this.state != Spieler.ACTIVE)
 			return;
-		case PlayState.RUNNING:
-			long ZeitProSteinfall = (long) (1000000000. / this.speed);
-			if ((currentTime - this.letzteFallzeit) >= ZeitProSteinfall) {
-				this.letzteFallzeit += ZeitProSteinfall;
-				this.performMoveAction(Action.RUNTER);
-			}
-		}
-	}
-	
-	/**
-	 * Führt die angegebene Bewegungsaktion aus.
-	 */
-	private void performMoveAction(final Action action) {
 
 		switch (action) {
 		case LINKS:
@@ -157,8 +123,7 @@ public class Spieler {
 			this.bewegeStein(0, 1, null);
 			break;
 		case GANZ_RUNTER:
-			while(this.bewegeStein(0, 1, null)) {
-			}
+			while(this.bewegeStein(0, 1, null));
 			break;
 		case DREHUNG_UHRZEIGERSINN:
 			if (!this.bewegeStein(0, 0, true))
@@ -175,8 +140,27 @@ public class Spieler {
 		}
 	}
 	
+	/**
+	 * Prüft, ob es Zeit für den nächsten automatischen "Steinfall" ist, und führt diesen ggfs. aus.
+	 */
+	public void performSteinfall(final int gameStateState, final long currentTime) {
+		
+		switch (gameStateState) {
+		case GameState.RUNNING:
+			long ZeitProSteinfall = (long) (1000000000. / this.speed);
+			if ((currentTime - this.letzteFallzeit) >= ZeitProSteinfall) {
+				this.letzteFallzeit += ZeitProSteinfall;
+				this.performMoveAction(Action.RUNTER);
+			}
+			break;
+		default:
+			this.letzteFallzeit = currentTime;
+		}
+		
+	}
+	
 	public void winGame() {
-		this.currentState = Spieler.WINNER;
+		this.state = Spieler.WINNER;
 	}
 	
 	/**
@@ -218,7 +202,7 @@ public class Spieler {
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
 		for (Position position : this.stein.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
-				this.currentState = Spieler.LOSER;
+				this.state = Spieler.LOSER;
 				break;
 			}
 		}
@@ -227,8 +211,8 @@ public class Spieler {
 	/**
 	 * Gibt den aktuellen Zustand dieses Spielers zurück.
 	 */
-	public int getCurrentState() {
-		return this.currentState;
+	public int getState() {
+		return this.state;
 	}
 
 	/**
@@ -271,10 +255,6 @@ public class Spieler {
 	 */
 	public int getFertigeReihen() {
 		return this.fertigeReihen;
-	}
-	
-	public PlayState getPlayState() {
-		return this.playState;
 	}
 	
 }

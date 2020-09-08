@@ -43,7 +43,7 @@ abstract class KeyManager implements InputManager, KeyListener, FocusListener {
 	}
 	
 	@Override
-	public Action getNextAction(final int currentState) {
+	public Action getNextAction() {
 		return this.actionQueue.poll();
 	}
 	

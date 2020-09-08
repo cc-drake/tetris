@@ -11,7 +11,7 @@ import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
-import de.drake.tetris.states.PlayState;
+import de.drake.tetris.states.GameState;
 import de.drake.tetris.util.Position;
 
 /**
@@ -23,6 +23,8 @@ public class PlayerScreen extends JPanel {
 	 * Die default serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private GameState gameState;
 	
 	/**
 	 * Der Spieler, dessen Spielfeld hier angezeigt wird.
@@ -80,7 +82,8 @@ public class PlayerScreen extends JPanel {
 	 * @param spieler
 	 * 		Der Spieler, dessen Spielfeld angezeigt werden soll.
 	 */
-	public PlayerScreen(final Spieler spieler) {
+	public PlayerScreen(final GameState gameState, final Spieler spieler) {
+		this.gameState = gameState;
 		this.spieler = spieler;
 		this.setBackground(Color.black);
 		this.setFocusable(false);
@@ -187,19 +190,24 @@ public class PlayerScreen extends JPanel {
 		g.setColor(Color.lightGray);
 		int fontsize = 3 * this.höhe_feld;
 		g.setFont(new Font("Serif", Font.BOLD, fontsize));
-		switch (this.spieler.getPlayState().getCurrentState()) {
-		case PlayState.PREPARED:
+		switch (this.gameState.getState()) {
+		case GameState.PREPARED:
 			g.drawString("READY?", 
 					this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 4),
 					this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
 			break;
-		case PlayState.PAUSED:
+		case GameState.QUIT:
+			g.drawString("BEENDEN?", 
+					this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 5),
+					this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
+			break;
+		case GameState.PAUSED:
 			g.drawString("PAUSE", 
 					this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 3),
 					this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
 			break;
 		default:
-			switch (this.spieler.getCurrentState()) {
+			switch (this.spieler.getState()) {
 			case Spieler.WINNER:
 				g.drawString("WINNER", 
 						this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 4),

@@ -1,13 +1,14 @@
 package de.drake.tetris.states;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
 /**
  * Der PlayState verwaltet das aktive Tetris-Spiel.
  */
-public class OptionState extends GameState {
+public class OptionState extends State {
 	
 	/**
 	 * Das Panel, in dem gezeichnet wird.
@@ -32,7 +33,7 @@ public class OptionState extends GameState {
 	}
 
 	@Override
-	public JPanel getJPanel() {
+	public JPanel getScreen() {
 		return this.jPanel;
 	}
 }

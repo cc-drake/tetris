@@ -12,6 +12,6 @@ public interface InputManager {
 	
 	public final static int AI = 3;
 	
-	public abstract Action getNextAction(final int currentState);
+	public abstract Action getNextAction();
 	
 }
