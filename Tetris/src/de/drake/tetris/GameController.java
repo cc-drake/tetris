@@ -17,7 +17,7 @@ class GameController extends Thread {
 	 */
 	public void run() {
 		Assets.init();
-		GameStateManager.setState(GameStateManager.playState);
+		GameStateManager.setState(GameStateManager.mainState);
 		
 		long timePerTick = 1000000000L / Config.fps;
 		long lastTick = System.nanoTime();

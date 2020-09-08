@@ -35,16 +35,6 @@ public class Spielfeld {
 	}
 	
 	/**
-	 * Gibt an, ob das Spielfeld an der angegebenen Position blockiert ist.
-	 * Für Positionen außerhalb des Spielfelds wird stets true zurückgegeben.
-	 */
-	public boolean isBlocked(final Position position) {
-		if (!this.felder.containsKey(position))
-			return true;
-		return this.felder.get(position).isBlocked();
-	}
-	
-	/**
 	 * Blockiert ein Feld des Spielfelds mit der angegebenen Farbe.
 	 * 
 	 * @param position
@@ -105,5 +95,15 @@ public class Spielfeld {
 	 */
 	public Color getColor(final Position position) {
 		return this.felder.get(position).getColor();
+	}
+	
+	/**
+	 * Gibt an, ob das Spielfeld an der angegebenen Position blockiert ist.
+	 * Für Positionen außerhalb des Spielfelds wird stets true zurückgegeben.
+	 */
+	public boolean isBlocked(final Position position) {
+		if (!this.felder.containsKey(position))
+			return true;
+		return this.felder.get(position).isBlocked();
 	}
 }

@@ -17,7 +17,7 @@ import de.drake.tetris.util.Position;
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.
  */
-public class PlayerGUI extends JPanel {
+public class PlayerScreen extends JPanel {
 	
 	/**
 	 * Die default serialVersionUID
@@ -75,19 +75,19 @@ public class PlayerGUI extends JPanel {
 	private final int previewfelder = Config.getMaxSteinSize() + 2;
 	
 	/**
-	 * Erzeugt eine neue PlayerGUI.
+	 * Erzeugt einen neuen PlayerScreen
 	 * 
 	 * @param spieler
 	 * 		Der Spieler, dessen Spielfeld angezeigt werden soll.
 	 */
-	public PlayerGUI(final Spieler spieler) {
+	public PlayerScreen(final Spieler spieler) {
 		this.spieler = spieler;
 		this.setBackground(Color.black);
 		this.setFocusable(false);
 	}
 	
 	/**
-	 * Zeichnet die Player-GUI.
+	 * Zeichnet den Screen.
 	 */
 	@Override
 	public void paintComponent(Graphics g) {

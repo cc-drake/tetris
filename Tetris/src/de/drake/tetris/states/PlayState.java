@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.model.Spieler;
-import de.drake.tetris.view.PlayerGUI;
+import de.drake.tetris.view.PlayerScreen;
 
 /**
  * Der PlayState verwaltet das aktive Tetris-Spiel.
@@ -25,9 +25,9 @@ public class PlayState extends GameState {
 	public final static int ENDED = 4;
 	
 	/**
-	 * Das Panel, in dem das Spielfeld gezeichnet wird.
+	 * Das Panel, in dem gezeichnet wird.
 	 */
-	private final JPanel playPanel;
+	private final JPanel jPanel;
 	
 	/**
 	 * Eine Liste der Spieler, die gemeinsam Tetris spielen.
@@ -44,23 +44,23 @@ public class PlayState extends GameState {
 	 */
 	PlayState() {
 		
-		this.playPanel = new JPanel();
-		this.playPanel.setBackground(Color.white);
-		this.playPanel.setFocusable(true);
+		this.jPanel = new JPanel();
+		this.jPanel.setBackground(Color.white);
+		this.jPanel.setFocusable(true);
 		switch (PlayerTemplate.createPlayerTemplates().size()) {
 		case 1:
-			this.playPanel.setLayout(new GridLayout(1, 1, 5, 5));
+			this.jPanel.setLayout(new GridLayout(1, 1, 5, 5));
 			break;
 		case 2:
-			this.playPanel.setLayout(new GridLayout(1, 2, 5, 5));
+			this.jPanel.setLayout(new GridLayout(1, 2, 5, 5));
 			break;
 		case 3:
 		case 4:
-			this.playPanel.setLayout(new GridLayout(2, 2, 5, 5));
+			this.jPanel.setLayout(new GridLayout(2, 2, 5, 5));
 			break;
 		case 5:
 		case 6:
-			this.playPanel.setLayout(new GridLayout(2, 3, 5, 5));
+			this.jPanel.setLayout(new GridLayout(2, 3, 5, 5));
 			break;
 		default:
 			throw new Error("Mehr als 6 Spieler sind nicht zugelassen");
@@ -72,7 +72,7 @@ public class PlayState extends GameState {
 		for (PlayerTemplate template : PlayerTemplate.createPlayerTemplates()) {
 			spieler = new Spieler(template, this, seed);
 			this.spielerliste.add(spieler);
-			this.playPanel.add(new PlayerGUI(spieler));
+			this.jPanel.add(new PlayerScreen(spieler));
 		}
 	}
 	
@@ -134,7 +134,7 @@ public class PlayState extends GameState {
 
 	@Override
 	public JPanel getJPanel() {
-		return this.playPanel;
+		return this.jPanel;
 	}
 	
 	/**

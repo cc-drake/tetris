@@ -7,7 +7,7 @@ import de.drake.tetris.util.Color;
 public class Assets {
 	
 	public static BufferedImage gelb_aktiv, gelb_inaktiv, blau_aktiv, blau_inaktiv,
-			rot_aktiv, rot_inaktiv, gruen_aktiv, gruen_inaktiv;
+			rot_aktiv, rot_inaktiv, gruen_aktiv, gruen_inaktiv, logo;
 	
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/spritesheet.png"),
@@ -21,6 +21,7 @@ public class Assets {
 		Assets.rot_inaktiv = sheet.getSprite(1, 2);
 		Assets.gruen_aktiv = sheet.getSprite(0, 3);
 		Assets.gruen_inaktiv = sheet.getSprite(1, 3);
+		Assets.logo = ImageLoader.loadImage("/textures/logo.png");
 	}
 	
 	public static BufferedImage getAsset(final Color color, final boolean isActive) {

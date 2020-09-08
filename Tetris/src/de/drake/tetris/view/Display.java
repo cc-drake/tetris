@@ -29,7 +29,6 @@ public class Display extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(1, 1));
-		this.setFocusable(false);
 		this.setVisible(true);
 	}
 	
