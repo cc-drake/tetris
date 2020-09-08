@@ -12,7 +12,6 @@ public class Assets {
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/spritesheet.png"),
 				43, 23);
-		
 		Assets.gelb_aktiv = sheet.getSprite(0, 0);
 		Assets.gelb_inaktiv = sheet.getSprite(1, 0);
 		Assets.blau_aktiv = sheet.getSprite(0, 1);
