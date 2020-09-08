@@ -48,7 +48,7 @@ public class KeyBinding {
 	
 	public static KeyBinding createKeyBindingGamePad() {
 		KeyBinding result = new KeyBinding();
-		result.key2action.put(KeyEvent.VK_8, Action.QUIT);
+		result.key2action.put(KeyEvent.VK_6, Action.QUIT);
 		result.key2action.put(KeyEvent.VK_7, Action.PAUSE);
 		result.key2action.put(KeyEvent.VK_LEFT, Action.LINKS);
 		result.key2action.put(KeyEvent.VK_RIGHT, Action.RECHTS);

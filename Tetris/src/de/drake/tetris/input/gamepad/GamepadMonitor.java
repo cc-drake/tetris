@@ -3,6 +3,7 @@ package de.drake.tetris.input.gamepad;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import de.drake.tetris.config.Config;
 
@@ -13,6 +14,10 @@ import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Controller.Type;
 
 public class GamepadMonitor extends Thread {
+	
+	public final static HashSet<GamepadMonitor> gamepadMonitors = new HashSet<GamepadMonitor>();
+	
+	private boolean stop = false;
 	
 	private Controller controller;
 	
@@ -26,6 +31,7 @@ public class GamepadMonitor extends Thread {
 	private final HashMap<Component, GamepadKey> component2button = new HashMap<Component, GamepadKey>();
 	
 	public GamepadMonitor(final java.awt.Component inputSource, final int gamepadNr) {
+		GamepadMonitor.gamepadMonitors.add(this);
 		int currentGamepadNr = 0;
 		for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
 			if (!controller.getType().equals(Type.GAMEPAD))
@@ -64,6 +70,7 @@ public class GamepadMonitor extends Thread {
 					new GamepadKey(inputSource, KeyEvent.VK_8, '8'));
 			this.component2button.put(controller.getComponent(Identifier.Button._9),
 					new GamepadKey(inputSource, KeyEvent.VK_9, '9'));
+			this.component2button.remove(null);
 		}
 	}
 	
@@ -75,12 +82,16 @@ public class GamepadMonitor extends Thread {
 		
 		long timePerTick = 1000000000L / Config.fps;
 		long lastTick = System.nanoTime();
-		while(true) {
+		while(this.stop == false) {
 			if ((System.nanoTime() - lastTick) >= timePerTick) {
 				lastTick += timePerTick;
-				this.controller.poll();
+				if (this.controller.poll() == false) {
+					this.controller = null;
+					return;
+				} else {
 				this.updatePOVKeys();
 				this.updateButtons();
+				}
 			}
 		}
 	}
@@ -99,7 +110,7 @@ public class GamepadMonitor extends Thread {
 			this.down.setPressed(false);
 		} else if (povData == 0.125) {
 			this.left.setPressed(true);
-			this.up.setPressed(true);
+			this.up.setPressed(false);
 			this.right.setPressed(false);
 			this.down.setPressed(false);
 		} else if (povData == 0.25) {
@@ -109,7 +120,7 @@ public class GamepadMonitor extends Thread {
 			this.down.setPressed(false);
 		} else if (povData == 0.375) {
 			this.left.setPressed(false);
-			this.up.setPressed(true);
+			this.up.setPressed(false);
 			this.right.setPressed(true);
 			this.down.setPressed(false);
 		} else if (povData == 0.5) {
@@ -121,7 +132,7 @@ public class GamepadMonitor extends Thread {
 			this.left.setPressed(false);
 			this.up.setPressed(false);
 			this.right.setPressed(true);
-			this.down.setPressed(true);
+			this.down.setPressed(false);
 		} else if (povData == 0.75) {
 			this.left.setPressed(false);
 			this.up.setPressed(false);
@@ -131,7 +142,7 @@ public class GamepadMonitor extends Thread {
 			this.left.setPressed(true);
 			this.up.setPressed(false);
 			this.right.setPressed(false);
-			this.down.setPressed(true);
+			this.down.setPressed(false);
 		}
 	}
 	
@@ -151,6 +162,10 @@ public class GamepadMonitor extends Thread {
 		for (GamepadKey key : this.component2button.values()) {
 			key.setListener(listener);
 		}
+	}
+	
+	public void stopThread() {
+		this.stop = true;
 	}
 
 	public static void testGamepad() {

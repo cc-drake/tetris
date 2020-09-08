@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import de.drake.tetris.config.PlayerTemplate;
+import de.drake.tetris.input.gamepad.GamepadMonitor;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.util.Action;
 import de.drake.tetris.view.PlayerScreen;
@@ -120,7 +121,7 @@ public class GameState extends State {
 	private void toggleQuit() {
 		switch (this.state) {
 		case GameState.ENDED:
-			State.setCurrentState(State.mainState);
+			this.quitGame();
 			break;
 		case GameState.QUIT:
 			this.state = GameState.RUNNING;
@@ -138,7 +139,7 @@ public class GameState extends State {
 		case GameState.QUIT:
 			this.state = GameState.ENDED;
 		case GameState.ENDED:
-			State.setCurrentState(State.mainState);
+			this.quitGame();
 			break;
 		case GameState.PAUSED:
 		case GameState.PREPARED:
@@ -169,6 +170,13 @@ public class GameState extends State {
 					spieler.winGame();
 			}
 		}
+	}
+	
+	private void quitGame() {
+		for (GamepadMonitor monitor : GamepadMonitor.gamepadMonitors) {
+			monitor.stopThread();
+		}
+		State.setCurrentState(State.mainState);
 	}
 
 	@Override

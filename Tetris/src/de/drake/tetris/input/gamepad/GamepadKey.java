@@ -28,7 +28,6 @@ class GamepadKey {
 	}
 
 	void setPressed(final boolean pressed) {
-		
 		if(this.ispressed == pressed)
 			return;
 		this.ispressed = pressed;
