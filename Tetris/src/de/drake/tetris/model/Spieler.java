@@ -1,7 +1,6 @@
 package de.drake.tetris.model;
 
 import de.drake.tetris.config.PlayerTemplate;
-import de.drake.tetris.input.AIManager;
 import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
 import de.drake.tetris.input.KeyboardManager;
@@ -88,8 +87,9 @@ public class Spieler {
 		case InputManager.GAMEPAD_0:
 			this.inputManager = new GamepadManager(gameState.getScreen(), 0, playerTemplate.getKeyBinding());
 			break;
+		case InputManager.GAMEPAD_1:
 		default:
-			this.inputManager = new AIManager();
+			this.inputManager = new GamepadManager(gameState.getScreen(), 1, playerTemplate.getKeyBinding());
 		}
 		this.spielfeld = new Spielfeld();
 		this.steinFactory = new SteinFactory(seed);

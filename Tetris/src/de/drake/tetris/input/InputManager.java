@@ -10,8 +10,6 @@ public interface InputManager {
 	
 	public final static int GAMEPAD_1 = 2;
 	
-	public final static int AI = 3;
-	
 	public abstract Action getNextAction();
 	
 }

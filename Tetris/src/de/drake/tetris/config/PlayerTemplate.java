@@ -12,11 +12,6 @@ public class PlayerTemplate {
 		result.add(new PlayerTemplate("Player GP", InputManager.GAMEPAD_0, KeyBinding.createKeyBindingGamePad(), 2.));
 //		result.add(new PlayerTemplate("Player 1", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1P1(), 2.));
 //		result.add(new PlayerTemplate("Player 2", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1P2(), 2.));
-//		result.add(new PlayerTemplate("Bot 1", InputManager.AI, null, 2.));
-//		result.add(new PlayerTemplate("Bot 2", InputManager.AI, null, 2.));
-//		result.add(new PlayerTemplate("Bot 3", InputManager.AI, null, 2.));
-//		result.add(new PlayerTemplate("Bot 4", InputManager.AI, null, 2.));
-//		result.add(new PlayerTemplate("Bot 5", InputManager.AI, null, 2.));
 		return result;
 	}
 	
