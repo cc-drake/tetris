@@ -66,9 +66,9 @@ public class Spieler {
 	private int fertigeReihen = 0;
 	
 	/**
-	 * Die Anzahl der Steine, die bereits erzeugt wurden.
+	 * Die Anzahl der Steine, die bereits gesetzt wurden.
 	 */
-	private int anzahlSteine = 1;
+	private int anzahlSteine = 0;
 	
 	/**
 	 * Gibt den aktuellen Zustand des Spielers an.
@@ -244,7 +244,7 @@ public class Spieler {
 	}
 	
 	/**
-	 * Gibt die Zahl der bereits erzeugten Steine zurück.
+	 * Gibt die Zahl der bereits gesetzten Steine zurück.
 	 */
 	public int getAnzahlSteine() {
 		return this.anzahlSteine;
