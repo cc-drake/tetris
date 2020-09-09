@@ -176,7 +176,7 @@ public class GameState extends State {
 		for (GamepadMonitor monitor : GamepadMonitor.gamepadMonitors) {
 			monitor.stopThread();
 		}
-		State.setCurrentState(State.mainState);
+		State.setCurrentState(State.startState);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ class Game {
 	Game() {
 		Assets.init();
 		this.display = new Display();
-		State.setCurrentState(State.mainState);
+		State.setCurrentState(State.startState);
 		GameLoop gameLoop = new GameLoop(this);
 		gameLoop.start();
 		

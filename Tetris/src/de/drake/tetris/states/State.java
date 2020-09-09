@@ -4,7 +4,8 @@ import javax.swing.JPanel;
 
 public abstract class State {
 	
-	public final static State mainState = new MainState();
+	public final static State startState = new StartState();
+	public final static State modeState = new ModeState();
 	
 	private static State currentState;
 	
