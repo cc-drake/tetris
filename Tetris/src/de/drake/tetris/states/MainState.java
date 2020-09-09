@@ -21,6 +21,9 @@ public class MainState extends State implements ActionListener {
 	 */
 	private final JPanel screen;
 	
+	private final static String newGame = "Neues Spiel";
+	private final static String endGame = "Beenden";
+	
 	/**
 	 * Erstellt einen neuen MainState.
 	 */
@@ -35,11 +38,11 @@ public class MainState extends State implements ActionListener {
 			buttonPanel.setBackground(Color.black);
 			buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			
-				JButton start = new JButton("Spiel starten");
+				JButton start = new JButton(MainState.newGame);
 				start.addActionListener(this);
 				buttonPanel.add(start);
 				
-				JButton end = new JButton("Beenden");
+				JButton end = new JButton(MainState.endGame);
 				end.addActionListener(this);
 				buttonPanel.add(end);
 				
@@ -58,9 +61,9 @@ public class MainState extends State implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand() == "Spiel starten") {
+		if (e.getActionCommand() == MainState.newGame) {
 			State.setCurrentState(new GameState());
-		} else if (e.getActionCommand() == "Beenden") {
+		} else if (e.getActionCommand() == MainState.endGame) {
 			System.exit(0);
 		}
 	}
