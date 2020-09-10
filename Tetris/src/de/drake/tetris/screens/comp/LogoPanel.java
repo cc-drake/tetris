@@ -1,4 +1,4 @@
-package de.drake.tetris.view;
+package de.drake.tetris.screens.comp;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,16 +8,15 @@ import javax.swing.JPanel;
 
 import de.drake.tetris.gfx.Assets;
 
-public class LogoScreen extends JPanel {
+public class LogoPanel extends JPanel {
 	
 	/**
 	 * Die default serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public LogoScreen() {
-		this.setBackground(Color.black);
-		this.setFocusable(false);
+	public LogoPanel() {
+			this.setBackground(Color.black);
 	}
 	
 	/**

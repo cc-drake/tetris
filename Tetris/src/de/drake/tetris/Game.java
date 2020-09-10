@@ -1,8 +1,8 @@
 package de.drake.tetris;
 
 import de.drake.tetris.gfx.Assets;
+import de.drake.tetris.screens.Display;
 import de.drake.tetris.states.State;
-import de.drake.tetris.view.Display;
 
 /**
  * Der GameController initialisiert das Spiel und löst regelmäßig die Methoden "tick()" und "render()" aus.

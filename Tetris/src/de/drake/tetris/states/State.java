@@ -1,6 +1,6 @@
 package de.drake.tetris.states;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 public abstract class State {
 	
@@ -22,6 +22,6 @@ public abstract class State {
 	/**
 	 * Gibt den Screen zurück, der im Display gezeichnet werden soll.
 	 */
-	public abstract JPanel getScreen();
+	public abstract JComponent getScreen();
 	
 }

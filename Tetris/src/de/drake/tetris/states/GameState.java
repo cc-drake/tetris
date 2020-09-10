@@ -1,17 +1,15 @@
 package de.drake.tetris.states;
 
-import java.awt.Color;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.input.gamepad.GamepadMonitor;
 import de.drake.tetris.model.Spieler;
+import de.drake.tetris.screens.GameScreen;
 import de.drake.tetris.util.Action;
-import de.drake.tetris.view.PlayerScreen;
 
 /**
  * Der PlayState verwaltet das aktive Tetris-Spiel.
@@ -31,7 +29,7 @@ public class GameState extends State {
 	/**
 	 * Der Screen, der im Display angezeigt wird.
 	 */
-	private final JPanel screen;
+	private final GameScreen screen;
 	
 	/**
 	 * Eine Liste der Spieler, die gemeinsam Tetris spielen.
@@ -47,36 +45,14 @@ public class GameState extends State {
 	 * Erstellt einen neuen PlayState.
 	 */
 	GameState() {
-		
-		this.screen = new JPanel();
-		this.screen.setBackground(Color.white);
-		this.screen.setFocusable(true);
-		switch (PlayerTemplate.createPlayerTemplates().size()) {
-		case 1:
-			this.screen.setLayout(new GridLayout(1, 1, 5, 5));
-			break;
-		case 2:
-			this.screen.setLayout(new GridLayout(1, 2, 5, 5));
-			break;
-		case 3:
-		case 4:
-			this.screen.setLayout(new GridLayout(2, 2, 5, 5));
-			break;
-		case 5:
-		case 6:
-			this.screen.setLayout(new GridLayout(2, 3, 5, 5));
-			break;
-		default:
-			throw new Error("Mehr als 6 Spieler sind nicht zugelassen");
-		}
-		
+		this.screen = new GameScreen();
 		Random random = new Random();
 		long seed = random.nextLong();
 		Spieler spieler;
 		for (PlayerTemplate template : PlayerTemplate.createPlayerTemplates()) {
 			spieler = new Spieler(template, this, seed);
 			this.spielerliste.add(spieler);
-			this.screen.add(new PlayerScreen(this, spieler));
+			this.screen.addPlayer(this, spieler);
 		}
 	}
 	
@@ -180,7 +156,7 @@ public class GameState extends State {
 	}
 
 	@Override
-	public JPanel getScreen() {
+	public JComponent getScreen() {
 		return this.screen;
 	}
 	

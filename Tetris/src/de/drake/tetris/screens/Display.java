@@ -1,9 +1,9 @@
-package de.drake.tetris.view;
+package de.drake.tetris.screens;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import de.drake.tetris.states.State;
 
@@ -17,7 +17,7 @@ public class Display extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel currentScreen;
+	private Component currentScreen;
 	
 	/**
 	 * Konstruktor zum Erzeugen des Displays

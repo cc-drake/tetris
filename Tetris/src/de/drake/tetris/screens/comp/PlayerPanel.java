@@ -1,4 +1,4 @@
-package de.drake.tetris.view;
+package de.drake.tetris.screens.comp;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,7 +17,7 @@ import de.drake.tetris.util.Position;
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.
  */
-public class PlayerScreen extends JPanel {
+public class PlayerPanel extends JPanel {
 	
 	/**
 	 * Die default serialVersionUID
@@ -82,7 +82,7 @@ public class PlayerScreen extends JPanel {
 	 * @param spieler
 	 * 		Der Spieler, dessen Spielfeld angezeigt werden soll.
 	 */
-	public PlayerScreen(final GameState gameState, final Spieler spieler) {
+	public PlayerPanel(final GameState gameState, final Spieler spieler) {
 		this.gameState = gameState;
 		this.spieler = spieler;
 		this.setBackground(Color.black);
@@ -189,7 +189,7 @@ public class PlayerScreen extends JPanel {
 		//Status schreiben
 		g.setColor(Color.lightGray);
 		int fontsize = 3 * this.höhe_feld;
-		g.setFont(new Font("Serif", Font.BOLD, fontsize));
+		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		switch (this.gameState.getState()) {
 		case GameState.PREPARED:
 			g.drawString("READY?", 
@@ -270,7 +270,7 @@ public class PlayerScreen extends JPanel {
 		
 		//Schreiben
 		int fontsize = this.höhe_feld;
-		g.setFont(new Font("Serif", Font.BOLD, fontsize));
+		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		g.drawString(this.spieler.getName(), 
 				this.offsetX_i, this.offsetY_i + fontsize);
 		g.drawString("Steine: " + this.spieler.getAnzahlSteine(),

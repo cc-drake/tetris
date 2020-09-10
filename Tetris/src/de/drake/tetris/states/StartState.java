@@ -1,16 +1,11 @@
 package de.drake.tetris.states;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JComponent;
 
-import de.drake.tetris.view.LogoScreen;
+import de.drake.tetris.screens.StartScreen;
 
 /**
  * Der StartState besteht aus dem Startbildschirm.
@@ -20,40 +15,17 @@ public class StartState extends State implements ActionListener {
 	/**
 	 * Der Screen, der im Display angezeigt wird.
 	 */
-	private final JPanel screen;
+	private final StartScreen screen;
 	
-	private final static String newGame = "Neues Spiel";
-	private final static String run = "Run (Remove later)";//TODO
-	private final static String endGame = "Beenden";
+	public final static String newGame = "Neues Spiel";
+	public final static String run = "Run (Remove later)";//TODO
+	public final static String endGame = "Beenden";
 	
 	/**
 	 * Erstellt einen neuen StartState.
 	 */
 	StartState() {
-		
-		this.screen = new JPanel();
-		this.screen.setBackground(Color.black);
-		this.screen.setLayout(new BorderLayout());
-		this.screen.add(new JScrollPane(new LogoScreen()), BorderLayout.CENTER);
-		
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setBackground(Color.black);
-			buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
-			
-				JButton start = new JButton(StartState.newGame);
-				start.addActionListener(this);
-				buttonPanel.add(start);
-				
-				JButton run = new JButton(StartState.run);//TODO
-				run.addActionListener(this);
-				buttonPanel.add(run);
-				
-				JButton end = new JButton(StartState.endGame);
-				end.addActionListener(this);
-				buttonPanel.add(end);
-				
-			this.screen.add(buttonPanel, BorderLayout.SOUTH);
-			
+		this.screen = new StartScreen(this);
 	}
 
 	@Override
@@ -71,7 +43,7 @@ public class StartState extends State implements ActionListener {
 	}
 
 	@Override
-	public JPanel getScreen() {
+	public JComponent getScreen() {
 		return this.screen;
 	}
 		
