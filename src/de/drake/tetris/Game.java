@@ -8,10 +8,11 @@ import de.drake.tetris.states.State;
  * Der GameController initialisiert das Spiel und löst regelmäßig die Methoden "tick()" und "render()" aus.
  */
 class Game {
-	
+
 	private final Display display;
 	
 	Game() {
+		System.out.println("Test in game.java");
 		Assets.init();
 		this.display = new Display();
 		State.setCurrentState(State.startState);
