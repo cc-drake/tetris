@@ -12,7 +12,6 @@ class Game {
 	private final Display display;
 	
 	Game() {
-		System.out.println("Test in game.java");
 		Assets.init();
 		this.display = new Display();
 		State.setCurrentState(State.startState);
