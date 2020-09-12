@@ -2,7 +2,9 @@ package de.drake.tetris.screens.comp;
 
 import java.util.Calendar;
 
+import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
 
@@ -23,7 +25,9 @@ public class TimeSpinner extends JSpinner {
 		this.setModel(model);
 		
 		DateEditor editor = new DateEditor(this, "mm:ss");
-		DateFormatter formatter = (DateFormatter) editor.getTextField().getFormatter();
+		JFormattedTextField field = editor.getTextField();
+		field.setHorizontalAlignment(JTextField.RIGHT);
+		DateFormatter formatter = (DateFormatter) field.getFormatter();
 		formatter.setAllowsInvalid(false);
 		formatter.setOverwriteMode(true);
 		this.setEditor(editor);

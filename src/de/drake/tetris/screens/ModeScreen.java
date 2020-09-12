@@ -25,6 +25,8 @@ public class ModeScreen extends JScrollPane {
 	
 	private static Color optionColor = Color.white;
 	
+	private static Color optionBgColor = Color.darkGray;
+	
 	/**
 	 * Die Default Serial ID
 	 */
@@ -39,32 +41,32 @@ public class ModeScreen extends JScrollPane {
 			topPanel.setBackground(Color.black);
 			topPanel.setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
-			c.insets = new Insets(5, 0, 5, 0);
+			c.insets = new Insets(0, 5, 0, 5);
+			c.fill = GridBagConstraints.BOTH;
 			contentPanel.add(topPanel, BorderLayout.CENTER);
 				
 				//In der obersten Zeile Struts einfügen, die eine einheitliche Mindestbreite der Spalten sicherstellen
 				c.gridy = 0;
 				
 				c.gridx = 0;
-				topPanel.add(Box.createHorizontalStrut(300), c);//TODO
+				topPanel.add(Box.createHorizontalStrut(280), c);
 				c.gridx = 1;
-				topPanel.add(Box.createHorizontalStrut(300), c);
+				topPanel.add(Box.createHorizontalStrut(280), c);
 				c.gridx = 2;
-				topPanel.add(Box.createHorizontalStrut(300), c);
+				topPanel.add(Box.createHorizontalStrut(280), c);
 				c.gridx = 3;
-				topPanel.add(Box.createHorizontalStrut(300), c);
+				topPanel.add(Box.createHorizontalStrut(280), c);
 				
 				//Erste Inhalts-Spalte - Solitär
 				c.gridx = 0;
 				
 				c.gridy = 1;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.solitaer, Color.green, 50), c);
+						ModeState.solitaer, Color.green, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
-				c.anchor = GridBagConstraints.PAGE_START;
-				OptionTable options_sol = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				OptionTable options_sol = new OptionTable(
+						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_sol, c);
 				
 					TimeSpinner timeLimit_sol = new TimeSpinner();
@@ -75,7 +77,6 @@ public class ModeScreen extends JScrollPane {
 					options_sol.addOption("Beschleunigung je Reihe (%)", speedIncreaseRow);
 					
 				c.gridy = 3;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createButton(
 						"Wählen", ModeState.solitaer, listener), c);
 				
@@ -83,13 +84,12 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 1;
 				
 				c.gridy = 1;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.combat, Color.red, 50), c);
+						ModeState.combat, Color.red, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
-				c.anchor = GridBagConstraints.PAGE_START;
-				OptionTable options_com = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				OptionTable options_com = new OptionTable(
+						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_com, c);
 				
 					TimeSpinner timeLimit_com = new TimeSpinner();
@@ -99,8 +99,11 @@ public class ModeScreen extends JScrollPane {
 							Config.speedIncreaseSec, 0., 10., 0.01);
 					options_com.addOption("Beschleunigung je Sekunde (%)", speedIncreaseSec);
 					
+					NumberSpinner combatType = new NumberSpinner(
+							1., 1., 3, 1);
+					options_com.addOption("Battlemode", combatType);
+					
 				c.gridy = 3;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createButton(
 						"Wählen", ModeState.combat, listener), c);
 				
@@ -108,13 +111,12 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 2;
 				
 				c.gridy = 1;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.race, Color.blue, 50), c);
+						ModeState.race, Color.blue, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
-				c.anchor = GridBagConstraints.PAGE_START;
-				OptionTable options_race = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				OptionTable options_race = new OptionTable(
+						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_race, c);
 				
 					TimeSpinner timeLimit_race = new TimeSpinner();
@@ -125,7 +127,6 @@ public class ModeScreen extends JScrollPane {
 					options_race.addOption("Reihen", raceRows);
 					
 				c.gridy = 3;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createButton(
 						"Wählen", ModeState.race, listener), c);
 				
@@ -133,13 +134,12 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 3;
 				
 				c.gridy = 1;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.cheese, Color.yellow, 50), c);
+						ModeState.cheese, Color.yellow, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
-				c.anchor = GridBagConstraints.PAGE_START;
-				OptionTable options_che = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				OptionTable options_che = new OptionTable(
+						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_che, c);
 				
 					TimeSpinner timeLimit_che = new TimeSpinner();
@@ -150,7 +150,6 @@ public class ModeScreen extends JScrollPane {
 					options_che.addOption("Reihen", cheeseRows);
 					
 				c.gridy = 3;
-				c.anchor = GridBagConstraints.CENTER;
 				topPanel.add(ComponentFactory.createButton(
 						"Wählen", ModeState.cheese, listener), c);
 				

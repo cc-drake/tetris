@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class ComponentFactory {
 	
@@ -21,10 +22,15 @@ public class ComponentFactory {
 		return ComponentFactory.createButton(text, text, listener);
 	}
 	
-	public static JLabel createLabel(final String text, final Color color, final int size) {
+	public static JLabel createLabel(final String text, final Color color, final Color bgcolor, final int size) {
 		JLabel result = new JLabel(text);
 		result.setForeground(color);
 		result.setFont(new Font(Font.SERIF, Font.BOLD, size));
+		result.setHorizontalAlignment(SwingConstants.CENTER);
+		if (bgcolor != null) {
+			result.setOpaque(true);
+			result.setBackground(bgcolor);
+		}
 		return result;
 	}
 	
