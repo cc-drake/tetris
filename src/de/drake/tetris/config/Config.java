@@ -56,6 +56,16 @@ public class Config {
 	public static int keyRepeatDelay = 200;
 	
 	/**
+	 * Die Beschleunigung nach Elimination einer Reihe in %
+	 */
+	public static double speedIncreaseRow = 1.;
+
+	/**
+	 * Die Beschleunigung je Sekunde in %
+	 */
+	public static double speedIncreaseSec = 0.01;
+	
+	/**
 	 * Gibt die maximale Steingröße zurück.
 	 */
 	public static int getMaxSteinSize() {
