@@ -1,0 +1,166 @@
+package de.drake.tetris.screens;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import de.drake.tetris.config.Config;
+import de.drake.tetris.screens.comp.ComponentFactory;
+import de.drake.tetris.screens.comp.OptionTable;
+import de.drake.tetris.screens.comp.NumberSpinner;
+import de.drake.tetris.screens.comp.TimeSpinner;
+import de.drake.tetris.states.ModeState;
+
+public class ModeScreen extends JScrollPane {
+	
+	private static int optionSize = 15;
+	
+	private static Color optionColor = Color.white;
+	
+	/**
+	 * Die Default Serial ID
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ModeScreen(final ActionListener listener) {
+		JPanel contentPanel = new JPanel();
+		super.setViewportView(contentPanel);
+		contentPanel.setLayout(new BorderLayout());
+		
+			JPanel topPanel = new JPanel();
+			topPanel.setBackground(Color.black);
+			topPanel.setLayout(new GridBagLayout());
+			GridBagConstraints c = new GridBagConstraints();
+			c.insets = new Insets(5, 0, 5, 0);
+			contentPanel.add(topPanel, BorderLayout.CENTER);
+				
+				//In der obersten Zeile Struts einfügen, die eine einheitliche Mindestbreite der Spalten sicherstellen
+				c.gridy = 0;
+				
+				c.gridx = 0;
+				topPanel.add(Box.createHorizontalStrut(300), c);//TODO
+				c.gridx = 1;
+				topPanel.add(Box.createHorizontalStrut(300), c);
+				c.gridx = 2;
+				topPanel.add(Box.createHorizontalStrut(300), c);
+				c.gridx = 3;
+				topPanel.add(Box.createHorizontalStrut(300), c);
+				
+				//Erste Inhalts-Spalte - Solitär
+				c.gridx = 0;
+				
+				c.gridy = 1;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createLabel(
+						ModeState.solitaer, Color.green, 50), c);
+				
+				c.gridy = 2;
+				c.anchor = GridBagConstraints.PAGE_START;
+				OptionTable options_sol = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				topPanel.add(options_sol, c);
+				
+					TimeSpinner timeLimit_sol = new TimeSpinner();
+					options_sol.addOption("Zeitlimit (mm:ss)", timeLimit_sol);
+					
+					NumberSpinner speedIncreaseRow = new NumberSpinner(
+							Config.speedIncreaseRow, 0., 100., 0.1);
+					options_sol.addOption("Beschleunigung je Reihe (%)", speedIncreaseRow);
+					
+				c.gridy = 3;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createButton(
+						"Wählen", ModeState.solitaer, listener), c);
+				
+				//Zweite Inhalts-Spalte - Combat
+				c.gridx = 1;
+				
+				c.gridy = 1;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createLabel(
+						ModeState.combat, Color.red, 50), c);
+				
+				c.gridy = 2;
+				c.anchor = GridBagConstraints.PAGE_START;
+				OptionTable options_com = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				topPanel.add(options_com, c);
+				
+					TimeSpinner timeLimit_com = new TimeSpinner();
+					options_com.addOption("Zeitlimit (mm:ss)", timeLimit_com);
+					
+					NumberSpinner speedIncreaseSec = new NumberSpinner(
+							Config.speedIncreaseSec, 0., 10., 0.01);
+					options_com.addOption("Beschleunigung je Sekunde (%)", speedIncreaseSec);
+					
+				c.gridy = 3;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createButton(
+						"Wählen", ModeState.combat, listener), c);
+				
+				//Dritte Inhalts-Spalte - Race
+				c.gridx = 2;
+				
+				c.gridy = 1;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createLabel(
+						ModeState.race, Color.blue, 50), c);
+				
+				c.gridy = 2;
+				c.anchor = GridBagConstraints.PAGE_START;
+				OptionTable options_race = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				topPanel.add(options_race, c);
+				
+					TimeSpinner timeLimit_race = new TimeSpinner();
+					options_race.addOption("Zeitlimit (mm:ss)", timeLimit_race);
+					
+					NumberSpinner raceRows = new NumberSpinner(
+							Config.raceRows, 1, 9999, 1);
+					options_race.addOption("Reihen", raceRows);
+					
+				c.gridy = 3;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createButton(
+						"Wählen", ModeState.race, listener), c);
+				
+				//Vierte Inhalts-Spalte - Cheese
+				c.gridx = 3;
+				
+				c.gridy = 1;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createLabel(
+						ModeState.cheese, Color.yellow, 50), c);
+				
+				c.gridy = 2;
+				c.anchor = GridBagConstraints.PAGE_START;
+				OptionTable options_che = new OptionTable(ModeScreen.optionColor, ModeScreen.optionSize);
+				topPanel.add(options_che, c);
+				
+					TimeSpinner timeLimit_che = new TimeSpinner();
+					options_che.addOption("Zeitlimit (mm:ss)", timeLimit_che);
+					
+					NumberSpinner cheeseRows = new NumberSpinner(
+							Config.cheeseRows, 1, Config.hoehe - Config.getMaxSteinSize(), 1);
+					options_che.addOption("Reihen", cheeseRows);
+					
+				c.gridy = 3;
+				c.anchor = GridBagConstraints.CENTER;
+				topPanel.add(ComponentFactory.createButton(
+						"Wählen", ModeState.cheese, listener), c);
+				
+			JPanel bottomPanel = new JPanel();
+			bottomPanel.setBackground(Color.black);
+			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
+			
+				bottomPanel.add(ComponentFactory.createButton(ModeState.back, listener));
+				
+	}
+	
+}

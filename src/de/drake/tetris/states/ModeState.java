@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 
-import de.drake.tetris.screens.ModusScreen;
+import de.drake.tetris.screens.ModeScreen;
 
 /**
  * Der ModeState erlaubt die Auswahl des Spielmodus
@@ -15,7 +15,7 @@ public class ModeState extends State implements ActionListener {
 	/**
 	 * Der Screen, der im Display angezeigt wird.
 	 */
-	private final ModusScreen screen;
+	private final ModeScreen screen;
 	
 	public final static String solitaer = "Solitär";
 	public final static String race = "Race";
@@ -27,7 +27,7 @@ public class ModeState extends State implements ActionListener {
 	 * Erstellt einen neuen ModeState.
 	 */
 	ModeState() {
-		this.screen = new ModusScreen(this);
+		this.screen = new ModeScreen(this);
 	}
 	
 	@Override
