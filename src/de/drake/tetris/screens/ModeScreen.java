@@ -11,9 +11,11 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.screens.comp.ComponentFactory;
+import de.drake.tetris.screens.comp.ListSpinner;
 import de.drake.tetris.screens.comp.OptionTable;
 import de.drake.tetris.screens.comp.NumberSpinner;
 import de.drake.tetris.screens.comp.TimeSpinner;
@@ -26,6 +28,18 @@ public class ModeScreen extends JScrollPane {
 	private static Color optionColor = Color.white;
 	
 	private static Color optionBgColor = Color.darkGray;
+	
+	private final JSpinner timeLimit_sol;
+	
+	private final JSpinner timeLimit_com;
+	
+	private final JSpinner timeLimit_race;
+	
+	private final JSpinner timeLimit_che;
+	
+	private final JSpinner speedIncreaseRow;
+	
+	private final JSpinner speedIncreaseSec;
 	
 	/**
 	 * Die Default Serial ID
@@ -69,12 +83,12 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_sol, c);
 				
-					TimeSpinner timeLimit_sol = new TimeSpinner();
-					options_sol.addOption("Zeitlimit (mm:ss)", timeLimit_sol);
+					this.timeLimit_sol = new TimeSpinner();
+					options_sol.addOption("Zeitlimit (mm:ss)", this.timeLimit_sol);
 					
-					NumberSpinner speedIncreaseRow = new NumberSpinner(
+					this.speedIncreaseRow = new NumberSpinner(
 							Config.speedIncreaseRow, 0., 100., 0.1);
-					options_sol.addOption("Beschleunigung je Reihe (%)", speedIncreaseRow);
+					options_sol.addOption("Beschleunigung je Reihe (%)", this.speedIncreaseRow);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
@@ -92,15 +106,16 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_com, c);
 				
-					TimeSpinner timeLimit_com = new TimeSpinner();
-					options_com.addOption("Zeitlimit (mm:ss)", timeLimit_com);
+					this.timeLimit_com = new TimeSpinner();
+					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimit_com);
 					
-					NumberSpinner speedIncreaseSec = new NumberSpinner(
+					this.speedIncreaseSec = new NumberSpinner(
 							Config.speedIncreaseSec, 0., 10., 0.01);
-					options_com.addOption("Beschleunigung je Sekunde (%)", speedIncreaseSec);
+					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
-					NumberSpinner combatType = new NumberSpinner(
-							1., 1., 3, 1);
+					String[] values = {"Classic", "Evil", "Peaceful"};
+					ListSpinner combatType = new ListSpinner(
+							values);
 					options_com.addOption("Battlemode", combatType);
 					
 				c.gridy = 3;
@@ -119,8 +134,8 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_race, c);
 				
-					TimeSpinner timeLimit_race = new TimeSpinner();
-					options_race.addOption("Zeitlimit (mm:ss)", timeLimit_race);
+					this.timeLimit_race = new TimeSpinner();
+					options_race.addOption("Zeitlimit (mm:ss)", this.timeLimit_race);
 					
 					NumberSpinner raceRows = new NumberSpinner(
 							Config.raceRows, 1, 9999, 1);
@@ -142,8 +157,8 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_che, c);
 				
-					TimeSpinner timeLimit_che = new TimeSpinner();
-					options_che.addOption("Zeitlimit (mm:ss)", timeLimit_che);
+					this.timeLimit_che = new TimeSpinner();
+					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimit_che);
 					
 					NumberSpinner cheeseRows = new NumberSpinner(
 							Config.cheeseRows, 1, Config.hoehe - Config.getMaxSteinSize(), 1);
