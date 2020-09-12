@@ -5,16 +5,16 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.NumberFormatter;
 
-public class DoubleSpinner extends JSpinner {
+public class NumberSpinner extends JSpinner {
 	
 	/**
 	 * Die Default Serial ID.
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public DoubleSpinner(final double initialValue, final double maxValue, final double step) {
+	public NumberSpinner(final double initialValue, final double minValue, final double maxValue, final double step) {
 		
-		this.setModel(new SpinnerNumberModel(initialValue, 0., maxValue, step));
+		this.setModel(new SpinnerNumberModel(initialValue, minValue, maxValue, step));
 		
 		String maxString = Double.toString(maxValue);
 		int vorkommastellen;
@@ -45,7 +45,7 @@ public class DoubleSpinner extends JSpinner {
 		
 		NumberEditor editor = new NumberEditor(this, pattern);
 		JFormattedTextField field = editor.getTextField();
-		field.setColumns(vorkommastellen + nachkommastellen - 1);
+		field.setColumns(vorkommastellen + nachkommastellen);
 		NumberFormatter formatter = (NumberFormatter) field.getFormatter();
 		formatter.setAllowsInvalid(false);
 		this.setEditor(editor);

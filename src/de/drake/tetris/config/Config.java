@@ -59,11 +59,21 @@ public class Config {
 	 * Die Beschleunigung nach Elimination einer Reihe in %
 	 */
 	public static double speedIncreaseRow = 1.;
-
+	
 	/**
 	 * Die Beschleunigung je Sekunde in %
 	 */
 	public static double speedIncreaseSec = 0.01;
+	
+	/**
+	 * Anzahl der Reihen, die im Race-Modus zu eliminieren sind.
+	 */
+	public static int raceRows = 50;
+	
+	/**
+	 * Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind.
+	 */
+	public static int cheeseRows = 15;
 	
 	/**
 	 * Gibt die maximale Steingröße zurück.
