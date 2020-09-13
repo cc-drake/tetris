@@ -41,7 +41,11 @@ public class ModeState extends State implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand() == ModeState.back)
+		if (e.getActionCommand() == ModeState.back) {
 			State.setCurrentState(State.startState);
+		}
+		if (e.getActionCommand() == ModeState.solitaer) {
+
+		}
 	}
 }

@@ -83,7 +83,7 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_sol, c);
 				
-					this.timeLimit_sol = new TimeSpinner();
+					this.timeLimit_sol = new TimeSpinner(Config.timeLimit);
 					options_sol.addOption("Zeitlimit (mm:ss)", this.timeLimit_sol);
 					
 					this.speedIncreaseRow = new NumberSpinner(
@@ -106,7 +106,7 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_com, c);
 				
-					this.timeLimit_com = new TimeSpinner();
+					this.timeLimit_com = new TimeSpinner(Config.timeLimit);
 					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimit_com);
 					
 					this.speedIncreaseSec = new NumberSpinner(
@@ -134,7 +134,7 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_race, c);
 				
-					this.timeLimit_race = new TimeSpinner();
+					this.timeLimit_race = new TimeSpinner(Config.timeLimit);
 					options_race.addOption("Zeitlimit (mm:ss)", this.timeLimit_race);
 					
 					NumberSpinner raceRows = new NumberSpinner(
@@ -157,7 +157,7 @@ public class ModeScreen extends JScrollPane {
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_che, c);
 				
-					this.timeLimit_che = new TimeSpinner();
+					this.timeLimit_che = new TimeSpinner(Config.timeLimit);
 					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimit_che);
 					
 					NumberSpinner cheeseRows = new NumberSpinner(

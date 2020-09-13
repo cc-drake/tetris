@@ -15,12 +15,12 @@ public class TimeSpinner extends JSpinner {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TimeSpinner() {
+	public TimeSpinner(final int valueSec) {
 		
 		SpinnerDateModel model = new SpinnerDateModel();
 		Calendar calender = Calendar.getInstance();
-		calender.set(Calendar.MINUTE, 0);
-		calender.set(Calendar.SECOND, 0);
+		calender.set(Calendar.MINUTE, valueSec / 60);
+		calender.set(Calendar.SECOND, valueSec % 60);
 		model.setValue(calender.getTime());
 		this.setModel(model);
 		

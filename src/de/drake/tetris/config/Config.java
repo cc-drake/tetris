@@ -56,6 +56,11 @@ public class Config {
 	public static int keyRepeatDelay = 200;
 	
 	/**
+	 * Das Zeitlimit in Sekunden, nach dem das Spiel beendet wird.
+	 */
+	public static int timeLimit = 300;
+	
+	/**
 	 * Die Beschleunigung nach Elimination einer Reihe in %
 	 */
 	public static double speedIncreaseRow = 1.;
@@ -74,6 +79,21 @@ public class Config {
 	 * Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind.
 	 */
 	public static int cheeseRows = 15;
+	
+	/**
+	 * Gibt an, ob das Spiel nach Ablauf der Zeit beendet wird.
+	 */
+	public static boolean wincondition_time;
+	
+	/**
+	 * Gibt an, ob das Spiel mit Absolverung der Race-Reihen beendet wird.
+	 */
+	public static boolean wincondition_race;
+	
+	/**
+	 * Gibt an, ob das Spiel mit Absolverung der Race-Reihen beendet wird.
+	 */
+	public static boolean wincondition_cheese;
 	
 	/**
 	 * Gibt die maximale Steingröße zurück.
