@@ -12,6 +12,7 @@ import de.drake.tetris.model.Spieler;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
 import de.drake.tetris.states.GameState;
+import de.drake.tetris.util.GameMode;
 import de.drake.tetris.util.Position;
 
 /**
@@ -272,12 +273,50 @@ public class PlayerPanel extends JPanel {
 		int fontsize = this.höhe_feld;
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		g.drawString(this.spieler.getName(), 
-				this.offsetX_i, this.offsetY_i + fontsize);
+				this.offsetX_i, this.offsetY_i + 1 * fontsize);
+		if (Config.timeLimit == 0) {
+			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVergangeneZeit()),
+					this.offsetX_i, this.offsetY_i + 3 * fontsize);
+		} else {
+			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVerbleibendeZeit()),
+					this.offsetX_i, this.offsetY_i + 3 * fontsize);
+		}
+				
 		g.drawString("Steine: " + this.spieler.getAnzahlSteine(),
-				this.offsetX_i, this.offsetY_i + 3 * fontsize);
-		g.drawString("Reihen: " + this.spieler.getFertigeReihen(), 
 				this.offsetX_i, this.offsetY_i + 5 * fontsize);
-			
+		if (Config.gameMode == GameMode.RACE) {
+			g.drawString("Reihen: " + this.spieler.getVerbleibendeReihen(),
+					this.offsetX_i, this.offsetY_i + 7 * fontsize);
+		} else if (Config.gameMode == GameMode.CHEESE){
+			g.drawString("Reihen: " + this.spieler.getCheeseReihen(),
+					this.offsetX_i, this.offsetY_i + 7 * fontsize);
+		} else {
+			g.drawString("Reihen: " + this.spieler.getFertigeReihen(),
+					this.offsetX_i, this.offsetY_i + 7 * fontsize);
+		}
+				
 		
+	}
+	
+	private static String getTime(int seconds) {
+		int hours = seconds / 60 / 60;
+		int minutes = seconds / 60 % 60;
+		seconds = seconds % 60;
+		
+		String result = "";
+		if (hours > 0) {
+			result += hours + ":";
+		}
+		if (minutes < 10) {
+			result += "0" + minutes + ":";
+		} else {
+			result += minutes + ":";
+		}
+		if (seconds < 10) {
+			result += "0" + seconds;
+		} else {
+			result += seconds;
+		}
+		return result;
 	}
 }

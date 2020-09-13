@@ -1,5 +1,7 @@
 package de.drake.tetris.config;
 
+import de.drake.tetris.util.GameMode;
+
 public class Config {
 	
 	/**
@@ -58,7 +60,7 @@ public class Config {
 	/**
 	 * Das Zeitlimit in Sekunden, nach dem das Spiel beendet wird.
 	 */
-	public static int timeLimit = 300;
+	public static int timeLimit = 0;
 	
 	/**
 	 * Die Beschleunigung nach Elimination einer Reihe in %
@@ -68,7 +70,7 @@ public class Config {
 	/**
 	 * Die Beschleunigung je Sekunde in %
 	 */
-	public static double speedIncreaseSec = 0.01;
+	public static double speedIncreaseSec = 0.5;
 	
 	/**
 	 * Anzahl der Reihen, die im Race-Modus zu eliminieren sind.
@@ -81,19 +83,9 @@ public class Config {
 	public static int cheeseRows = 15;
 	
 	/**
-	 * Gibt an, ob das Spiel nach Ablauf der Zeit beendet wird.
+	 * Gibt an, welchen Modus das Spiel besitzt.
 	 */
-	public static boolean wincondition_time;
-	
-	/**
-	 * Gibt an, ob das Spiel mit Absolverung der Race-Reihen beendet wird.
-	 */
-	public static boolean wincondition_race;
-	
-	/**
-	 * Gibt an, ob das Spiel mit Absolverung der Race-Reihen beendet wird.
-	 */
-	public static boolean wincondition_cheese;
+	public static GameMode gameMode;
 	
 	/**
 	 * Gibt die maximale Steingröße zurück.

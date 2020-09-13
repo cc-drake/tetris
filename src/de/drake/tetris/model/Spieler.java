@@ -1,5 +1,6 @@
 package de.drake.tetris.model;
 
+import de.drake.tetris.config.Config;
 import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
@@ -12,6 +13,8 @@ import de.drake.tetris.util.Position;
  * Der Spieler verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
  */
 public class Spieler {
+	
+	public final static int UNDEF = 0;
 	
 	public final static int ACTIVE = 1;
 	
@@ -55,9 +58,19 @@ public class Spieler {
 	private double speed;
 	
 	/**
-	 * Der Zeitpunkt, an dem zuletzt ein Stein gefallen ist
+	 * Der Laufzeitindex, an dem zuletzt ein Stein gefallen ist
 	 */
-	private long letzteFallzeit;
+	private long letzteFallzeit = 0;
+	
+	/**
+	 * Der Laufzeitindex, an dem zuletzt eine Sekunde vergangen war (zur Speederhöhung)
+	 */
+	private long letzteSeczeit = 0;
+	
+	/**
+	 * Die Spielzeit des Spielers in Sekunden.
+	 */
+	private int LaufzeitSec = 0;
 	
 	/**
 	 * Die Anzahl der Reihen, die fertiggestellt wurden.
@@ -141,26 +154,38 @@ public class Spieler {
 	}
 	
 	/**
-	 * Prüft, ob es Zeit für den nächsten automatischen "Steinfall" ist, und führt diesen ggfs. aus.
+	 * Führt zeitgesteuerte Vorgänge aus, wie den nächsten automatischen "Steinfall"
+	 * oder die Aktualisierung der Zeit.
 	 */
-	public void performSteinfall(final int gameStateState, final long currentTime) {
+	public void tick(final int gameStateState, final long laufzeitIndex) {
+		
+		if (this.state != Spieler.ACTIVE)
+			return;
+		
+		this.LaufzeitSec = (int) (laufzeitIndex / 1000000000.);
 		
 		switch (gameStateState) {
 		case GameState.RUNNING:
+			
 			long ZeitProSteinfall = (long) (1000000000. / this.speed);
-			if ((currentTime - this.letzteFallzeit) >= ZeitProSteinfall) {
+			if ((laufzeitIndex - this.letzteFallzeit) >= ZeitProSteinfall) {
 				this.letzteFallzeit += ZeitProSteinfall;
 				this.performMoveAction(Action.RUNTER);
 			}
-			break;
+			
+			if ((laufzeitIndex - this.letzteSeczeit) >= 1000000000.) {
+				this.letzteSeczeit += 1000000000.;
+				this.speed *= (1 + Config.speedIncreaseSec / 100.);
+			}
+
 		default:
-			this.letzteFallzeit = currentTime;
+
 		}
 		
 	}
 	
-	public void winGame() {
-		this.state = Spieler.WINNER;
+	public void setState(final int state) {
+		this.state = state;
 	}
 	
 	/**
@@ -196,13 +221,17 @@ public class Spieler {
 		for (Position position : this.stein.getPositionen()) {
 			this.spielfeld.block(position, this.stein.getColor());
 		}
-		this.fertigeReihen += this.spielfeld.entferneFertigeReihen();
+		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
+		this.fertigeReihen += entfernteReihen;
+		for (int i = 0; i < entfernteReihen; i++) {
+			this.speed *= (1 + Config.speedIncreaseRow / 100.);
+		}
 		this.anzahlSteine++;
 		this.stein = this.nächsterStein;
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
 		for (Position position : this.stein.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
-				this.state = Spieler.LOSER;
+				this.state = Spieler.UNDEF;
 				break;
 			}
 		}
@@ -213,6 +242,13 @@ public class Spieler {
 	 */
 	public int getState() {
 		return this.state;
+	}
+	
+	/**
+	 * Gibt zurück, ob der State des Spielers dem angefragten Zustand entspricht.
+	 */
+	public boolean hasState(final int state) {
+		return this.state == state;
 	}
 
 	/**
@@ -244,6 +280,20 @@ public class Spieler {
 	}
 	
 	/**
+	 * Gibt die vergangene Zeit in Sekunden zurück.
+	 */
+	public int getVergangeneZeit() {
+		return this.LaufzeitSec;
+	}
+	
+	/**
+	 * Gibt die verbleibende Spielzeit in Sekunden zurück.
+	 */
+	public int getVerbleibendeZeit() {
+		return Config.timeLimit - this.LaufzeitSec;
+	}
+	
+	/**
 	 * Gibt die Zahl der bereits gesetzten Steine zurück.
 	 */
 	public int getAnzahlSteine() {
@@ -251,10 +301,24 @@ public class Spieler {
 	}
 	
 	/**
-	 * Gibt die Zahl der eliminierten Reihen zurück.
+	 * Gibt die fertigen Reihen zurück.
 	 */
 	public int getFertigeReihen() {
 		return this.fertigeReihen;
+	}
+	
+	/**
+	 * Gibt die verbleibende Zahl zu eliminierender Reihen zurück.
+	 */
+	public int getVerbleibendeReihen() {
+		return Config.raceRows - this.fertigeReihen;
+	}
+	
+	/**
+	 * Gibt die verbleibende Zahl zu eliminierender Käse-Reihen zurück.
+	 */
+	public int getCheeseReihen() {
+		return 1;//TODO
 	}
 	
 }

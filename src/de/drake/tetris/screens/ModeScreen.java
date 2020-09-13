@@ -7,6 +7,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import de.drake.tetris.screens.comp.OptionTable;
 import de.drake.tetris.screens.comp.NumberSpinner;
 import de.drake.tetris.screens.comp.TimeSpinner;
 import de.drake.tetris.states.ModeState;
+import de.drake.tetris.util.GameMode;
 
 public class ModeScreen extends JScrollPane {
 	
@@ -40,6 +43,10 @@ public class ModeScreen extends JScrollPane {
 	private final JSpinner speedIncreaseRow;
 	
 	private final JSpinner speedIncreaseSec;
+	
+	private final JSpinner raceRows;
+	
+	private final JSpinner cheeseRows;
 	
 	/**
 	 * Die Default Serial ID
@@ -76,7 +83,7 @@ public class ModeScreen extends JScrollPane {
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.solitaer, Color.green, ModeScreen.optionBgColor, 50), c);
+						"Solitär", Color.green, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_sol = new OptionTable(
@@ -92,14 +99,14 @@ public class ModeScreen extends JScrollPane {
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", ModeState.solitaer, listener), c);
+						"Wählen", GameMode.SOLITAER.toString(), listener), c);
 				
 				//Zweite Inhalts-Spalte - Combat
 				c.gridx = 1;
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.combat, Color.red, ModeScreen.optionBgColor, 50), c);
+						"Combat", Color.red, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_com = new OptionTable(
@@ -110,7 +117,7 @@ public class ModeScreen extends JScrollPane {
 					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimit_com);
 					
 					this.speedIncreaseSec = new NumberSpinner(
-							Config.speedIncreaseSec, 0., 10., 0.01);
+							Config.speedIncreaseSec, 0., 10., 0.1);
 					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
 					String[] values = {"Classic", "Evil", "Peaceful"};
@@ -120,14 +127,14 @@ public class ModeScreen extends JScrollPane {
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", ModeState.combat, listener), c);
+						"Wählen", GameMode.COMBAT.toString(), listener), c);
 				
 				//Dritte Inhalts-Spalte - Race
 				c.gridx = 2;
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.race, Color.blue, ModeScreen.optionBgColor, 50), c);
+						"Race", Color.blue, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_race = new OptionTable(
@@ -137,20 +144,20 @@ public class ModeScreen extends JScrollPane {
 					this.timeLimit_race = new TimeSpinner(Config.timeLimit);
 					options_race.addOption("Zeitlimit (mm:ss)", this.timeLimit_race);
 					
-					NumberSpinner raceRows = new NumberSpinner(
+					this.raceRows = new NumberSpinner(
 							Config.raceRows, 1, 9999, 1);
-					options_race.addOption("Reihen", raceRows);
+					options_race.addOption("Reihen", this.raceRows);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", ModeState.race, listener), c);
+						"Wählen", GameMode.RACE.toString(), listener), c);
 				
 				//Vierte Inhalts-Spalte - Cheese
 				c.gridx = 3;
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						ModeState.cheese, Color.yellow, ModeScreen.optionBgColor, 50), c);
+						"Cheese", Color.yellow, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_che = new OptionTable(
@@ -160,13 +167,13 @@ public class ModeScreen extends JScrollPane {
 					this.timeLimit_che = new TimeSpinner(Config.timeLimit);
 					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimit_che);
 					
-					NumberSpinner cheeseRows = new NumberSpinner(
+					this.cheeseRows = new NumberSpinner(
 							Config.cheeseRows, 1, Config.hoehe - Config.getMaxSteinSize(), 1);
-					options_che.addOption("Reihen", cheeseRows);
+					options_che.addOption("Reihen", this.cheeseRows);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", ModeState.cheese, listener), c);
+						"Wählen", GameMode.CHEESE.toString(), listener), c);
 				
 			JPanel bottomPanel = new JPanel();
 			bottomPanel.setBackground(Color.black);
@@ -175,6 +182,37 @@ public class ModeScreen extends JScrollPane {
 			
 				bottomPanel.add(ComponentFactory.createButton(ModeState.back, listener));
 				
+	}
+	
+	public int getTimeLimit(final GameMode mode) {
+		Date value = null;
+		if (mode == GameMode.SOLITAER)
+			value = (Date) this.timeLimit_sol.getValue();
+		if (mode == GameMode.COMBAT)
+			value = (Date) this.timeLimit_com.getValue();
+		if (mode == GameMode.RACE)
+			value = (Date) this.timeLimit_race.getValue();
+		if (mode == GameMode.CHEESE)
+			value = (Date) this.timeLimit_che.getValue();
+		Calendar date = Calendar.getInstance();
+		date.setTime(value);
+		return date.get(Calendar.MINUTE) * 60 + date.get(Calendar.SECOND);
+	}
+
+	public double getSpeedIncreaseRow() {
+		return (double) this.speedIncreaseRow.getValue();
+	}
+
+	public double getSpeedIncreaseSec() {
+		return (double) this.speedIncreaseSec.getValue();
+	}
+
+	public int getRaceRows() {
+		return (int) (double) this.raceRows.getValue();
+	}
+	
+	public int getCheeseRows() {
+		return (int) (double) this.cheeseRows.getValue();
 	}
 	
 }

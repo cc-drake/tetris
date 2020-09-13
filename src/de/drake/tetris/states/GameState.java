@@ -5,11 +5,13 @@ import java.util.Random;
 
 import javax.swing.JComponent;
 
+import de.drake.tetris.config.Config;
 import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.input.gamepad.GamepadMonitor;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.screens.GameScreen;
 import de.drake.tetris.util.Action;
+import de.drake.tetris.util.GameMode;
 
 /**
  * Der PlayState verwaltet das aktive Tetris-Spiel.
@@ -42,6 +44,16 @@ public class GameState extends State {
 	private int state = GameState.PREPARED;
 	
 	/**
+	 * Die seit Spielbeginn vergangene Zeit in Nanosekunden (ohne Pausen).
+	 */
+	private long laufzeitNano = 0;
+	
+	/**
+	 * Der Zeitpunkt, an dem zuletzt ein "Tick" erfolgt ist
+	 */
+	private long letzteTickzeit = 0;
+	
+	/**
 	 * Erstellt einen neuen PlayState.
 	 */
 	GameState() {
@@ -61,8 +73,17 @@ public class GameState extends State {
 		
 		//Zwischenspeichern, damit sich die Werte zwischendurch nicht ändern
 		int currentState = this.state;
-		long currentTime = System.nanoTime();
 		
+		switch (currentState) {
+		case GameState.RUNNING:
+			if (this.letzteTickzeit > 0) {
+				this.laufzeitNano += System.nanoTime() - this.letzteTickzeit;
+			}
+		default:
+			this.letzteTickzeit = System.nanoTime();
+		}
+		
+		//Eingaben abfragen und ausführen
 		Action action;
 		for (Spieler spieler : this.spielerliste) {
 			
@@ -83,11 +104,13 @@ public class GameState extends State {
 			
 		}
 		
+		//Spieler ticken lassen
 		for (Spieler spieler : this.spielerliste) {
-			spieler.performSteinfall(currentState, currentTime);
+			spieler.tick(currentState, this.laufzeitNano);
 		}
 		
-		this.checkVictory();
+		if (currentState == GameState.RUNNING)
+			this.checkWinLose();
 		
 	}
 	
@@ -128,23 +151,89 @@ public class GameState extends State {
 	}
 	
 	/**
-	 * Prüft, ob alle bis auf einen Spieler das Spiel verloren haben, und beendet ggfs. das Spiel.
+	 * Prüft, ob Spieler gewonnen oder verloren haben, und beendet ggfs. das Spiel.
 	 */
-	private void checkVictory() {
+	private void checkWinLose() {
+		
+		//Variablen initialisieren und zugebaute Spieler auf LOSER setzen
+		boolean timeout = false;
+		if (Config.timeLimit > 0 && this.laufzeitNano / 1000000000. >= Config.timeLimit)
+			timeout = true;
+		
 		int anzahlSpieler = this.spielerliste.size();
-		int anzahlVerlierer = 0;
+		int anzahlAktiveSpieler = 0;
+		int maxReihen = 0;
+		int minRaceReihen = Integer.MAX_VALUE;
+		int minCheeseReihen = Integer.MAX_VALUE;
 		for (Spieler spieler : this.spielerliste) {
-			if (spieler.getState() == Spieler.LOSER) {
-				anzahlVerlierer++;
-			}
+			if (spieler.hasState(Spieler.UNDEF) && Config.gameMode != GameMode.SOLITAER)
+				spieler.setState(Spieler.LOSER);
+			if (spieler.hasState(Spieler.ACTIVE))
+				anzahlAktiveSpieler++;
+			if (spieler.getFertigeReihen() > maxReihen)
+				maxReihen = spieler.getFertigeReihen();
+			if (Config.gameMode == GameMode.RACE && spieler.getVerbleibendeReihen() < minRaceReihen)
+				minRaceReihen = spieler.getVerbleibendeReihen();
+			if (Config.gameMode == GameMode.CHEESE && spieler.getCheeseReihen() < minCheeseReihen)
+				minCheeseReihen = spieler.getCheeseReihen();
 		}
-		if ((anzahlSpieler > 1 && anzahlVerlierer >= anzahlSpieler - 1)
-				|| (anzahlSpieler == 1 && anzahlVerlierer == 1)) {
-			this.state = GameState.ENDED;
-			for (Spieler spieler : this.spielerliste) {
-				if (spieler.getState() == Spieler.ACTIVE)
-					spieler.winGame();
+		
+		switch (Config.gameMode) {
+		
+		case SOLITAER:
+			if (timeout || anzahlAktiveSpieler == 0) {
+				for (Spieler spieler : this.spielerliste) {
+					if (spieler.getFertigeReihen() == maxReihen) {
+						spieler.setState(Spieler.WINNER);
+					} else {
+						spieler.setState(Spieler.LOSER);
+					}
+				}
+				this.state = GameState.ENDED;
 			}
+			break;
+			
+		case COMBAT:
+			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)) {
+				for (Spieler spieler : this.spielerliste) {
+					if (spieler.hasState(Spieler.ACTIVE)) {
+						spieler.setState(Spieler.WINNER);
+					}
+				}
+				this.state = GameState.ENDED;
+			}
+			break;
+		
+		case RACE:
+			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
+			|| minRaceReihen == 0) {
+				for (Spieler spieler : this.spielerliste) {
+					if (spieler.hasState(Spieler.ACTIVE)
+							&& spieler.getVerbleibendeReihen() == minRaceReihen) {
+						spieler.setState(Spieler.WINNER);
+					} else {
+						spieler.setState(Spieler.LOSER);
+					}
+				}
+				this.state = GameState.ENDED;
+			}
+			break;
+		
+		case CHEESE:
+			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
+			|| minCheeseReihen == 0) {
+				for (Spieler spieler : this.spielerliste) {
+					if (spieler.hasState(Spieler.ACTIVE)
+							&& spieler.getCheeseReihen() == minCheeseReihen) {
+						spieler.setState(Spieler.WINNER);
+					} else {
+						spieler.setState(Spieler.LOSER);
+					}
+				}
+				this.state = GameState.ENDED;
+			}
+			break;
+			
 		}
 	}
 	
