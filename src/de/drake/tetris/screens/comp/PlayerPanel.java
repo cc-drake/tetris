@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.gfx.Assets;
+import de.drake.tetris.model.Feld;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
@@ -115,10 +116,10 @@ public class PlayerPanel extends JPanel {
 		//Höhe und Breite eines Tetrisfeldes auf Basis des zur Verfügung stehenden Platzes ermitteln
 		this.höhe_feld = (this.getHeight() - 4) / Config.hoehe;
 		this.breite_feld = (this.getWidth() - 5) / (Config.breite + this.previewfelder + 1);
-		if (((double) this.breite_feld) / this.höhe_feld < Config.feld_seitenverhaeltnis) {
-			this.höhe_feld = (int) (this.breite_feld / Config.feld_seitenverhaeltnis);
+		if (((double) this.breite_feld) / this.höhe_feld < Feld.seitenverhaeltnis) {
+			this.höhe_feld = (int) (this.breite_feld / Feld.seitenverhaeltnis);
 		} else {
-			this.breite_feld = (int) (this.höhe_feld * Config.feld_seitenverhaeltnis);
+			this.breite_feld = (int) (this.höhe_feld * Feld.seitenverhaeltnis);
 		}
 		
 		//Höhe und Breite des für das Spielfeld zur Verfügung stehenden Platzes ermitteln
@@ -277,7 +278,6 @@ public class PlayerPanel extends JPanel {
 				this.offsetX_i, this.offsetY_i + 3 * fontsize);
 		g.drawString("Reihen: " + this.spieler.getFertigeReihen(), 
 				this.offsetX_i, this.offsetY_i + 5 * fontsize);
-			
 		
 	}
 }

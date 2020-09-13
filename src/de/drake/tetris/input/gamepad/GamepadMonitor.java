@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import de.drake.tetris.config.Config;
+import de.drake.tetris.GameLoop;
 
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
@@ -80,7 +80,7 @@ public class GamepadMonitor extends Thread {
 			return;
 		}
 		
-		long timePerTick = 1000000000L / Config.fps;
+		long timePerTick = 1000000000L / GameLoop.fps;
 		long lastTick = System.nanoTime();
 		while(this.stop == false) {
 			if ((System.nanoTime() - lastTick) >= timePerTick) {

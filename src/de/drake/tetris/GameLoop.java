@@ -1,11 +1,14 @@
 package de.drake.tetris;
 
-import de.drake.tetris.config.Config;
-
 /**
  * Der GameController initialisiert das Spiel und löst regelmäßig die Methoden "tick()" und "render()" aus.
  */
-class GameLoop extends Thread {
+public class GameLoop extends Thread {
+	
+	/**
+	 * Framerate in Aktionen pro Spieler pro Sekunde.
+	 */
+	public final static int fps = 100;
 	
 	private final Game game;
 	
@@ -18,7 +21,7 @@ class GameLoop extends Thread {
 	 */
 	public void run() {
 		
-		long timePerTick = 1000000000L / Config.fps;
+		long timePerTick = 1000000000L / GameLoop.fps;
 		long lastTick = System.nanoTime();
 		while(true) {
 			if ((System.nanoTime() - lastTick) >= timePerTick) {

@@ -5,7 +5,12 @@ import de.drake.tetris.util.Color;
 /**
  * Ein Feld innerhalb des Tetris-Spielfeldes.
  */
-class Feld {
+public class Feld {
+	
+	/**
+	 * Das Seitenverhältnis, mit dem die Tetrisfelder gezeichnet werden (Breite durch Höhe)
+	 */
+	public final static double seitenverhaeltnis = 1.5/1.;
 	
 	/**
 	 * Die Farbe des Feldes, sofern es geblockt ist. 
