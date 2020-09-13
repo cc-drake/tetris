@@ -34,6 +34,16 @@ public class Config {
 	public static boolean steinSize_4 = true; 
 	
 	/**
+	 * Das Seitenverhältnis, mit dem die Tetrisfelder gezeichnet werden (Breite durch Höhe)
+	 */
+	public static double feld_seitenverhaeltnis = 1.5/1.;
+	
+	/**
+	 * Framerate in Aktionen pro Spieler pro Sekunde.
+	 */
+	public static int fps = 100;
+	
+	/**
 	 * Geschwindigkeit, mit der beim Halten der "Links"-Taste der Stein nach links laufen soll
 	 * (in Bewegungen je Sekunde).
 	 */
