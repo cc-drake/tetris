@@ -148,7 +148,7 @@ public class PlayerPanel extends JPanel {
 		Spielfeld spielfeld = this.spieler.getSpielfeld();
 
 		//Farbe definieren
-		g.setColor(Color.getHSBColor((float) 0, (float) 0, (float) .1));
+		g.setColor(Color.getHSBColor(0f, 0f, 0.1f));
 		
 		//Rahmen um Spielfeld zeichnen
 		g.drawRect(this.offsetX_sf - 1, this.offsetY_sf - 1,
