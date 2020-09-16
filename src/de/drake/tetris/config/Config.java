@@ -80,7 +80,7 @@ public class Config {
 	/**
 	 * Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind.
 	 */
-	public static int cheeseRows = 15;
+	public static int cheeseRows = 9;
 	
 	/**
 	 * Gibt an, welchen Modus das Spiel besitzt.

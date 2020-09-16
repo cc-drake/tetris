@@ -104,7 +104,7 @@ public class Spieler {
 		default:
 			this.inputManager = new GamepadManager(gameState.getScreen(), 1, playerTemplate.getKeyBinding());
 		}
-		this.spielfeld = new Spielfeld();
+		this.spielfeld = new Spielfeld(seed);
 		this.steinFactory = new SteinFactory(seed);
 		this.stein = this.steinFactory.erzeugeRandomStein();
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
@@ -318,7 +318,7 @@ public class Spieler {
 	 * Gibt die verbleibende Zahl zu eliminierender Käse-Reihen zurück.
 	 */
 	public int getCheeseReihen() {
-		return 1;//TODO
+		return this.spielfeld.getCheeseReihen();
 	}
 	
 }

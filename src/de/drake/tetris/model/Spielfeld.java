@@ -1,9 +1,11 @@
 package de.drake.tetris.model;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.util.Color;
+import de.drake.tetris.util.GameMode;
 import de.drake.tetris.util.Position;
 
 /**
@@ -25,15 +27,41 @@ public class Spielfeld {
 	
 	/**
 	 * Erzeugt ein neues Spielfeld.
+	 * @param seed Startwert für den Zufallsgenerator zur Erzeugung von Cheese-Rows
 	 */
-	Spielfeld() {
+	Spielfeld(final long seed) {
 		for (int x = 0; x < Config.breite; x++) {
 			for (int y = -this.zusatzzeilen; y < Config.hoehe; y++) {
 				this.felder.put(new Position(x, y), new Feld());
 			}
 		}
+		
+		if (Config.gameMode == GameMode.CHEESE)
+			this.generateCheeseRows(seed);
 	}
 	
+	private void generateCheeseRows(final long seed) {
+		Random random = new Random(seed);
+		
+		int rand = random.nextInt(Config.breite);
+		int lastRand = Integer.MAX_VALUE;
+		
+		for (int zeile = 0; zeile < Config.cheeseRows; zeile++) {
+			
+			for (int spalte = 0; spalte < Config.breite; spalte++) {
+				this.felder.get(new Position(spalte, Config.hoehe - zeile - 1)).setCheese(true);
+			}
+			
+			while (rand == lastRand) {
+				rand = random.nextInt(Config.breite);
+			}
+			this.felder.get(new Position(rand, Config.hoehe - zeile - 1)).setCheese(false);
+			lastRand = rand;
+			
+		}
+		
+	}
+
 	/**
 	 * Blockiert ein Feld des Spielfelds mit der angegebenen Farbe.
 	 * 
@@ -105,5 +133,18 @@ public class Spielfeld {
 		if (!this.felder.containsKey(position))
 			return true;
 		return this.felder.get(position).isBlocked();
+	}
+
+	int getCheeseReihen() {
+		int result = 0;
+		for (int zeile = 0; zeile < Config.hoehe; zeile++) {
+			for (int spalte = 0; spalte < Config.breite; spalte++) {
+				if (this.felder.get(new Position(spalte, zeile)).isCheese()) {
+					result++;
+					break;
+				}
+			}
+		}
+		return result;
 	}
 }

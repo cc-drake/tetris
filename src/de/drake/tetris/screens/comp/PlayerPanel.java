@@ -294,7 +294,7 @@ public class PlayerPanel extends JPanel {
 			g.drawString("Reihen: " + this.spieler.getFertigeReihen(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		}
-				
+		
 		
 	}
 	
