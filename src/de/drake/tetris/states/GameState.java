@@ -137,8 +137,10 @@ public class GameState extends State {
 		switch (this.state) {
 		case GameState.QUIT:
 			this.state = GameState.ENDED;
-		case GameState.ENDED:
 			this.quitGame();
+			break;
+		case GameState.ENDED:
+			State.setCurrentState(new GameState());
 			break;
 		case GameState.PAUSED:
 		case GameState.PREPARED:
