@@ -11,9 +11,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.ToolTipManager;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
@@ -54,6 +56,8 @@ public class ModeScreen extends JScrollPane {
 	private static final long serialVersionUID = 1L;
 
 	public ModeScreen(final ActionListener listener) {
+		ToolTipManager.sharedInstance().setInitialDelay(1);
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		JPanel contentPanel = new JPanel();
 		super.setViewportView(contentPanel);
 		contentPanel.setLayout(new BorderLayout());
@@ -82,8 +86,16 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 0;
 				
 				c.gridy = 1;
-				topPanel.add(ComponentFactory.createLabel(
-						GameMode.SOLITAER, Color.green, ModeScreen.optionBgColor, 50), c);
+				JLabel sol_label = ComponentFactory.createLabel(
+						GameMode.SOLITAER, Color.green, ModeScreen.optionBgColor, 50);
+				sol_label.setToolTipText("<html>"
+						+ "Im Solitär-Modus gibt es keinerlei Zeitdruck - jeder Spieler<br>"
+						+ "kann so langsam spielen, wie er mag.<br>"
+						+ "Das Spiel endet erst, wenn alle Spieler \"zugebaut\" sind.<br>"
+						+ "Gewinner ist der Spieler, der vor seinem Ableben<br>"
+						+ "die meisten Reihen eliminiert hat."
+						+ "</html>");
+				topPanel.add(sol_label, c);
 				
 				c.gridy = 2;
 				OptionTable options_sol = new OptionTable(
@@ -102,8 +114,20 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 1;
 				
 				c.gridy = 1;
-				topPanel.add(ComponentFactory.createLabel(
-						GameMode.COMBAT, Color.red, ModeScreen.optionBgColor, 50), c);
+				JLabel com_label = ComponentFactory.createLabel(
+						GameMode.COMBAT, Color.red, ModeScreen.optionBgColor, 50);
+				com_label.setToolTipText("<html>"
+						+ "Im Combat-Modus geht es darum, so lange wie möglich zu überleben.<br>"
+						+ "Der letzte verbleibende Spieler gewinnt das Spiel.<br><br>"
+						+ "Je nach Battlemode ist es möglich, seine Mitspieler zu sabotieren:<br>"
+						+ "- Classic: Bei zwei gleichzeitig eliminierten Reihen erhalten<br>"
+						+ "alle Mitspieler eine zusätzliche Reihe. Bei drei Reihen gibt es zwei<br>"
+						+ "zusätzliche Reihen, bei vier Reihen sogar vier zusätzliche Reihen.<br>"
+						+ "- Badass: Jede eliminierte Reihe wird den Mitspielern als zusätzliche<br>"
+						+ "Reihe aufgebürdet.<br>"
+						+ "- Peace: Eine Sabotage der Mitspieler ist nicht möglich."
+						+ "</html>");
+				topPanel.add(com_label, c);
 				
 				c.gridy = 2;
 				OptionTable options_com = new OptionTable(
@@ -120,7 +144,7 @@ public class ModeScreen extends JScrollPane {
 					String[] values = {GameMode.COMBAT_CLASSIC, GameMode.COMBAT_BADASS, GameMode.COMBAT_PEACE};
 					this.combatType = new ListSpinner(
 							values);
-					options_com.addOption("Battlemodus", combatType);
+					options_com.addOption("Battlemode", combatType);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
@@ -130,8 +154,15 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 2;
 				
 				c.gridy = 1;
-				topPanel.add(ComponentFactory.createLabel(
-						GameMode.RACE, Color.blue, ModeScreen.optionBgColor, 50), c);
+				JLabel race_label = ComponentFactory.createLabel(
+						GameMode.RACE, Color.blue, ModeScreen.optionBgColor, 50);
+				race_label.setToolTipText("<html>"
+						+ "Im Race-Modus geht es darum, so schnell wie möglich eine bestimmte<br>"
+						+ "Anzahl von Reihen zu eliminieren.<br>"
+						+ "Der erste Spieler, der die benötigte Anzahl von Reihen eliminiert hat,<br>"
+						+ "gewinnt das Spiel."
+						+ "</html>");
+				topPanel.add(race_label, c);
 				
 				c.gridy = 2;
 				OptionTable options_race = new OptionTable(
@@ -153,8 +184,16 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 3;
 				
 				c.gridy = 1;
-				topPanel.add(ComponentFactory.createLabel(
-						GameMode.CHEESE, Color.yellow, ModeScreen.optionBgColor, 50), c);
+				JLabel che_label = ComponentFactory.createLabel(
+						GameMode.CHEESE, Color.yellow, ModeScreen.optionBgColor, 50);
+				che_label.setToolTipText("<html>"
+						+ "Im Cheese-Modus sind zu Spielbeginn bereits einige vorgefertigte<br>"
+						+ "\"Käsereihen\" vorhanden, die so schnell wie möglich eliminiert<br>"
+						+ "werden müssen.<br>"
+						+ "Der erste Spieler, der sämtliche Käsereihen eliminiert hat,<br>"
+						+ "gewinnt das Spiel."
+						+ "</html>");
+				topPanel.add(che_label, c);
 				
 				c.gridy = 2;
 				OptionTable options_che = new OptionTable(
