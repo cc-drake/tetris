@@ -7,12 +7,12 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.config.GameMode;
 import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
 import de.drake.tetris.states.GameState;
-import de.drake.tetris.util.GameMode;
 import de.drake.tetris.util.Position;
 
 /**
@@ -274,27 +274,30 @@ public class PlayerPanel extends JPanel {
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		g.drawString(this.spieler.getName(), 
 				this.offsetX_i, this.offsetY_i + 1 * fontsize);
-		if (Config.timeLimit == 0) {
-			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVergangeneZeit()),
+		if (GameMode.timeLimit == 0) {
+			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVergangeneZeitSec()),
 					this.offsetX_i, this.offsetY_i + 3 * fontsize);
 		} else {
-			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVerbleibendeZeit()),
+			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVerbleibendeZeitSec()),
 					this.offsetX_i, this.offsetY_i + 3 * fontsize);
 		}
 				
 		g.drawString("Steine: " + this.spieler.getAnzahlSteine(),
 				this.offsetX_i, this.offsetY_i + 5 * fontsize);
-		if (Config.gameMode == GameMode.RACE) {
+		if (GameMode.gameMode == GameMode.RACE) {
 			g.drawString("Reihen: " + this.spieler.getVerbleibendeReihen(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
-		} else if (Config.gameMode == GameMode.CHEESE){
+		} else if (GameMode.gameMode == GameMode.CHEESE){
 			g.drawString("Reihen: " + this.spieler.getCheeseReihen(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		} else {
 			g.drawString("Reihen: " + this.spieler.getFertigeReihen(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		}
-		
+		if (GameMode.gameMode == GameMode.COMBAT) {
+			g.drawString("Neu: " + this.spieler.getWartendeReihen(),
+					this.offsetX_i, this.offsetY_i + 9 * fontsize);
+		}
 		
 	}
 	

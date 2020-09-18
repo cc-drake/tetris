@@ -5,9 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComponent;
 
-import de.drake.tetris.config.Config;
+import de.drake.tetris.config.GameMode;
 import de.drake.tetris.screens.ModeScreen;
-import de.drake.tetris.util.GameMode;
 
 /**
  * Der ModeState erlaubt die Auswahl des Spielmodus
@@ -43,36 +42,36 @@ public class ModeState extends State implements ActionListener {
 			State.setCurrentState(State.startState);
 		}
 		if (e.getActionCommand() == GameMode.SOLITAER.toString()) {
-			Config.timeLimit = this.screen.getTimeLimit(GameMode.SOLITAER);
-			Config.speedIncreaseRow = this.screen.getSpeedIncreaseRow();
-			Config.speedIncreaseSec = 0.;
-			Config.raceRows = 0;
-			Config.cheeseRows = 0;
-			Config.gameMode = GameMode.SOLITAER;
+			GameMode.timeLimit = 0;
+			GameMode.speedIncreaseRow = this.screen.getSpeedIncreaseRow();
+			GameMode.speedIncreaseSec = 0.;
+			GameMode.raceRows = 0;
+			GameMode.cheeseRows = 0;
+			GameMode.gameMode = GameMode.SOLITAER;
 		}
 		if (e.getActionCommand() == GameMode.COMBAT.toString()) {
-			Config.timeLimit = this.screen.getTimeLimit(GameMode.COMBAT);
-			Config.speedIncreaseRow = 0.;
-			Config.speedIncreaseSec = this.screen.getSpeedIncreaseSec();
-			Config.raceRows = 0;
-			Config.cheeseRows = 0;
-			Config.gameMode = GameMode.COMBAT;
+			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.COMBAT);
+			GameMode.speedIncreaseRow = 0.;
+			GameMode.speedIncreaseSec = this.screen.getSpeedIncreaseSec();
+			GameMode.raceRows = 0;
+			GameMode.cheeseRows = 0;
+			GameMode.gameMode = GameMode.COMBAT;
 		}
 		if (e.getActionCommand() == GameMode.RACE.toString()) {
-			Config.timeLimit = this.screen.getTimeLimit(GameMode.RACE);
-			Config.speedIncreaseRow = 0.;
-			Config.speedIncreaseSec = 0.;
-			Config.raceRows = this.screen.getRaceRows();
-			Config.cheeseRows = 0;
-			Config.gameMode = GameMode.RACE;
+			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.RACE);
+			GameMode.speedIncreaseRow = 0.;
+			GameMode.speedIncreaseSec = 0.;
+			GameMode.raceRows = this.screen.getRaceRows();
+			GameMode.cheeseRows = 0;
+			GameMode.gameMode = GameMode.RACE;
 		}
 		if (e.getActionCommand() == GameMode.CHEESE.toString()) {
-			Config.timeLimit = this.screen.getTimeLimit(GameMode.CHEESE);
-			Config.speedIncreaseRow = 0.;
-			Config.speedIncreaseSec = 0.;
-			Config.raceRows = 0;
-			Config.cheeseRows = this.screen.getCheeseRows();
-			Config.gameMode = GameMode.CHEESE;
+			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.CHEESE);
+			GameMode.speedIncreaseRow = 0.;
+			GameMode.speedIncreaseSec = 0.;
+			GameMode.raceRows = 0;
+			GameMode.cheeseRows = this.screen.getCheeseRows();
+			GameMode.gameMode = GameMode.CHEESE;
 		}
 		State.setCurrentState(new GameState());
 	}

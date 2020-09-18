@@ -16,13 +16,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.config.GameMode;
 import de.drake.tetris.screens.comp.ComponentFactory;
 import de.drake.tetris.screens.comp.ListSpinner;
 import de.drake.tetris.screens.comp.OptionTable;
 import de.drake.tetris.screens.comp.NumberSpinner;
 import de.drake.tetris.screens.comp.TimeSpinner;
 import de.drake.tetris.states.ModeState;
-import de.drake.tetris.util.GameMode;
 
 public class ModeScreen extends JScrollPane {
 	
@@ -31,8 +31,6 @@ public class ModeScreen extends JScrollPane {
 	private static Color optionColor = Color.white;
 	
 	private static Color optionBgColor = Color.darkGray;
-	
-	private final JSpinner timeLimit_sol;
 	
 	private final JSpinner timeLimit_com;
 	
@@ -83,97 +81,94 @@ public class ModeScreen extends JScrollPane {
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						"Solitär", Color.green, ModeScreen.optionBgColor, 50), c);
+						GameMode.SOLITAER, Color.green, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_sol = new OptionTable(
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_sol, c);
-				
-					this.timeLimit_sol = new TimeSpinner(Config.timeLimit);
-					options_sol.addOption("Zeitlimit (mm:ss)", this.timeLimit_sol);
 					
 					this.speedIncreaseRow = new NumberSpinner(
-							Config.speedIncreaseRow, 0., 100., 0.1);
+							GameMode.speedIncreaseRow, 0., 100., 0.1);
 					options_sol.addOption("Beschleunigung je Reihe (%)", this.speedIncreaseRow);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", GameMode.SOLITAER.toString(), listener), c);
+						"Wählen", GameMode.SOLITAER, listener), c);
 				
 				//Zweite Inhalts-Spalte - Combat
 				c.gridx = 1;
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						"Combat", Color.red, ModeScreen.optionBgColor, 50), c);
+						GameMode.COMBAT, Color.red, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_com = new OptionTable(
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_com, c);
 				
-					this.timeLimit_com = new TimeSpinner(Config.timeLimit);
+					this.timeLimit_com = new TimeSpinner(GameMode.timeLimit);
 					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimit_com);
 					
 					this.speedIncreaseSec = new NumberSpinner(
-							Config.speedIncreaseSec, 0., 10., 0.1);
+							GameMode.speedIncreaseSec, 0., 10., 0.1);
 					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
-					String[] values = {"Classic", "Evil", "Peaceful"};
+					String[] values = {"Classic", "Badass", "Peaceful"};
 					ListSpinner combatType = new ListSpinner(
 							values);
 					options_com.addOption("Battlemode", combatType);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", GameMode.COMBAT.toString(), listener), c);
+						"Wählen", GameMode.COMBAT, listener), c);
 				
 				//Dritte Inhalts-Spalte - Race
 				c.gridx = 2;
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						"Race", Color.blue, ModeScreen.optionBgColor, 50), c);
+						GameMode.RACE, Color.blue, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_race = new OptionTable(
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_race, c);
 				
-					this.timeLimit_race = new TimeSpinner(Config.timeLimit);
+					this.timeLimit_race = new TimeSpinner(GameMode.timeLimit);
 					options_race.addOption("Zeitlimit (mm:ss)", this.timeLimit_race);
 					
 					this.raceRows = new NumberSpinner(
-							Config.raceRows, 1, 9999, 1);
+							GameMode.raceRows, 1, 9999, 1);
 					options_race.addOption("Reihen", this.raceRows);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", GameMode.RACE.toString(), listener), c);
+						"Wählen", GameMode.RACE, listener), c);
 				
 				//Vierte Inhalts-Spalte - Cheese
 				c.gridx = 3;
 				
 				c.gridy = 1;
 				topPanel.add(ComponentFactory.createLabel(
-						"Cheese", Color.yellow, ModeScreen.optionBgColor, 50), c);
+						GameMode.CHEESE, Color.yellow, ModeScreen.optionBgColor, 50), c);
 				
 				c.gridy = 2;
 				OptionTable options_che = new OptionTable(
 						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
 				topPanel.add(options_che, c);
 				
-					this.timeLimit_che = new TimeSpinner(Config.timeLimit);
+					this.timeLimit_che = new TimeSpinner(GameMode.timeLimit);
 					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimit_che);
 					
 					this.cheeseRows = new NumberSpinner(
-							Config.cheeseRows, 1, Config.hoehe - Config.getMaxSteinSize(), 1);
+							GameMode.cheeseRows, 1, Config.hoehe - Config.getMaxSteinSize(), 1);
 					options_che.addOption("Reihen", this.cheeseRows);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
-						"Wählen", GameMode.CHEESE.toString(), listener), c);
+						"Wählen", GameMode.CHEESE, listener), c);
 				
 			JPanel bottomPanel = new JPanel();
 			bottomPanel.setBackground(Color.black);
@@ -184,15 +179,15 @@ public class ModeScreen extends JScrollPane {
 				
 	}
 	
-	public int getTimeLimit(final GameMode mode) {
+	public int getTimeLimit(final String gameMode) {
 		Date value = null;
-		if (mode == GameMode.SOLITAER)
-			value = (Date) this.timeLimit_sol.getValue();
-		if (mode == GameMode.COMBAT)
+		if (gameMode == GameMode.SOLITAER)
+			return 0;
+		if (gameMode == GameMode.COMBAT)
 			value = (Date) this.timeLimit_com.getValue();
-		if (mode == GameMode.RACE)
+		if (gameMode == GameMode.RACE)
 			value = (Date) this.timeLimit_race.getValue();
-		if (mode == GameMode.CHEESE)
+		if (gameMode == GameMode.CHEESE)
 			value = (Date) this.timeLimit_che.getValue();
 		Calendar date = Calendar.getInstance();
 		date.setTime(value);

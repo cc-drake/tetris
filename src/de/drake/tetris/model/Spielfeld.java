@@ -4,14 +4,16 @@ import java.util.HashMap;
 import java.util.Random;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.config.GameMode;
 import de.drake.tetris.util.Color;
-import de.drake.tetris.util.GameMode;
 import de.drake.tetris.util.Position;
 
 /**
  * Das Spielfeld von Tetris, in dem der Stein fällt.
  */
 public class Spielfeld {
+	
+	final private Random random;
 	
 	/**
 	 * Die Anzahl zusätzlicher, nicht sichtbarer Zeilen oberhalb des Spielfelds.
@@ -30,36 +32,41 @@ public class Spielfeld {
 	 * @param seed Startwert für den Zufallsgenerator zur Erzeugung von Cheese-Rows
 	 */
 	Spielfeld(final long seed) {
+		this.random = new Random(seed);
 		for (int x = 0; x < Config.breite; x++) {
 			for (int y = -this.zusatzzeilen; y < Config.hoehe; y++) {
 				this.felder.put(new Position(x, y), new Feld());
 			}
 		}
 		
-		if (Config.gameMode == GameMode.CHEESE)
-			this.generateCheeseRows(seed);
+		if (GameMode.gameMode == GameMode.CHEESE)
+			this.generateCheeseRows(GameMode.cheeseRows);
 	}
 	
-	private void generateCheeseRows(final long seed) {
-		Random random = new Random(seed);
+	void generateCheeseRows(final int rows) {
 		
-		int rand = random.nextInt(Config.breite);
+		for (int y = -this.zusatzzeilen; y < Config.hoehe - rows; y++) {
+			for (int x = 0; x < Config.breite; x++) {
+				this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y + rows)));
+			}
+		}
+
+		int rand = this.random.nextInt(Config.breite);
 		int lastRand = Integer.MAX_VALUE;
 		
-		for (int zeile = 0; zeile < Config.cheeseRows; zeile++) {
+		for (int zeile = 0; zeile < rows; zeile++) {
 			
 			for (int spalte = 0; spalte < Config.breite; spalte++) {
 				this.felder.get(new Position(spalte, Config.hoehe - zeile - 1)).setCheese(true);
 			}
 			
 			while (rand == lastRand) {
-				rand = random.nextInt(Config.breite);
+				rand = this.random.nextInt(Config.breite);
 			}
 			this.felder.get(new Position(rand, Config.hoehe - zeile - 1)).setCheese(false);
 			lastRand = rand;
 			
 		}
-		
 	}
 
 	/**
@@ -147,4 +154,5 @@ public class Spielfeld {
 		}
 		return result;
 	}
+
 }

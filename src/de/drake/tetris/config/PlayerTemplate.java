@@ -9,9 +9,9 @@ public class PlayerTemplate {
 	public static ArrayList<PlayerTemplate> createPlayerTemplates() {
 		ArrayList<PlayerTemplate> result = new ArrayList<PlayerTemplate>();
 		result.add(new PlayerTemplate("Player", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1(), 2.));
-//		result.add(new PlayerTemplate("Player GP", InputManager.GAMEPAD_0, KeyBinding.createKeyBindingGamePad(), 2.));
-//		result.add(new PlayerTemplate("Player 1", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1P1(), 2.));
-//		result.add(new PlayerTemplate("Player 2", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1P2(), 2.));
+		result.add(new PlayerTemplate("Player GP", InputManager.GAMEPAD_0, KeyBinding.createKeyBindingGamePad(), 2.));
+		result.add(new PlayerTemplate("Player 1", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1P1(), 2.));
+		result.add(new PlayerTemplate("Player 2", InputManager.KEYBOARD, KeyBinding.createKeyBindingP1P2(), 2.));
 		return result;
 	}
 	

@@ -17,7 +17,6 @@ class Game {
 		State.setCurrentState(State.startState);
 		GameLoop gameLoop = new GameLoop(this);
 		gameLoop.start();
-		
 	}
 	
 	void tick() {

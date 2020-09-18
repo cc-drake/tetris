@@ -1,6 +1,8 @@
 package de.drake.tetris.model;
 
-import de.drake.tetris.config.Config;
+import java.util.Random;
+
+import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
@@ -31,6 +33,11 @@ public class Spieler {
 	 * Der InputManager, über den der Spieler gesteuert wird.
 	 */
 	private final InputManager inputManager;
+	
+	/**
+	 * Der GameState, der das aktuelle Spiel verwaltet.
+	 */
+	private GameState gameState;
 	
 	/**
 	 * Das Spielfeld, in dem die Steine fallen.
@@ -68,14 +75,19 @@ public class Spieler {
 	private long letzteSeczeit = 0;
 	
 	/**
-	 * Die Spielzeit des Spielers in Sekunden.
+	 * Die Spielzeit des Spielers in Nanosekunden.
 	 */
-	private int LaufzeitSec = 0;
+	private long laufzeit = 0;
 	
 	/**
 	 * Die Anzahl der Reihen, die fertiggestellt wurden.
 	 */
 	private int fertigeReihen = 0;
+	
+	/**
+	 * Die Anzahl der Reihen, die dem Spieler "draufgeworfen" werden sollen
+	 */
+	private int wartendeReihen = 0;
 	
 	/**
 	 * Die Anzahl der Steine, die bereits gesetzt wurden.
@@ -104,8 +116,10 @@ public class Spieler {
 		default:
 			this.inputManager = new GamepadManager(gameState.getScreen(), 1, playerTemplate.getKeyBinding());
 		}
-		this.spielfeld = new Spielfeld(seed);
-		this.steinFactory = new SteinFactory(seed);
+		this.gameState = gameState;
+		Random random = new Random(seed);
+		this.spielfeld = new Spielfeld(random.nextLong());
+		this.steinFactory = new SteinFactory(random.nextLong());
 		this.stein = this.steinFactory.erzeugeRandomStein();
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
 	}
@@ -162,7 +176,7 @@ public class Spieler {
 		if (this.state != Spieler.ACTIVE)
 			return;
 		
-		this.LaufzeitSec = (int) (laufzeitIndex / 1000000000.);
+		this.laufzeit = laufzeitIndex;
 		
 		switch (gameStateState) {
 		case GameState.RUNNING:
@@ -175,7 +189,7 @@ public class Spieler {
 			
 			if ((laufzeitIndex - this.letzteSeczeit) >= 1000000000.) {
 				this.letzteSeczeit += 1000000000.;
-				this.speed *= (1 + Config.speedIncreaseSec / 100.);
+				this.speed *= (1 + GameMode.speedIncreaseSec / 100.);
 			}
 
 		default:
@@ -224,7 +238,10 @@ public class Spieler {
 		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
 		this.fertigeReihen += entfernteReihen;
 		for (int i = 0; i < entfernteReihen; i++) {
-			this.speed *= (1 + Config.speedIncreaseRow / 100.);
+			this.speed *= (1 + GameMode.speedIncreaseRow / 100.);
+		}
+		if (GameMode.gameMode == GameMode.COMBAT) {
+			this.gameState.draufwerfen(this, entfernteReihen);//TODO
 		}
 		this.anzahlSteine++;
 		this.stein = this.nächsterStein;
@@ -232,9 +249,15 @@ public class Spieler {
 		for (Position position : this.stein.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
 				this.state = Spieler.UNDEF;
-				break;
+				return;
 			}
 		}
+		this.spielfeld.generateCheeseRows(this.wartendeReihen);
+		this.wartendeReihen = 0;
+	}
+	
+	public void addRows(final int rows) {
+		this.wartendeReihen += rows;
 	}
 	
 	/**
@@ -280,17 +303,24 @@ public class Spieler {
 	}
 	
 	/**
+	 * Gibt die vergangene Zeit in Nanosekunden zurück.
+	 */
+	public long getLaufzeit() {
+		return this.laufzeit;
+	}
+	
+	/**
 	 * Gibt die vergangene Zeit in Sekunden zurück.
 	 */
-	public int getVergangeneZeit() {
-		return this.LaufzeitSec;
+	public int getVergangeneZeitSec() {
+		return (int) (this.laufzeit / 1000000000.);
 	}
 	
 	/**
 	 * Gibt die verbleibende Spielzeit in Sekunden zurück.
 	 */
-	public int getVerbleibendeZeit() {
-		return Config.timeLimit - this.LaufzeitSec;
+	public int getVerbleibendeZeitSec() {
+		return GameMode.timeLimit - this.getVergangeneZeitSec();
 	}
 	
 	/**
@@ -311,7 +341,7 @@ public class Spieler {
 	 * Gibt die verbleibende Zahl zu eliminierender Reihen zurück.
 	 */
 	public int getVerbleibendeReihen() {
-		return Config.raceRows - this.fertigeReihen;
+		return GameMode.raceRows - this.fertigeReihen;
 	}
 	
 	/**
@@ -319,6 +349,10 @@ public class Spieler {
 	 */
 	public int getCheeseReihen() {
 		return this.spielfeld.getCheeseReihen();
+	}
+
+	public int getWartendeReihen() {
+		return this.wartendeReihen;
 	}
 	
 }

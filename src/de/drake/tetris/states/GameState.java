@@ -5,13 +5,12 @@ import java.util.Random;
 
 import javax.swing.JComponent;
 
-import de.drake.tetris.config.Config;
+import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.input.gamepad.GamepadMonitor;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.screens.GameScreen;
 import de.drake.tetris.util.Action;
-import de.drake.tetris.util.GameMode;
 
 /**
  * Der PlayState verwaltet das aktive Tetris-Spiel.
@@ -159,30 +158,33 @@ public class GameState extends State {
 		
 		//Variablen initialisieren und zugebaute Spieler auf LOSER setzen
 		boolean timeout = false;
-		if (Config.timeLimit > 0 && this.laufzeitNano / 1000000000. >= Config.timeLimit)
+		if (GameMode.timeLimit > 0 && this.laufzeitNano / 1000000000. >= GameMode.timeLimit)
 			timeout = true;
 		
 		int anzahlSpieler = this.spielerliste.size();
 		int anzahlAktiveSpieler = 0;
 		int maxReihen = 0;
+		long maxTime = 0;
 		int minRaceReihen = Integer.MAX_VALUE;
 		int minCheeseReihen = Integer.MAX_VALUE;
 		for (Spieler spieler : this.spielerliste) {
-			if (spieler.hasState(Spieler.UNDEF) && Config.gameMode != GameMode.SOLITAER)
+			if (spieler.hasState(Spieler.UNDEF) && GameMode.gameMode != GameMode.SOLITAER)
 				spieler.setState(Spieler.LOSER);
 			if (spieler.hasState(Spieler.ACTIVE))
 				anzahlAktiveSpieler++;
 			if (spieler.getFertigeReihen() > maxReihen)
 				maxReihen = spieler.getFertigeReihen();
-			if (Config.gameMode == GameMode.RACE && spieler.getVerbleibendeReihen() < minRaceReihen)
+			if (spieler.getLaufzeit() > maxTime)
+				maxTime = spieler.getLaufzeit();
+			if (GameMode.gameMode == GameMode.RACE && spieler.getVerbleibendeReihen() < minRaceReihen)
 				minRaceReihen = spieler.getVerbleibendeReihen();
-			if (Config.gameMode == GameMode.CHEESE && spieler.getCheeseReihen() < minCheeseReihen)
+			if (GameMode.gameMode == GameMode.CHEESE && spieler.getCheeseReihen() < minCheeseReihen)
 				minCheeseReihen = spieler.getCheeseReihen();
 		}
 		
-		switch (Config.gameMode) {
+		switch (GameMode.gameMode) {
 		
-		case SOLITAER:
+		case GameMode.SOLITAER:
 			if (timeout || anzahlAktiveSpieler == 0) {
 				for (Spieler spieler : this.spielerliste) {
 					if (spieler.getFertigeReihen() == maxReihen) {
@@ -195,10 +197,10 @@ public class GameState extends State {
 			}
 			break;
 			
-		case COMBAT:
+		case GameMode.COMBAT:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)) {
 				for (Spieler spieler : this.spielerliste) {
-					if (spieler.hasState(Spieler.ACTIVE)) {
+					if (spieler.hasState(Spieler.ACTIVE) || (anzahlAktiveSpieler == 0 && spieler.getLaufzeit() == maxTime)) {
 						spieler.setState(Spieler.WINNER);
 					}
 				}
@@ -206,7 +208,7 @@ public class GameState extends State {
 			}
 			break;
 		
-		case RACE:
+		case GameMode.RACE:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minRaceReihen == 0) {
 				for (Spieler spieler : this.spielerliste) {
@@ -221,7 +223,7 @@ public class GameState extends State {
 			}
 			break;
 		
-		case CHEESE:
+		case GameMode.CHEESE:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minCheeseReihen == 0) {
 				for (Spieler spieler : this.spielerliste) {
@@ -244,6 +246,14 @@ public class GameState extends State {
 			monitor.stopThread();
 		}
 		State.setCurrentState(State.startState);
+	}
+	
+	public void draufwerfen(final Spieler werfer, final int rows) {
+		for (Spieler spieler : this.spielerliste) {
+			if (spieler == werfer)
+				continue;
+			spieler.addRows(rows);
+		}
 	}
 
 	@Override
