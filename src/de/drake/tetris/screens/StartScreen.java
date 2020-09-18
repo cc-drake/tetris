@@ -34,8 +34,6 @@ public class StartScreen extends JScrollPane {
 				buttonPanel.add(ComponentFactory.createButton
 						(StartState.newGame, listener));
 				buttonPanel.add(ComponentFactory.createButton
-						(StartState.run, listener));//TODO
-				buttonPanel.add(ComponentFactory.createButton
 						(StartState.endGame, listener));
 		
 	}

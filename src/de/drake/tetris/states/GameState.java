@@ -250,7 +250,7 @@ public class GameState extends State {
 	
 	public void draufwerfen(final Spieler werfer, final int rows) {
 		for (Spieler spieler : this.spielerliste) {
-			if (spieler == werfer)
+			if (spieler == werfer || !spieler.hasState(Spieler.ACTIVE))
 				continue;
 			spieler.addRows(rows);
 		}

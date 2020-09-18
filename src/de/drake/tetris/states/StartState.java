@@ -18,7 +18,6 @@ public class StartState extends State implements ActionListener {
 	private final StartScreen screen;
 	
 	public final static String newGame = "Neues Spiel";
-	public final static String run = "Run (Remove later)";//TODO
 	public final static String endGame = "Beenden";
 	
 	/**
@@ -32,8 +31,6 @@ public class StartState extends State implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == StartState.newGame)
 			State.setCurrentState(State.modeState);
-		if (e.getActionCommand() == StartState.run)//TODO
-			State.setCurrentState(new GameState());
 		if (e.getActionCommand() == StartState.endGame)
 			System.exit(0);
 	}

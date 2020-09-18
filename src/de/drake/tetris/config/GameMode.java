@@ -10,10 +10,26 @@ public class GameMode {
 	
 	final public static String CHEESE = "Cheese";
 	
+	final public static String COMBAT_CLASSIC = "Classic";
+	
+	final public static String COMBAT_BADASS = "Badass";
+	
+	final public static String COMBAT_PEACE = "Peace";
+	
+	/**
+	 * Gibt an, welchen Modus das Spiel besitzt.
+	 */
+	public static String gameMode;
+	
 	/**
 	 * Das Zeitlimit in Sekunden, nach dem das Spiel beendet wird.
 	 */
 	public static int timeLimit = 0;
+	
+	/**
+	 * Die Logik, nach der fertige Reihen den Gegnern "draufgeworfen" werden.
+	 */
+	public static String combatType = GameMode.COMBAT_PEACE;
 	
 	/**
 	 * Die Beschleunigung nach Elimination einer Reihe in %
@@ -34,10 +50,5 @@ public class GameMode {
 	 * Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind.
 	 */
 	public static int cheeseRows = 9;
-	
-	/**
-	 * Gibt an, welchen Modus das Spiel besitzt.
-	 */
-	public static String gameMode;
 	
 }

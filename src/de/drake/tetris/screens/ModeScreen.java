@@ -46,6 +46,8 @@ public class ModeScreen extends JScrollPane {
 	
 	private final JSpinner cheeseRows;
 	
+	private final JSpinner combatType;
+	
 	/**
 	 * Die Default Serial ID
 	 */
@@ -115,10 +117,10 @@ public class ModeScreen extends JScrollPane {
 							GameMode.speedIncreaseSec, 0., 10., 0.1);
 					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
-					String[] values = {"Classic", "Badass", "Peaceful"};
-					ListSpinner combatType = new ListSpinner(
+					String[] values = {GameMode.COMBAT_CLASSIC, GameMode.COMBAT_BADASS, GameMode.COMBAT_PEACE};
+					this.combatType = new ListSpinner(
 							values);
-					options_com.addOption("Battlemode", combatType);
+					options_com.addOption("Battlemodus", combatType);
 					
 				c.gridy = 3;
 				topPanel.add(ComponentFactory.createButton(
@@ -192,6 +194,10 @@ public class ModeScreen extends JScrollPane {
 		Calendar date = Calendar.getInstance();
 		date.setTime(value);
 		return date.get(Calendar.MINUTE) * 60 + date.get(Calendar.SECOND);
+	}
+	
+	public String getCombatType() {
+		return (String) this.combatType.getValue();
 	}
 
 	public double getSpeedIncreaseRow() {

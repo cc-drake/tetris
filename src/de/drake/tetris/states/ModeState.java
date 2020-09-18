@@ -48,6 +48,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.raceRows = 0;
 			GameMode.cheeseRows = 0;
 			GameMode.gameMode = GameMode.SOLITAER;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
 		if (e.getActionCommand() == GameMode.COMBAT.toString()) {
 			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.COMBAT);
@@ -56,6 +57,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.raceRows = 0;
 			GameMode.cheeseRows = 0;
 			GameMode.gameMode = GameMode.COMBAT;
+			GameMode.combatType = this.screen.getCombatType();
 		}
 		if (e.getActionCommand() == GameMode.RACE.toString()) {
 			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.RACE);
@@ -64,6 +66,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.raceRows = this.screen.getRaceRows();
 			GameMode.cheeseRows = 0;
 			GameMode.gameMode = GameMode.RACE;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
 		if (e.getActionCommand() == GameMode.CHEESE.toString()) {
 			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.CHEESE);
@@ -72,6 +75,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.raceRows = 0;
 			GameMode.cheeseRows = this.screen.getCheeseRows();
 			GameMode.gameMode = GameMode.CHEESE;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
 		State.setCurrentState(new GameState());
 	}

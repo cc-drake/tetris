@@ -235,14 +235,32 @@ public class Spieler {
 		for (Position position : this.stein.getPositionen()) {
 			this.spielfeld.block(position, this.stein.getColor());
 		}
+		this.spielfeld.generateCheeseRows(this.wartendeReihen);
+		this.wartendeReihen = 0;
 		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
 		this.fertigeReihen += entfernteReihen;
 		for (int i = 0; i < entfernteReihen; i++) {
 			this.speed *= (1 + GameMode.speedIncreaseRow / 100.);
 		}
-		if (GameMode.gameMode == GameMode.COMBAT) {
-			this.gameState.draufwerfen(this, entfernteReihen);//TODO
+		int draufwerfen = 0;
+		if (GameMode.combatType == GameMode.COMBAT_CLASSIC) {
+			switch (entfernteReihen) {
+			case 0:
+			case 1:
+				draufwerfen = 0;
+				break;
+			case 2:
+			case 3:
+				draufwerfen = entfernteReihen - 1;
+				break;
+			default:
+				draufwerfen = entfernteReihen;
+			}
 		}
+		if (GameMode.combatType == GameMode.COMBAT_BADASS) {
+			draufwerfen = entfernteReihen;
+		}
+		this.gameState.draufwerfen(this, draufwerfen);
 		this.anzahlSteine++;
 		this.stein = this.nächsterStein;
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
@@ -252,8 +270,6 @@ public class Spieler {
 				return;
 			}
 		}
-		this.spielfeld.generateCheeseRows(this.wartendeReihen);
-		this.wartendeReihen = 0;
 	}
 	
 	public void addRows(final int rows) {

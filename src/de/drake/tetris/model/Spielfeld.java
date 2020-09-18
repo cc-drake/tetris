@@ -15,6 +15,8 @@ public class Spielfeld {
 	
 	final private Random random;
 	
+	private int lastRand = Integer.MAX_VALUE;
+	
 	/**
 	 * Die Anzahl zusätzlicher, nicht sichtbarer Zeilen oberhalb des Spielfelds.
 	 * Diese werden benötigt, wenn ein in der obersten Zeile befindlicher Stein gedreht wird
@@ -45,28 +47,29 @@ public class Spielfeld {
 	
 	void generateCheeseRows(final int rows) {
 		
-		for (int y = -this.zusatzzeilen; y < Config.hoehe - rows; y++) {
-			for (int x = 0; x < Config.breite; x++) {
-				this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y + rows)));
-			}
+		for (int i = 0; i < rows; i++) {
+			this.generateCheeseRow();
 		}
+	}
 
-		int rand = this.random.nextInt(Config.breite);
-		int lastRand = Integer.MAX_VALUE;
-		
-		for (int zeile = 0; zeile < rows; zeile++) {
-			
-			for (int spalte = 0; spalte < Config.breite; spalte++) {
-				this.felder.get(new Position(spalte, Config.hoehe - zeile - 1)).setCheese(true);
+	private void generateCheeseRow() {
+		for (int y = -this.zusatzzeilen; y < Config.hoehe - 1; y++) {
+			for (int x = 0; x < Config.breite; x++) {
+				this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y + 1)));
 			}
-			
-			while (rand == lastRand) {
-				rand = this.random.nextInt(Config.breite);
-			}
-			this.felder.get(new Position(rand, Config.hoehe - zeile - 1)).setCheese(false);
-			lastRand = rand;
-			
 		}
+		
+		for (int spalte = 0; spalte < Config.breite; spalte++) {
+			this.felder.get(new Position(spalte, Config.hoehe - 1)).setCheese(true);
+		}
+		
+		int rand = this.lastRand;
+		while (rand == lastRand) {
+			rand = this.random.nextInt(Config.breite);
+		}
+		this.felder.get(new Position(rand, Config.hoehe - 1)).setCheese(false);
+		this.lastRand = rand;
+		
 	}
 
 	/**
