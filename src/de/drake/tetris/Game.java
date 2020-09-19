@@ -1,6 +1,7 @@
 package de.drake.tetris;
 
 import de.drake.tetris.gfx.Assets;
+import de.drake.tetris.input.gamepad.Gamepad;
 import de.drake.tetris.screens.Display;
 import de.drake.tetris.states.State;
 
@@ -14,6 +15,7 @@ class Game {
 	Game() {
 		Assets.init();
 		this.display = new Display();
+		Gamepad.init(this.display);
 		State.setCurrentState(State.startState);
 		GameLoop gameLoop = new GameLoop(this);
 		gameLoop.start();

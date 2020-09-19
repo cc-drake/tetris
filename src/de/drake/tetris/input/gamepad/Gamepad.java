@@ -2,96 +2,74 @@ package de.drake.tetris.input.gamepad;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import de.drake.tetris.config.Config;
-
+import de.drake.tetris.screens.Display;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Controller.Type;
 
-public class GamepadMonitor extends Thread {
+public class Gamepad extends Thread {
 	
-	public final static HashSet<GamepadMonitor> gamepadMonitors = new HashSet<GamepadMonitor>();
+	public final static ArrayList<Gamepad> gamepads = new ArrayList<Gamepad>();
 	
-	private boolean stop = false;
+	private final Controller controller;
 	
-	private Controller controller;
+	private final Component pov;
 	
-	private Component pov;
-	
-	private GamepadKey up;
-	private GamepadKey down;
-	private GamepadKey left;
-	private GamepadKey right;
+	private final GamepadKey up;
+	private final GamepadKey down;
+	private final GamepadKey left;
+	private final GamepadKey right;
 	
 	private final HashMap<Component, GamepadKey> component2button = new HashMap<Component, GamepadKey>();
 	
-	public GamepadMonitor(final java.awt.Component inputSource, final int gamepadNr) {
-		GamepadMonitor.gamepadMonitors.add(this);
-		int currentGamepadNr = 0;
-		for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
-			if (!controller.getType().equals(Type.GAMEPAD))
-        		continue;
-			if (currentGamepadNr == gamepadNr) {
-				this.controller = controller;
-				break;
-			} else {
-				currentGamepadNr++;
-			}
-		}
-		if (this.controller != null) {
-			this.pov = controller.getComponent(Identifier.Axis.POV);
-			this.up = new GamepadKey(inputSource, KeyEvent.VK_UP, '?');
-			this.down = new GamepadKey(inputSource, KeyEvent.VK_DOWN, '?');
-			this.left = new GamepadKey(inputSource, KeyEvent.VK_LEFT, '?');
-			this.right = new GamepadKey(inputSource, KeyEvent.VK_RIGHT, '?');
-			
-			this.component2button.put(controller.getComponent(Identifier.Button._0),
-					new GamepadKey(inputSource, KeyEvent.VK_0, '0'));
-			this.component2button.put(controller.getComponent(Identifier.Button._1),
-					new GamepadKey(inputSource, KeyEvent.VK_1, '1'));
-			this.component2button.put(controller.getComponent(Identifier.Button._2),
-					new GamepadKey(inputSource, KeyEvent.VK_2, '2'));
-			this.component2button.put(controller.getComponent(Identifier.Button._3),
-					new GamepadKey(inputSource, KeyEvent.VK_3, '3'));
-			this.component2button.put(controller.getComponent(Identifier.Button._4),
-					new GamepadKey(inputSource, KeyEvent.VK_4, '4'));
-			this.component2button.put(controller.getComponent(Identifier.Button._5),
-					new GamepadKey(inputSource, KeyEvent.VK_5, '5'));
-			this.component2button.put(controller.getComponent(Identifier.Button._6),
-					new GamepadKey(inputSource, KeyEvent.VK_6, '6'));
-			this.component2button.put(controller.getComponent(Identifier.Button._7),
-					new GamepadKey(inputSource, KeyEvent.VK_7, '7'));
-			this.component2button.put(controller.getComponent(Identifier.Button._8),
-					new GamepadKey(inputSource, KeyEvent.VK_8, '8'));
-			this.component2button.put(controller.getComponent(Identifier.Button._9),
-					new GamepadKey(inputSource, KeyEvent.VK_9, '9'));
-			this.component2button.remove(null);
-		}
+	public Gamepad(final Display display, final Controller controller) {
+		this.controller = controller;
+		this.pov = controller.getComponent(Identifier.Axis.POV);
+		this.up = new GamepadKey(display, KeyEvent.VK_UP, '\u2191');
+		this.down = new GamepadKey(display, KeyEvent.VK_DOWN, '\u2193');
+		this.left = new GamepadKey(display, KeyEvent.VK_LEFT, '\u2190');
+		this.right = new GamepadKey(display, KeyEvent.VK_RIGHT, '\u2192');
+		
+		this.component2button.put(controller.getComponent(Identifier.Button._0),
+				new GamepadKey(display, KeyEvent.VK_0, '0'));
+		this.component2button.put(controller.getComponent(Identifier.Button._1),
+				new GamepadKey(display, KeyEvent.VK_1, '1'));
+		this.component2button.put(controller.getComponent(Identifier.Button._2),
+				new GamepadKey(display, KeyEvent.VK_2, '2'));
+		this.component2button.put(controller.getComponent(Identifier.Button._3),
+				new GamepadKey(display, KeyEvent.VK_3, '3'));
+		this.component2button.put(controller.getComponent(Identifier.Button._4),
+				new GamepadKey(display, KeyEvent.VK_4, '4'));
+		this.component2button.put(controller.getComponent(Identifier.Button._5),
+				new GamepadKey(display, KeyEvent.VK_5, '5'));
+		this.component2button.put(controller.getComponent(Identifier.Button._6),
+				new GamepadKey(display, KeyEvent.VK_6, '6'));
+		this.component2button.put(controller.getComponent(Identifier.Button._7),
+				new GamepadKey(display, KeyEvent.VK_7, '7'));
+		this.component2button.put(controller.getComponent(Identifier.Button._8),
+				new GamepadKey(display, KeyEvent.VK_8, '8'));
+		this.component2button.put(controller.getComponent(Identifier.Button._9),
+				new GamepadKey(display, KeyEvent.VK_9, '9'));
+		this.component2button.remove(null);
 	}
 	
 	@Override
 	public void run() {
-		if (this.controller == null) {
-			return;
-		}
-		
 		long timePerTick = 1000000000L / Config.fps;
 		long lastTick = System.nanoTime();
-		while(this.stop == false) {
+		while(true) {
 			if ((System.nanoTime() - lastTick) >= timePerTick) {
 				lastTick += timePerTick;
-				if (this.controller.poll() == false) {
-					this.controller = null;
+				if (this.controller.poll() == false)
 					return;
-				} else {
 				this.updatePOVKeys();
 				this.updateButtons();
-				}
 			}
 		}
 	}
@@ -153,8 +131,6 @@ public class GamepadMonitor extends Thread {
 	}
 	
 	public void setKeyListener(final KeyListener listener) {
-		if (this.controller == null)
-			return;
 		this.up.setListener(listener);
 		this.right.setListener(listener);
 		this.down.setListener(listener);
@@ -163,11 +139,17 @@ public class GamepadMonitor extends Thread {
 			key.setListener(listener);
 		}
 	}
-	
-	public void stopThread() {
-		this.stop = true;
-	}
 
+	public static void init(final Display display) {
+		for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
+			if (controller.getType().equals(Type.GAMEPAD)) {
+				Gamepad gamepad = new Gamepad(display, controller);
+				Gamepad.gamepads.add(gamepad);
+				gamepad.start();
+			}
+		}
+	}
+	
 	public static void testGamepad() {
 		Controller[] ca = ControllerEnvironment.getDefaultEnvironment().getControllers();
 

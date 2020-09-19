@@ -4,9 +4,7 @@ import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerTemplate;
-import de.drake.tetris.input.GamepadManager;
 import de.drake.tetris.input.InputManager;
-import de.drake.tetris.input.KeyboardManager;
 import de.drake.tetris.states.GameState;
 import de.drake.tetris.util.Action;
 import de.drake.tetris.util.Position;
@@ -104,18 +102,9 @@ public class Spieler {
 	 */
 	public Spieler(final PlayerTemplate playerTemplate, final GameState gameState, final long seed) {
 		this.name = playerTemplate.getName();
-		this.speed = playerTemplate.getSpeed();
-		switch (playerTemplate.getInputManagerType()) {
-		case InputManager.KEYBOARD:
-			this.inputManager = new KeyboardManager(gameState.getScreen(), playerTemplate.getKeyBinding());
-			break;
-		case InputManager.GAMEPAD_0:
-			this.inputManager = new GamepadManager(gameState.getScreen(), 0, playerTemplate.getKeyBinding());
-			break;
-		case InputManager.GAMEPAD_1:
-		default:
-			this.inputManager = new GamepadManager(gameState.getScreen(), 1, playerTemplate.getKeyBinding());
-		}
+		this.inputManager = playerTemplate.getInputManager();
+		this.inputManager.setScreen(gameState.getScreen());
+		this.speed = playerTemplate.getInitialSpeed();
 		this.gameState = gameState;
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());

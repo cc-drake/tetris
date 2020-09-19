@@ -1,15 +1,19 @@
 package de.drake.tetris.input;
 
-import java.awt.Component;
+import javax.swing.JComponent;
 
 import de.drake.tetris.config.KeyBinding;
 
-public class KeyboardManager extends KeyManager {
+public class KeyboardManager extends InputManager {
 
-	public KeyboardManager(final Component inputSource, final KeyBinding keyBinding) {
+	public KeyboardManager(final KeyBinding keyBinding) {
 		super(keyBinding);
-		inputSource.addKeyListener(this);
-		inputSource.addFocusListener(this);
+	}
+
+	@Override
+	public void setScreen(final JComponent screen) {
+		screen.addKeyListener(this);
+		screen.addFocusListener(this);
 	}
 
 }
