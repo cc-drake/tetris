@@ -1,23 +1,25 @@
 package de.drake.tetris.input;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.swing.JComponent;
-
 import de.drake.tetris.config.Config;
-import de.drake.tetris.config.KeyBinding;
 import de.drake.tetris.util.Action;
 
-public abstract class InputManager implements KeyListener, FocusListener {
+public class InputManager implements KeyListener {
 	
-	private final KeyBinding keyBinding;
+	/**
+	 * Speichert die aktuell gedrückten Tasten. Wird benötigt, um das windowseigene 
+	 * Key-Repeat bei gedrückter Taste zu unterdrücken.
+	 */
+	private final HashSet<Key> pressedKeys = new HashSet<Key>();
+	
+	/**
+	 * Die Zuordnung der Keys zu den Aktionen ("Tastenbelegung").
+	 */
+	private final HashMap<Key, Action> key2action;
 	
 	/**
 	 * FIFO-Speicher zum Puffern von Tasteneingaben.
@@ -25,39 +27,32 @@ public abstract class InputManager implements KeyListener, FocusListener {
 	private final ConcurrentLinkedQueue<Action> actionQueue = new ConcurrentLinkedQueue<Action>();
 	
 	/**
-	 * Speichert die KeyCodes der aktuell gedrückten Tasten. Wird benötigt, um das windowseigene 
-	 * Key-Repeat bei gedrückter Taste zu unterdrücken.
-	 */
-	private final HashSet<Integer> pressedKeys = new HashSet<Integer>();
-	
-	/**
 	 * Timer, die beim Gedrückthalten einer Taste nach einer bestimmten Zeit die zugehörige Aktion
 	 * automatisch erneut auslösen.
 	 */
 	private final HashMap<Action, Timer> timers = new HashMap<Action, Timer>();
 	
-	protected InputManager(final KeyBinding keyBinding) {
-		this.keyBinding = keyBinding;
+	public InputManager(final InputDevice device, final HashMap<Key, Action> tastenbelegung) {
+		this.key2action = tastenbelegung;
+		device.addKeyListener(this);
 	}
 	
 	void processKeyTask(final Action action) {
 		this.actionQueue.add(action);
 	}
 	
-	public abstract void setScreen(final JComponent screen);
-	
 	public Action getNextAction() {
 		return this.actionQueue.poll();
 	}
 	
 	@Override
-	public void keyPressed(KeyEvent e) {
-		if (!this.keyBinding.isRelevant(e) || this.pressedKeys.contains(e.getKeyCode())) {
+	public void keyPressed(Key key) {
+		if (this.pressedKeys.contains(key) || !this.key2action.containsKey(key)) {
 			return;
 		}
-		this.pressedKeys.add(e.getKeyCode());
+		this.pressedKeys.add(key);
 			
-		Action action = this.keyBinding.getAction(e);
+		Action action = this.key2action.get(key);
 		this.actionQueue.add(action);
 		if (action == Action.LINKS || action == Action.RECHTS || action == Action.RUNTER) {
 			Timer timer = new Timer(true);
@@ -67,29 +62,14 @@ public abstract class InputManager implements KeyListener, FocusListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		if (this.keyBinding.isRelevant(e)) {
-			this.pressedKeys.remove(e.getKeyCode());
-			
-			Action action = this.keyBinding.getAction(e);
-			if (this.timers.containsKey(action)) {
-				this.timers.get(action).cancel();
-			}
+	public void keyReleased(Key key) {
+		if (!this.pressedKeys.contains(key) || !this.key2action.containsKey(key)) {
+			return;
 		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-	}
-
-	@Override
-	public void focusLost(FocusEvent arg0) {
-		this.pressedKeys.clear();
-		for (Timer timer : this.timers.values()) {
+		this.pressedKeys.remove(key);
+		
+		Timer timer = this.timers.get(this.key2action.get(key));
+		if (timer != null) {
 			timer.cancel();
 		}
 	}

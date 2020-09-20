@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.GameMode;
+import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.screens.ModeScreen;
 
 /**
@@ -77,6 +78,6 @@ public class ModeState extends State implements ActionListener {
 			GameMode.gameMode = GameMode.CHEESE;
 			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
-		State.setCurrentState(new GameState());
+		State.setCurrentState(new GameState(PlayerTemplate.playerTemplates));
 	}
 }

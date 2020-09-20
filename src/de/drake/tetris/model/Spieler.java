@@ -103,7 +103,6 @@ public class Spieler {
 	public Spieler(final PlayerTemplate playerTemplate, final GameState gameState, final long seed) {
 		this.name = playerTemplate.getName();
 		this.inputManager = playerTemplate.getInputManager();
-		this.inputManager.setScreen(gameState.getScreen());
 		this.speed = playerTemplate.getInitialSpeed();
 		this.gameState = gameState;
 		Random random = new Random(seed);

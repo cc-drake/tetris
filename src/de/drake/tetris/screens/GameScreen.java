@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.model.Spieler;
 import de.drake.tetris.screens.comp.PlayerPanel;
 import de.drake.tetris.states.GameState;
@@ -17,7 +18,15 @@ public class GameScreen extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public GameScreen() {
-		super.setBackground(Color.white);
+		this.setBackground(Color.white);
+		this.addMouseListener(InputDevice.mouse);
+		this.addMouseWheelListener(InputDevice.mouse);
+		this.addKeyListener(InputDevice.keyboard);
+		this.addFocusListener(InputDevice.keyboard);
+		this.addFocusListener(InputDevice.mouse);
+		for (InputDevice gamepad : InputDevice.gamepads) {
+			this.addFocusListener(gamepad);
+		}
 	}
 	
 	public void addPlayer(final GameState gameState, final Spieler spieler) {
