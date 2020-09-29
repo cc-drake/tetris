@@ -16,6 +16,8 @@ public abstract class InputDevice implements FocusListener {
 	
 	public final static Keyboard keyboard = new Keyboard();
 	
+	public final static ArrayList<InputDevice> allInputdevices = new ArrayList<InputDevice>();
+	
 	private final HashSet<KeyListener> listeners = new HashSet<KeyListener>();
 	
 	public void addKeyListener(final KeyListener listener) {
@@ -35,10 +37,15 @@ public abstract class InputDevice implements FocusListener {
 	}
 	
 	public static void init() {
+		InputDevice.allInputdevices.add(InputDevice.keyboard);
+		InputDevice.allInputdevices.add(InputDevice.mouse);
+		int lfdNr = 0;
 		for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
 			if (controller.getType().equals(Type.GAMEPAD)) {
-				Gamepad gamepad = new Gamepad(controller);
+				Gamepad gamepad = new Gamepad(controller, lfdNr);
 				InputDevice.gamepads.add(gamepad);
+				InputDevice.allInputdevices.add(gamepad);
+				lfdNr++;
 			}
 		}
 	}
@@ -54,5 +61,7 @@ public abstract class InputDevice implements FocusListener {
 			gamepad.listeners.clear();
 		}
 	}
+	
+	public abstract String toString();
 	
 }

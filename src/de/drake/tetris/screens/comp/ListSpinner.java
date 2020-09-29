@@ -12,13 +12,13 @@ public class ListSpinner extends JSpinner {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ListSpinner(final String[] values) {
+	public ListSpinner(final Object[] values, final int length) {
 		
 		this.setModel(new SpinnerListModel(values));
 		
 		ListEditor editor = (ListEditor) this.getEditor();
 		JFormattedTextField field = editor.getTextField();
-		field.setColumns(5);
+		field.setColumns(length);
 		field.setEditable(false);
 		field.setHorizontalAlignment(JTextField.RIGHT);
 		

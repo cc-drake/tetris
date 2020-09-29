@@ -15,6 +15,8 @@ public class Gamepad extends InputDevice implements Runnable {
 	
 	private final Controller controller;
 	
+	private final int lfdNr;
+	
 	private final Component pov;
 	
 	private final Key up;
@@ -26,8 +28,9 @@ public class Gamepad extends InputDevice implements Runnable {
 	
 	private boolean hasFocus = true;
 	
-	Gamepad(final Controller controller) {
+	Gamepad(final Controller controller, final int lfdNr) {
 		this.controller = controller;
+		this.lfdNr = lfdNr;
 		this.pov = controller.getComponent(Identifier.Axis.POV);
 		this.up = new Key(KeyEvent.VK_UP, "\u2191");
 		this.down = new Key(KeyEvent.VK_DOWN, "\u2193");
@@ -152,6 +155,11 @@ public class Gamepad extends InputDevice implements Runnable {
 		for (Key key : this.component2key.values()) {
 			this.keyReleased(key);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Gamepad " + (this.lfdNr + 1);
 	}
 	
 	public static void testGamepad() {

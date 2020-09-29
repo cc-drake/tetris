@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.config.PlayerTemplate;
 import de.drake.tetris.screens.ModeScreen;
 
 /**
@@ -41,8 +40,9 @@ public class ModeState extends State implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == ModeState.back) {
 			State.setCurrentState(State.startState);
+			return;
 		}
-		if (e.getActionCommand() == GameMode.SOLITAER.toString()) {
+		if (e.getActionCommand() == GameMode.SOLITAER) {
 			GameMode.timeLimit = 0;
 			GameMode.speedIncreaseRow = this.screen.getSpeedIncreaseRow();
 			GameMode.speedIncreaseSec = 0.;
@@ -51,7 +51,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.gameMode = GameMode.SOLITAER;
 			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
-		if (e.getActionCommand() == GameMode.COMBAT.toString()) {
+		if (e.getActionCommand() == GameMode.COMBAT) {
 			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.COMBAT);
 			GameMode.speedIncreaseRow = 0.;
 			GameMode.speedIncreaseSec = this.screen.getSpeedIncreaseSec();
@@ -60,7 +60,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.gameMode = GameMode.COMBAT;
 			GameMode.combatType = this.screen.getCombatType();
 		}
-		if (e.getActionCommand() == GameMode.RACE.toString()) {
+		if (e.getActionCommand() == GameMode.RACE) {
 			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.RACE);
 			GameMode.speedIncreaseRow = 0.;
 			GameMode.speedIncreaseSec = 0.;
@@ -69,7 +69,7 @@ public class ModeState extends State implements ActionListener {
 			GameMode.gameMode = GameMode.RACE;
 			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
-		if (e.getActionCommand() == GameMode.CHEESE.toString()) {
+		if (e.getActionCommand() == GameMode.CHEESE) {
 			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.CHEESE);
 			GameMode.speedIncreaseRow = 0.;
 			GameMode.speedIncreaseSec = 0.;
@@ -78,6 +78,6 @@ public class ModeState extends State implements ActionListener {
 			GameMode.gameMode = GameMode.CHEESE;
 			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
-		State.setCurrentState(new GameState(PlayerTemplate.playerTemplates));
+		State.setCurrentState(State.playerState);
 	}
 }

@@ -40,5 +40,10 @@ public class Keyboard extends InputDevice implements java.awt.event.KeyListener 
 			this.keyReleased(key);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Tastatur";
+	}
 	
 }

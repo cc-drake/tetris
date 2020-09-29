@@ -142,8 +142,7 @@ public class ModeScreen extends JScrollPane {
 					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
 					String[] values = {GameMode.COMBAT_CLASSIC, GameMode.COMBAT_BADASS, GameMode.COMBAT_PEACE};
-					this.combatType = new ListSpinner(
-							values);
+					this.combatType = new ListSpinner(values, 5);
 					options_com.addOption("Battlemode", combatType);
 					
 				c.gridy = 3;

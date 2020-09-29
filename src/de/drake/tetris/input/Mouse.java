@@ -80,4 +80,9 @@ public class Mouse extends InputDevice implements MouseListener, MouseWheelListe
 		this.keyReleased(this.scrollUp);
 	}
 
+	@Override
+	public String toString() {
+		return "Maus";
+	}
+
 }
