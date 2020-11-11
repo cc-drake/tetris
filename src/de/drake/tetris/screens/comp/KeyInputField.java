@@ -42,6 +42,10 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		this.key = key;
 		this.description.setText(this.key.getDescription());
 	}
+	
+	public Key getKey() {
+		return this.key;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

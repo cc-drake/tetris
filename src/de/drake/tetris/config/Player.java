@@ -2,27 +2,16 @@ package de.drake.tetris.config;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
-import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.input.InputManager;
 import de.drake.tetris.input.Key;
 import de.drake.tetris.util.Action;
 
 public class Player {
 	
-	public final static ArrayList<Player> playerTemplates = createPlayerTemplates();
-	
-	private static ArrayList<Player> createPlayerTemplates() {
-		InputDevice.removeInputManagers();
-		ArrayList<Player> result = new ArrayList<Player>();
-//		result.add(new Player("Keyboard", new InputManager(InputDevice.keyboard, createKeyboard()), 2.));
-//		result.add(new Player("Maus", new InputManager(InputDevice.mouse, createMouse()), 2.));
-//		if (InputDevice.gamepads.size() > 0)
-//			result.add(new Player("Gamepad", new InputManager(InputDevice.gamepads.get(0), createGamepad()), 2.));
-		return result;
-	}
+	public static Vector<Player> players;
 	
 	private static HashMap<Key, Action> createKeyboard() {
 		HashMap<Key, Action> result = new HashMap<Key, Action>();
@@ -87,4 +76,11 @@ public class Player {
 		this.name = name;
 	}
 	
+	public void setInputManager(final InputManager manager) {
+		this.inputManager = manager;
+	}
+
+	public void setInitialSpeed(final double speed) {
+		this.initialSpeed = speed;
+	}
 }

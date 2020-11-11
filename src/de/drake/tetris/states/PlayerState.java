@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.Player;
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.screens.PlayerScreen;
 
 /**
@@ -44,12 +45,15 @@ public class PlayerState extends State implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		InputDevice.removeInputManagers();
 		if (e.getActionCommand() == PlayerState.back) {
 			State.setCurrentState(State.modeState);
 			return;
 		}
 		if (e.getActionCommand() == PlayerState.start) {
-			State.setCurrentState(new GameState(Player.playerTemplates));
+			this.screen.initializePlayers();
+			if (Player.players.size() > 0)
+			State.setCurrentState(new GameState());
 			return;
 		}
 		if (e.getActionCommand() == PlayerState.addPlayer) {

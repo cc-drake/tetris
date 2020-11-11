@@ -54,12 +54,12 @@ public class GameState extends State {
 	/**
 	 * Erstellt einen neuen PlayState.
 	 */
-	GameState(final ArrayList<Player> players) {
+	GameState() {
 		this.screen = new GameScreen();
 		Random random = new Random();
 		long seed = random.nextLong();
 		PlayerController playerController;
-		for (Player player : players) {
+		for (Player player : Player.players) {
 			playerController = new PlayerController(player, this, seed);
 			this.spielerliste.add(playerController);
 			this.screen.addPlayer(this, playerController);
@@ -138,7 +138,7 @@ public class GameState extends State {
 			State.setCurrentState(State.startState);
 			break;
 		case GameState.ENDED:
-			State.setCurrentState(new GameState(Player.playerTemplates));
+			State.setCurrentState(new GameState());
 			break;
 		case GameState.PAUSED:
 		case GameState.PREPARED:

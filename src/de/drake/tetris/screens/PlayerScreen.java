@@ -17,7 +17,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import de.drake.tetris.config.Player;
-import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.screens.comp.ComponentFactory;
 import de.drake.tetris.screens.comp.PlayerList;
 import de.drake.tetris.screens.comp.PlayerOptionTable;
@@ -143,6 +142,13 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 			this.optionTables.put(selectedPlayer, table);
 		}
 		this.topPanel.setComponentZOrder(table, 0);
+	}
+
+	public void initializePlayers() {
+		Player.players = this.playerList.getPlayers();
+		for (PlayerOptionTable table : this.optionTables.values()) {
+			table.initializePlayer();
+		}
 	}
 	
 }
