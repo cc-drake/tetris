@@ -20,6 +20,18 @@ public abstract class InputDevice implements FocusListener {
 	
 	public final static ArrayList<InputDevice> allInputdevices = new ArrayList<InputDevice>();
 	
+	public final static int MOUSE = 1;
+	
+	public final static int KEYBOARD = 2;
+	
+	public final static int GAMEPAD = 3;
+	
+	public InputDevice(final int type) {
+		this.type = type;
+	}
+	
+	private final int type;
+	
 	private final HashSet<KeyListener> listeners = new HashSet<KeyListener>();
 	
 	public void addKeyListener(final KeyListener listener) {
@@ -76,5 +88,9 @@ public abstract class InputDevice implements FocusListener {
 	}
 	
 	public abstract String toString();
+
+	public int getType() {
+		return this.type;
+	}
 	
 }

@@ -8,6 +8,11 @@ import java.awt.event.MouseWheelListener;
 
 public class Mouse extends InputDevice implements MouseListener, MouseWheelListener {
 	
+	public Mouse() {
+		super(InputDevice.MOUSE);
+		// TODO Auto-generated constructor stub
+	}
+
 	private final Key left = new Key(MouseEvent.BUTTON1, "LMB");
 	private final Key middle = new Key(MouseEvent.BUTTON2, "CMB");
 	private final Key right = new Key(MouseEvent.BUTTON3, "RMB");

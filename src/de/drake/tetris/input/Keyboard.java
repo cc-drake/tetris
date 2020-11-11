@@ -6,6 +6,10 @@ import java.util.HashMap;
 
 public class Keyboard extends InputDevice implements java.awt.event.KeyListener {
 	
+	public Keyboard() {
+		super(InputDevice.KEYBOARD);
+	}
+
 	private final HashMap<Integer, Key> keyCode2key = new HashMap<Integer, Key>();
 	
 	private Key getKey(final KeyEvent e) {

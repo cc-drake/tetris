@@ -29,6 +29,7 @@ public class Gamepad extends InputDevice implements Runnable {
 	private boolean hasFocus = true;
 	
 	Gamepad(final Controller controller, final int lfdNr) {
+		super(InputDevice.GAMEPAD);
 		this.controller = controller;
 		this.lfdNr = lfdNr;
 		this.pov = controller.getComponent(Identifier.Axis.POV);

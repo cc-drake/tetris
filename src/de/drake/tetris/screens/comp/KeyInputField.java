@@ -32,6 +32,7 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		super.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		this.description = new JTextField();
 		this.description.setEditable(false);
+		this.description.setFocusable(false);
 		super.add(this.description);
 		JButton button = ComponentFactory.createButton("X", this);
 		super.add(button);
@@ -40,7 +41,10 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 	
 	public void setKey(final Key key) {
 		this.key = key;
-		this.description.setText(this.key.getDescription());
+		if (key == null)
+			this.description.setText("");
+		else
+			this.description.setText(this.key.getDescription());
 	}
 	
 	public Key getKey() {
