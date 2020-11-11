@@ -8,9 +8,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 
 public class OptionTable extends JPanel {
 	
@@ -40,7 +40,7 @@ public class OptionTable extends JPanel {
 
 	}
 	
-	public void addOption(final String name, final JSpinner spinner) {
+	public void addOption(final String name, final JComponent component) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5, 3, 5, 3);
 		c.gridy = this.options;
@@ -56,10 +56,10 @@ public class OptionTable extends JPanel {
 		c.anchor = GridBagConstraints.LINE_START;
 		this.add(label, c);
 		
-		spinner.setFont(new Font(Font.SERIF, Font.BOLD, this.size));
+		component.setFont(new Font(Font.SERIF, Font.BOLD, this.size));
 		c.gridx = 1;
 		c.anchor = GridBagConstraints.LINE_END;
-		this.add(spinner, c);
+		this.add(component, c);
 		
 		c.insets = new Insets(0, 0, 15, 0);
 		c.gridx = 0;

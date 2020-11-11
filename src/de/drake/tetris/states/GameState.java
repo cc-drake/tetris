@@ -6,8 +6,8 @@ import java.util.Random;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.config.PlayerTemplate;
-import de.drake.tetris.model.Spieler;
+import de.drake.tetris.config.Player;
+import de.drake.tetris.model.PlayerController;
 import de.drake.tetris.screens.GameScreen;
 import de.drake.tetris.util.Action;
 
@@ -34,7 +34,7 @@ public class GameState extends State {
 	/**
 	 * Eine Liste der Spieler, die gemeinsam Tetris spielen.
 	 */
-	private final ArrayList<Spieler> spielerliste = new ArrayList<Spieler>(6);
+	private final ArrayList<PlayerController> spielerliste = new ArrayList<PlayerController>(6);
 	
 	/**
 	 * Speichert den aktuellen Zustand des Spiels.
@@ -54,15 +54,15 @@ public class GameState extends State {
 	/**
 	 * Erstellt einen neuen PlayState.
 	 */
-	GameState(final ArrayList<PlayerTemplate> players) {
+	GameState(final ArrayList<Player> players) {
 		this.screen = new GameScreen();
 		Random random = new Random();
 		long seed = random.nextLong();
-		Spieler spieler;
-		for (PlayerTemplate template : players) {
-			spieler = new Spieler(template, this, seed);
-			this.spielerliste.add(spieler);
-			this.screen.addPlayer(this, spieler);
+		PlayerController playerController;
+		for (Player player : players) {
+			playerController = new PlayerController(player, this, seed);
+			this.spielerliste.add(playerController);
+			this.screen.addPlayer(this, playerController);
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class GameState extends State {
 		
 		//Eingaben abfragen und ausführen
 		Action action;
-		for (Spieler spieler : this.spielerliste) {
+		for (PlayerController spieler : this.spielerliste) {
 			
 			action = spieler.getInputAction();
 			if (action == null)
@@ -103,7 +103,7 @@ public class GameState extends State {
 		}
 		
 		//Spieler ticken lassen
-		for (Spieler spieler : this.spielerliste) {
+		for (PlayerController spieler : this.spielerliste) {
 			spieler.tick(currentState, this.laufzeitNano);
 		}
 		
@@ -138,7 +138,7 @@ public class GameState extends State {
 			State.setCurrentState(State.startState);
 			break;
 		case GameState.ENDED:
-			State.setCurrentState(new GameState(PlayerTemplate.playerTemplates));
+			State.setCurrentState(new GameState(Player.playerTemplates));
 			break;
 		case GameState.PAUSED:
 		case GameState.PREPARED:
@@ -166,10 +166,10 @@ public class GameState extends State {
 		long maxTime = 0;
 		int minRaceReihen = Integer.MAX_VALUE;
 		int minCheeseReihen = Integer.MAX_VALUE;
-		for (Spieler spieler : this.spielerliste) {
-			if (spieler.hasState(Spieler.UNDEF) && GameMode.gameMode != GameMode.SOLITAER)
-				spieler.setState(Spieler.LOSER);
-			if (spieler.hasState(Spieler.ACTIVE))
+		for (PlayerController spieler : this.spielerliste) {
+			if (spieler.hasState(PlayerController.UNDEF) && GameMode.gameMode != GameMode.SOLITAER)
+				spieler.setState(PlayerController.LOSER);
+			if (spieler.hasState(PlayerController.ACTIVE))
 				anzahlAktiveSpieler++;
 			if (spieler.getFertigeReihen() > maxReihen)
 				maxReihen = spieler.getFertigeReihen();
@@ -185,11 +185,11 @@ public class GameState extends State {
 		
 		case GameMode.SOLITAER:
 			if (timeout || anzahlAktiveSpieler == 0) {
-				for (Spieler spieler : this.spielerliste) {
+				for (PlayerController spieler : this.spielerliste) {
 					if (spieler.getFertigeReihen() == maxReihen) {
-						spieler.setState(Spieler.WINNER);
+						spieler.setState(PlayerController.WINNER);
 					} else {
-						spieler.setState(Spieler.LOSER);
+						spieler.setState(PlayerController.LOSER);
 					}
 				}
 				this.state = GameState.ENDED;
@@ -198,9 +198,9 @@ public class GameState extends State {
 			
 		case GameMode.COMBAT:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)) {
-				for (Spieler spieler : this.spielerliste) {
-					if (spieler.hasState(Spieler.ACTIVE) || (anzahlAktiveSpieler == 0 && spieler.getLaufzeit() == maxTime)) {
-						spieler.setState(Spieler.WINNER);
+				for (PlayerController spieler : this.spielerliste) {
+					if (spieler.hasState(PlayerController.ACTIVE) || (anzahlAktiveSpieler == 0 && spieler.getLaufzeit() == maxTime)) {
+						spieler.setState(PlayerController.WINNER);
 					}
 				}
 				this.state = GameState.ENDED;
@@ -210,12 +210,12 @@ public class GameState extends State {
 		case GameMode.RACE:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minRaceReihen == 0) {
-				for (Spieler spieler : this.spielerliste) {
-					if (spieler.hasState(Spieler.ACTIVE)
+				for (PlayerController spieler : this.spielerliste) {
+					if (spieler.hasState(PlayerController.ACTIVE)
 							&& spieler.getVerbleibendeReihen() == minRaceReihen) {
-						spieler.setState(Spieler.WINNER);
+						spieler.setState(PlayerController.WINNER);
 					} else {
-						spieler.setState(Spieler.LOSER);
+						spieler.setState(PlayerController.LOSER);
 					}
 				}
 				this.state = GameState.ENDED;
@@ -225,12 +225,12 @@ public class GameState extends State {
 		case GameMode.CHEESE:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minCheeseReihen == 0) {
-				for (Spieler spieler : this.spielerliste) {
-					if (spieler.hasState(Spieler.ACTIVE)
+				for (PlayerController spieler : this.spielerliste) {
+					if (spieler.hasState(PlayerController.ACTIVE)
 							&& spieler.getCheeseReihen() == minCheeseReihen) {
-						spieler.setState(Spieler.WINNER);
+						spieler.setState(PlayerController.WINNER);
 					} else {
-						spieler.setState(Spieler.LOSER);
+						spieler.setState(PlayerController.LOSER);
 					}
 				}
 				this.state = GameState.ENDED;
@@ -240,9 +240,9 @@ public class GameState extends State {
 		}
 	}
 	
-	public void draufwerfen(final Spieler werfer, final int rows) {
-		for (Spieler spieler : this.spielerliste) {
-			if (spieler == werfer || !spieler.hasState(Spieler.ACTIVE))
+	public void draufwerfen(final PlayerController werfer, final int rows) {
+		for (PlayerController spieler : this.spielerliste) {
+			if (spieler == werfer || !spieler.hasState(PlayerController.ACTIVE))
 				continue;
 			spieler.addRows(rows);
 		}

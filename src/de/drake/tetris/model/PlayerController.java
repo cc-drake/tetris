@@ -3,16 +3,15 @@ package de.drake.tetris.model;
 import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.config.PlayerTemplate;
-import de.drake.tetris.input.InputManager;
+import de.drake.tetris.config.Player;
 import de.drake.tetris.states.GameState;
 import de.drake.tetris.util.Action;
 import de.drake.tetris.util.Position;
 
 /**
- * Der Spieler verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
+ * Der PlayerController verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
  */
-public class Spieler {
+public class PlayerController {
 	
 	public final static int UNDEF = 0;
 	
@@ -23,14 +22,9 @@ public class Spieler {
 	public final static int WINNER = 3;
 	
 	/**
-	 * Der Name des Spielers.
+	 * Der Spieler, für den der PlayerController zuständig ist
 	 */
-	private final String name;
-	
-	/**
-	 * Der InputManager, über den der Spieler gesteuert wird.
-	 */
-	private final InputManager inputManager;
+	private final Player player;
 	
 	/**
 	 * Der GameState, der das aktuelle Spiel verwaltet.
@@ -95,15 +89,14 @@ public class Spieler {
 	/**
 	 * Gibt den aktuellen Zustand des Spielers an.
 	 */
-	private int state = Spieler.ACTIVE;
+	private int state = PlayerController.ACTIVE;
 	
 	/**
 	 * Erzeugt einen neuen Spieler aus einem SpielerTemplate.
 	 */
-	public Spieler(final PlayerTemplate playerTemplate, final GameState gameState, final long seed) {
-		this.name = playerTemplate.getName();
-		this.inputManager = playerTemplate.getInputManager();
-		this.speed = playerTemplate.getInitialSpeed();
+	public PlayerController(final Player player, final GameState gameState, final long seed) {
+		this.player = player;
+		this.speed = player.getInitialSpeed();
 		this.gameState = gameState;
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
@@ -116,7 +109,7 @@ public class Spieler {
 	 * Führt die nächte vom InputManager gewünschte Action aus.
 	 */
 	public Action getInputAction() {
-		return this.inputManager.getNextAction();
+		return this.player.getInputManager().getNextAction();
 	}
 	
 	/**
@@ -124,7 +117,7 @@ public class Spieler {
 	 */
 	public void performMoveAction(final Action action) {
 		
-		if (this.state != Spieler.ACTIVE)
+		if (this.state != PlayerController.ACTIVE)
 			return;
 
 		switch (action) {
@@ -161,7 +154,7 @@ public class Spieler {
 	 */
 	public void tick(final int gameStateState, final long laufzeitIndex) {
 		
-		if (this.state != Spieler.ACTIVE)
+		if (this.state != PlayerController.ACTIVE)
 			return;
 		
 		this.laufzeit = laufzeitIndex;
@@ -254,7 +247,7 @@ public class Spieler {
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
 		for (Position position : this.stein.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
-				this.state = Spieler.UNDEF;
+				this.state = PlayerController.UNDEF;
 				return;
 			}
 		}
@@ -303,7 +296,7 @@ public class Spieler {
 	 * Gibt den Namen des Spielers zurück.
 	 */
 	public String getName() {
-		return this.name;
+		return this.player.getName();
 	}
 	
 	/**

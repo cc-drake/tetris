@@ -10,17 +10,17 @@ import de.drake.tetris.input.InputManager;
 import de.drake.tetris.input.Key;
 import de.drake.tetris.util.Action;
 
-public class PlayerTemplate {
+public class Player {
 	
-	public final static ArrayList<PlayerTemplate> playerTemplates = createPlayerTemplates();
+	public final static ArrayList<Player> playerTemplates = createPlayerTemplates();
 	
-	private static ArrayList<PlayerTemplate> createPlayerTemplates() {
+	private static ArrayList<Player> createPlayerTemplates() {
 		InputDevice.removeInputManagers();
-		ArrayList<PlayerTemplate> result = new ArrayList<PlayerTemplate>();
-		result.add(new PlayerTemplate("Keyboard", new InputManager(InputDevice.keyboard, createKeyboard()), 2.));
-		result.add(new PlayerTemplate("Maus", new InputManager(InputDevice.mouse, createMouse()), 2.));
-		if (InputDevice.gamepads.size() > 0)
-			result.add(new PlayerTemplate("Gamepad", new InputManager(InputDevice.gamepads.get(0), createGamepad()), 2.));
+		ArrayList<Player> result = new ArrayList<Player>();
+//		result.add(new Player("Keyboard", new InputManager(InputDevice.keyboard, createKeyboard()), 2.));
+//		result.add(new Player("Maus", new InputManager(InputDevice.mouse, createMouse()), 2.));
+//		if (InputDevice.gamepads.size() > 0)
+//			result.add(new Player("Gamepad", new InputManager(InputDevice.gamepads.get(0), createGamepad()), 2.));
 		return result;
 	}
 	
@@ -61,17 +61,14 @@ public class PlayerTemplate {
 		return result;
 	}
 
-	private final String name;
+	private String name;
 	
-	private final InputManager inputManager;
+	private InputManager inputManager;
 	
-	private final double initialSpeed;
+	private double initialSpeed;
 	
-	private PlayerTemplate(final String name, final InputManager inputManager,
-			final double initialSpeed) {
+	public Player(final String name) {
 		this.name = name;
-		this.inputManager = inputManager;
-		this.initialSpeed = initialSpeed;
 	}
 	
 	public String getName() {
@@ -84,6 +81,10 @@ public class PlayerTemplate {
 
 	public double getInitialSpeed() {
 		return initialSpeed;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
 	}
 	
 }

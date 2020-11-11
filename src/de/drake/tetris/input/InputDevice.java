@@ -4,6 +4,8 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.swing.JComponent;
+
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Controller.Type;
@@ -33,6 +35,17 @@ public abstract class InputDevice implements FocusListener {
 	protected void keyReleased(final Key key) {
 		for (KeyListener listener : this.listeners) {
 			listener.keyReleased(key);
+		}
+	}
+	
+	public static void registerInputDevices(final JComponent component) {
+		component.addMouseListener(InputDevice.mouse);
+		component.addMouseWheelListener(InputDevice.mouse);
+		component.addKeyListener(InputDevice.keyboard);
+		component.addFocusListener(InputDevice.keyboard);
+		component.addFocusListener(InputDevice.mouse);
+		for (InputDevice gamepad : InputDevice.gamepads) {
+			component.addFocusListener(gamepad);
 		}
 	}
 	
