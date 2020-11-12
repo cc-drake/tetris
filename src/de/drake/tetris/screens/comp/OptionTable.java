@@ -1,6 +1,5 @@
 package de.drake.tetris.screens.comp;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -12,6 +11,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.drake.tetris.config.Config;
+
 public class OptionTable extends JPanel {
 	
 	/**
@@ -19,25 +20,13 @@ public class OptionTable extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final Color color;
-	
-	private final int size;
-	
 	private int options = 0;
 
 	private Component glue;
 
-	public OptionTable(final Color color, final Color bgcolor, final int size) {
-		
-		this.color = color;
-		this.size = size;
-		if (bgcolor != null) {
-			this.setBackground(bgcolor);
-		} else {
-			this.setOpaque(false);
-		}
+	public OptionTable() {
+		this.setBackground(Config.textBgColor);
 		this.setLayout(new GridBagLayout());
-
 	}
 	
 	public void addOption(final String name, final JComponent component) {
@@ -50,13 +39,12 @@ public class OptionTable extends JPanel {
 			this.remove(this.glue);
 		
 		JLabel label = new JLabel(name + ":");
-		label.setForeground(this.color);
-		label.setFont(new Font(Font.SERIF, Font.PLAIN, this.size));
+		label.setForeground(Config.textColor);
+		label.setFont(new Font(Font.SERIF, Font.PLAIN, Config.textSize));
 		c.gridx = 0;
 		c.anchor = GridBagConstraints.LINE_START;
 		this.add(label, c);
 		
-		component.setFont(new Font(Font.SERIF, Font.BOLD, this.size));
 		c.gridx = 1;
 		c.anchor = GridBagConstraints.LINE_END;
 		this.add(component, c);

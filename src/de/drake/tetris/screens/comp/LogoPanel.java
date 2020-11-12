@@ -1,11 +1,11 @@
 package de.drake.tetris.screens.comp;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import de.drake.tetris.config.Config;
 import de.drake.tetris.gfx.Assets;
 
 public class LogoPanel extends JPanel {
@@ -16,7 +16,7 @@ public class LogoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public LogoPanel() {
-			this.setBackground(Color.black);
+			this.setBackground(Config.bgColor);
 	}
 	
 	/**

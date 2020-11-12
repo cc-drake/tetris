@@ -28,12 +28,6 @@ import de.drake.tetris.states.ModeState;
 
 public class ModeScreen extends JScrollPane {
 	
-	private static int optionSize = 15;
-	
-	private static Color optionColor = Color.white;
-	
-	private static Color optionBgColor = Color.darkGray;
-	
 	private final JSpinner timeLimit_com;
 	
 	private final JSpinner timeLimit_race;
@@ -63,7 +57,7 @@ public class ModeScreen extends JScrollPane {
 		contentPanel.setLayout(new BorderLayout());
 		
 			JPanel topPanel = new JPanel();
-			topPanel.setBackground(Color.black);
+			topPanel.setBackground(Config.bgColor);
 			topPanel.setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			c.insets = new Insets(0, 5, 0, 5);
@@ -86,8 +80,7 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 0;
 				
 				c.gridy = 1;
-				JLabel sol_label = ComponentFactory.createLabel(
-						GameMode.SOLITAER, Color.green, ModeScreen.optionBgColor, 50);
+				JLabel sol_label = ComponentFactory.createLabel(GameMode.SOLITAER, Color.green);
 				sol_label.setToolTipText("<html>"
 						+ "Im Solitär-Modus gibt es keinerlei Zeitdruck - jeder Spieler<br>"
 						+ "kann so langsam spielen, wie er mag.<br>"
@@ -98,8 +91,7 @@ public class ModeScreen extends JScrollPane {
 				topPanel.add(sol_label, c);
 				
 				c.gridy = 2;
-				OptionTable options_sol = new OptionTable(
-						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
+				OptionTable options_sol = new OptionTable();
 				topPanel.add(options_sol, c);
 					
 					this.speedIncreaseRow = new NumberSpinner(
@@ -114,8 +106,7 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 1;
 				
 				c.gridy = 1;
-				JLabel com_label = ComponentFactory.createLabel(
-						GameMode.COMBAT, Color.red, ModeScreen.optionBgColor, 50);
+				JLabel com_label = ComponentFactory.createLabel(GameMode.COMBAT, Color.red);
 				com_label.setToolTipText("<html>"
 						+ "Im Combat-Modus geht es darum, so lange wie möglich zu überleben.<br>"
 						+ "Der letzte verbleibende Spieler gewinnt das Spiel.<br><br>"
@@ -130,8 +121,7 @@ public class ModeScreen extends JScrollPane {
 				topPanel.add(com_label, c);
 				
 				c.gridy = 2;
-				OptionTable options_com = new OptionTable(
-						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
+				OptionTable options_com = new OptionTable();
 				topPanel.add(options_com, c);
 				
 					this.timeLimit_com = new TimeSpinner(GameMode.timeLimit);
@@ -153,8 +143,7 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 2;
 				
 				c.gridy = 1;
-				JLabel race_label = ComponentFactory.createLabel(
-						GameMode.RACE, Color.blue, ModeScreen.optionBgColor, 50);
+				JLabel race_label = ComponentFactory.createLabel(GameMode.RACE, Color.blue);
 				race_label.setToolTipText("<html>"
 						+ "Im Race-Modus geht es darum, so schnell wie möglich eine bestimmte<br>"
 						+ "Anzahl von Reihen zu eliminieren.<br>"
@@ -164,8 +153,7 @@ public class ModeScreen extends JScrollPane {
 				topPanel.add(race_label, c);
 				
 				c.gridy = 2;
-				OptionTable options_race = new OptionTable(
-						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
+				OptionTable options_race = new OptionTable();
 				topPanel.add(options_race, c);
 				
 					this.timeLimit_race = new TimeSpinner(GameMode.timeLimit);
@@ -183,8 +171,7 @@ public class ModeScreen extends JScrollPane {
 				c.gridx = 3;
 				
 				c.gridy = 1;
-				JLabel che_label = ComponentFactory.createLabel(
-						GameMode.CHEESE, Color.yellow, ModeScreen.optionBgColor, 50);
+				JLabel che_label = ComponentFactory.createLabel(GameMode.CHEESE, Color.yellow);
 				che_label.setToolTipText("<html>"
 						+ "Im Cheese-Modus sind zu Spielbeginn bereits einige vorgefertigte<br>"
 						+ "\"Käsereihen\" vorhanden, die so schnell wie möglich eliminiert<br>"
@@ -195,8 +182,7 @@ public class ModeScreen extends JScrollPane {
 				topPanel.add(che_label, c);
 				
 				c.gridy = 2;
-				OptionTable options_che = new OptionTable(
-						ModeScreen.optionColor, ModeScreen.optionBgColor, ModeScreen.optionSize);
+				OptionTable options_che = new OptionTable();
 				topPanel.add(options_che, c);
 				
 					this.timeLimit_che = new TimeSpinner(GameMode.timeLimit);
@@ -211,7 +197,7 @@ public class ModeScreen extends JScrollPane {
 						"Wählen", GameMode.CHEESE, listener), c);
 				
 			JPanel bottomPanel = new JPanel();
-			bottomPanel.setBackground(Color.black);
+			bottomPanel.setBackground(Config.bgColor);
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 			

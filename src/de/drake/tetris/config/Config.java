@@ -1,5 +1,7 @@
 package de.drake.tetris.config;
 
+import java.awt.Color;
+
 public class Config {
 	
 	/**
@@ -12,6 +14,16 @@ public class Config {
 	 * Die tatsächliche Höhe des Spielfelds ist etwas größer, damit die Steine oben herausragen können.
 	 */
 	public static int hoehe = 20;
+	
+	public final static int textSize = 15;
+	
+	public final static int headerSize = 50;
+	
+	public final static Color textColor = Color.white;
+	
+	public final static Color bgColor = Color.black;
+	
+	public final static Color textBgColor = Color.darkGray;
 	
 	/**
 	 * Gibt an, ob Steine bestehend aus einem Block zulässig sind.

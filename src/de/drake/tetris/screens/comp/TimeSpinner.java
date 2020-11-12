@@ -1,5 +1,6 @@
 package de.drake.tetris.screens.comp;
 
+import java.awt.Font;
 import java.util.Calendar;
 
 import javax.swing.JFormattedTextField;
@@ -7,6 +8,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
+
+import de.drake.tetris.config.Config;
 
 public class TimeSpinner extends JSpinner {
 	
@@ -16,6 +19,8 @@ public class TimeSpinner extends JSpinner {
 	private static final long serialVersionUID = 1L;
 
 	public TimeSpinner(final int valueSec) {
+		
+		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
 		
 		SpinnerDateModel model = new SpinnerDateModel();
 		Calendar calender = Calendar.getInstance();

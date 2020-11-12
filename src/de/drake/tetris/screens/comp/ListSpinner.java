@@ -1,9 +1,13 @@
 package de.drake.tetris.screens.comp;
 
+import java.awt.Font;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
+
+import de.drake.tetris.config.Config;
 
 public class ListSpinner extends JSpinner {
 	
@@ -13,6 +17,8 @@ public class ListSpinner extends JSpinner {
 	private static final long serialVersionUID = 1L;
 
 	public ListSpinner(final Object[] values, final int length) {
+		
+		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
 		
 		this.setModel(new SpinnerListModel(values));
 		

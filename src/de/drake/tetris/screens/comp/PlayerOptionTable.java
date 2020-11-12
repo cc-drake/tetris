@@ -1,6 +1,5 @@
 package de.drake.tetris.screens.comp;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -32,11 +31,11 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
 	private KeyInputField left, right, down, drop, dreh_uzs, dreh_euzs, pause, quit;
 
-	public PlayerOptionTable(final Player player, final Color color, final Color bgcolor, final int size) {
-		super(color, bgcolor, size);
+	public PlayerOptionTable(final Player player) {
+		super();
 		this.player = player;
 		
-		this.name = new JTextField(player.getName());
+		this.name = ComponentFactory.createJTextField(player.getName());
 		super.addOption("Spielername", name);
 		
 		this.speed = new NumberSpinner(2., .1, 99., .1);

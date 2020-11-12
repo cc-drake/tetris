@@ -1,5 +1,6 @@
 package de.drake.tetris.screens.comp;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
+import de.drake.tetris.config.Config;
 import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.input.Key;
 import de.drake.tetris.input.KeyListener;
@@ -31,6 +33,7 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		this.inputType = inputType;
 		super.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		this.description = new JTextField();
+		this.description.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
 		this.description.setEditable(false);
 		this.description.setFocusable(false);
 		super.add(this.description);

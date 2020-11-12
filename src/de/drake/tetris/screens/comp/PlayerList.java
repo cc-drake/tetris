@@ -1,6 +1,5 @@
 package de.drake.tetris.screens.comp;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.util.Vector;
@@ -9,6 +8,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
+import de.drake.tetris.config.Config;
 import de.drake.tetris.config.Player;
 import de.drake.tetris.screens.PlayerScreen;
 
@@ -23,10 +23,10 @@ public class PlayerList extends JPanel {
 	
 	private final JList<Player> list;
 	
-	public PlayerList(final PlayerScreen screen, final Color bgcolor) {
+	public PlayerList(final PlayerScreen screen) {
 		super();
 		super.setLayout(new FlowLayout(FlowLayout.LEFT));
-		super.setBackground(bgcolor);
+		super.setBackground(Config.bgColor);
 		this.list = new JList<Player>(this.players);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setCellRenderer(new PlayerCellRenderer());

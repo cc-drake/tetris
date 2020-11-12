@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import de.drake.tetris.config.Config;
 import de.drake.tetris.config.Player;
 import de.drake.tetris.screens.comp.ComponentFactory;
 import de.drake.tetris.screens.comp.PlayerList;
@@ -23,12 +24,6 @@ import de.drake.tetris.screens.comp.PlayerOptionTable;
 import de.drake.tetris.states.PlayerState;
 
 public class PlayerScreen extends JScrollPane implements ListSelectionListener {
-	
-	private static int optionSize = 15;
-	
-	private static Color optionColor = Color.white;
-	
-	private static Color optionBgColor = Color.darkGray;
 	
 	private final PlayerList playerList;
 	
@@ -50,7 +45,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 		contentPanel.setLayout(new BorderLayout());
 		
 			this.topPanel = new JPanel();
-			this.topPanel.setBackground(Color.black);
+			this.topPanel.setBackground(Config.bgColor);
 			this.topPanel.setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			c.insets = new Insets(0, 5, 0, 5);
@@ -69,12 +64,11 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 				c.gridx = 0;
 				
 				c.gridy = 1;
-				this.topPanel.add(ComponentFactory.createLabel(
-						"Spieler", Color.green, PlayerScreen.optionBgColor, 50), c);
+				this.topPanel.add(ComponentFactory.createLabel("Spieler", Color.green), c);
 				
 				c.gridy = 2;
 				
-				this.playerList = new PlayerList(this, PlayerScreen.optionBgColor);
+				this.playerList = new PlayerList(this);
 				this.topPanel.add(this.playerList, c);
 				
 				c.gridy = 3;
@@ -95,8 +89,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 				c.gridx = 1;
 				
 				c.gridy = 1;
-				this.topPanel.add(ComponentFactory.createLabel(
-						"Einstellungen", Color.red, PlayerScreen.optionBgColor, 50), c);
+				this.topPanel.add(ComponentFactory.createLabel("Einstellungen", Color.red), c);
 				
 				c.gridy = 2;
 				c.gridheight = GridBagConstraints.REMAINDER;
@@ -105,7 +98,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 				this.valueChanged(null);
 				
 			JPanel bottomPanel = new JPanel();
-			bottomPanel.setBackground(Color.black);
+			bottomPanel.setBackground(Config.bgColor);
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 			
@@ -135,8 +128,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 			return;
 		PlayerOptionTable table = this.optionTables.get(selectedPlayer);
 		if (table == null) {
-			table = new PlayerOptionTable(selectedPlayer, PlayerScreen.optionColor,
-					PlayerScreen.optionBgColor, PlayerScreen.optionSize);
+			table = new PlayerOptionTable(selectedPlayer);
 				
 			this.topPanel.add(table, this.optionsConstraints);
 			this.optionTables.put(selectedPlayer, table);

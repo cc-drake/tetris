@@ -1,9 +1,13 @@
 package de.drake.tetris.screens.comp;
 
+import java.awt.Font;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.NumberFormatter;
+
+import de.drake.tetris.config.Config;
 
 public class NumberSpinner extends JSpinner {
 	
@@ -13,6 +17,8 @@ public class NumberSpinner extends JSpinner {
 	private static final long serialVersionUID = 1L;
 
 	public NumberSpinner(final double initialValue, final double minValue, final double maxValue, final double step) {
+		
+		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
 		
 		this.setModel(new SpinnerNumberModel(initialValue, minValue, maxValue, step));
 		
