@@ -1,4 +1,4 @@
-package de.drake.tetris.util;
+package de.drake.tetris.model.util;
 
 /**
  * Ein Integer-Paar, welches relative oder absolute Koordinaten innerhalb des Tetrisspielfeldes beschreibt.

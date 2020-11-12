@@ -2,7 +2,7 @@ package de.drake.tetris.gfx;
 
 import java.awt.image.BufferedImage;
 
-import de.drake.tetris.util.Color;
+import de.drake.tetris.model.util.Color;
 
 public class Assets {
 	

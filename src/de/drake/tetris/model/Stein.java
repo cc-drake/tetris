@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.util.Color;
-import de.drake.tetris.util.Position;
+import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.Position;
 
 /**
  * Ein Stein, der im Tetrisspielfeld fällt.

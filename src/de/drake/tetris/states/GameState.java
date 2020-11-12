@@ -8,8 +8,8 @@ import javax.swing.JComponent;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.PlayerController;
+import de.drake.tetris.model.util.Action;
 import de.drake.tetris.screens.GameScreen;
-import de.drake.tetris.util.Action;
 
 /**
  * Der PlayState verwaltet das aktive Tetris-Spiel.

@@ -5,8 +5,8 @@ import java.util.Random;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.util.Color;
-import de.drake.tetris.util.Position;
+import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.Position;
 
 /**
  * Das Spielfeld von Tetris, in dem der Stein fällt.

@@ -1,6 +1,6 @@
 package de.drake.tetris.model;
 
-import de.drake.tetris.util.Color;
+import de.drake.tetris.model.util.Color;
 
 /**
  * Ein Feld innerhalb des Tetris-Spielfeldes.

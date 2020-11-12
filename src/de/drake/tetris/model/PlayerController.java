@@ -3,9 +3,9 @@ package de.drake.tetris.model;
 import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
+import de.drake.tetris.model.util.Action;
+import de.drake.tetris.model.util.Position;
 import de.drake.tetris.states.GameState;
-import de.drake.tetris.util.Action;
-import de.drake.tetris.util.Position;
 
 /**
  * Der PlayerController verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.

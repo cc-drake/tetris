@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.input.InputDevice;
-import de.drake.tetris.util.Action;
+import de.drake.tetris.model.util.Action;
 
 public class InputManager implements KeyListener {
 	

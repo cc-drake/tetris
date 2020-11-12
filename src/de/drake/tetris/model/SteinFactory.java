@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Random;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.util.Color;
-import de.drake.tetris.util.Position;
+import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.Position;
 
 /**
  * Erzeugt zufällige Tetris-Steine

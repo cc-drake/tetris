@@ -12,8 +12,8 @@ import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.model.PlayerController;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
+import de.drake.tetris.model.util.Position;
 import de.drake.tetris.states.GameState;
-import de.drake.tetris.util.Position;
 
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.

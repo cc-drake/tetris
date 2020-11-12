@@ -14,7 +14,7 @@ import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.input.util.InputManager;
 import de.drake.tetris.input.util.Key;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.util.Action;
+import de.drake.tetris.model.util.Action;
 
 public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
