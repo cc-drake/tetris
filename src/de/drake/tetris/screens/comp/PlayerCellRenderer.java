@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import de.drake.tetris.config.Player;
+import de.drake.tetris.model.Player;
 
 class PlayerCellRenderer implements ListCellRenderer<Player> {
 

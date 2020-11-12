@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.config.Player;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.PlayerController;
 import de.drake.tetris.screens.GameScreen;
 import de.drake.tetris.util.Action;

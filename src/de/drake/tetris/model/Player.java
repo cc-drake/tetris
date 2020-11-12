@@ -1,4 +1,4 @@
-package de.drake.tetris.config;
+package de.drake.tetris.model;
 
 import java.util.Vector;
 

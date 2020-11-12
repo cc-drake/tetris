@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.config.Player;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.screens.PlayerScreen;
 
 public class PlayerList extends JPanel {

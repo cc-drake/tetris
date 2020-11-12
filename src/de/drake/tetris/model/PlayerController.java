@@ -3,7 +3,6 @@ package de.drake.tetris.model;
 import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.config.Player;
 import de.drake.tetris.states.GameState;
 import de.drake.tetris.util.Action;
 import de.drake.tetris.util.Position;

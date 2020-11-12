@@ -17,7 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.config.Player;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.screens.comp.ComponentFactory;
 import de.drake.tetris.screens.comp.PlayerList;
 import de.drake.tetris.screens.comp.PlayerOptionTable;
