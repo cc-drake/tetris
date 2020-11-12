@@ -15,7 +15,7 @@ public class Keyboard extends InputDevice implements java.awt.event.KeyListener 
 	private Key getKey(final KeyEvent e) {
 		if (this.keyCode2key.containsKey(e.getKeyCode()))
 			return this.keyCode2key.get(e.getKeyCode());
-		Key result = new Key(e.getKeyCode(), e.getKeyCode() + " (" + e.getKeyChar() + ")");
+		Key result = new Key(e.getKeyCode(), KeyEvent.getKeyText(e.getKeyCode()));
 		this.keyCode2key.put(e.getKeyCode(), result);
 		return result;
 	}
