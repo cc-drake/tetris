@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.input.util.Key;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;

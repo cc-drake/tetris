@@ -11,8 +11,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.drake.tetris.input.InputDevice;
-import de.drake.tetris.input.InputManager;
-import de.drake.tetris.input.Key;
+import de.drake.tetris.input.util.InputManager;
+import de.drake.tetris.input.util.Key;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.util.Action;
 

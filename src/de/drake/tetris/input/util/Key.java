@@ -1,4 +1,4 @@
-package de.drake.tetris.input;
+package de.drake.tetris.input.util;
 
 public class Key {
 	

@@ -6,6 +6,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import de.drake.tetris.input.util.Key;
+
 public class Mouse extends InputDevice implements MouseListener, MouseWheelListener {
 	
 	public Mouse() {

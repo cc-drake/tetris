@@ -12,8 +12,8 @@ import javax.swing.JTextField;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.input.InputDevice;
-import de.drake.tetris.input.Key;
-import de.drake.tetris.input.KeyListener;
+import de.drake.tetris.input.util.Key;
+import de.drake.tetris.input.util.KeyListener;
 
 public class KeyInputField extends JPanel implements ActionListener, KeyListener {
 	

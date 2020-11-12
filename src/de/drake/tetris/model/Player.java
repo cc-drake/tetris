@@ -2,7 +2,7 @@ package de.drake.tetris.model;
 
 import java.util.Vector;
 
-import de.drake.tetris.input.InputManager;
+import de.drake.tetris.input.util.InputManager;
 
 public class Player {
 	

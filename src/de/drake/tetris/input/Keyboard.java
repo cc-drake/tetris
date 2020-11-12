@@ -4,6 +4,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
+import de.drake.tetris.input.util.Key;
+
 public class Keyboard extends InputDevice implements java.awt.event.KeyListener {
 	
 	public Keyboard() {
