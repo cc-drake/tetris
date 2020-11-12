@@ -103,12 +103,12 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 		InputDevice device = (InputDevice) this.inputType.getValue();
 		switch (device.getType()) {
 		case InputDevice.MOUSE:
-			this.left.setKey(new Key(MouseEvent.BUTTON1, "LMB"));
-			this.right.setKey(new Key(MouseEvent.BUTTON3, "RMB"));
+			this.left.setKey(new Key(MouseEvent.BUTTON1, "Links"));
+			this.right.setKey(new Key(MouseEvent.BUTTON3, "Rechts"));
 			this.down.setKey(null);
-			this.drop.setKey(new Key(MouseEvent.BUTTON2, "MMB"));
-			this.dreh_uzs.setKey(new Key(-1, "SCD"));
-			this.dreh_euzs.setKey(new Key(0, "SCU"));
+			this.drop.setKey(new Key(MouseEvent.BUTTON2, "Mitte"));
+			this.dreh_uzs.setKey(new Key(-1, "Scroll ab"));
+			this.dreh_euzs.setKey(new Key(0, "Scroll auf"));
 			this.pause.setKey(null);
 			this.quit.setKey(null);
 			break;
@@ -116,21 +116,21 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 			this.left.setKey(new Key(KeyEvent.VK_A, "A"));
 			this.right.setKey(new Key(KeyEvent.VK_D, "D"));
 			this.down.setKey(new Key(KeyEvent.VK_S, "S"));
-			this.drop.setKey(new Key(KeyEvent.VK_SPACE, "Space"));
-			this.dreh_uzs.setKey(new Key(KeyEvent.VK_NUMPAD5, "NUM-5"));
-			this.dreh_euzs.setKey(new Key(KeyEvent.VK_NUMPAD4, "NUM-4"));
-			this.pause.setKey(new Key(KeyEvent.VK_ENTER, "Enter"));
-			this.quit.setKey(new Key(KeyEvent.VK_ESCAPE, "Escape"));
+			this.drop.setKey(new Key(KeyEvent.VK_SPACE, "Leertaste"));
+			this.dreh_uzs.setKey(new Key(KeyEvent.VK_NUMPAD5, "Numpad-5"));
+			this.dreh_euzs.setKey(new Key(KeyEvent.VK_NUMPAD4, "Numpad-4"));
+			this.pause.setKey(new Key(KeyEvent.VK_ENTER, "Eingabe"));
+			this.quit.setKey(new Key(KeyEvent.VK_ESCAPE, "ESC"));
 			break;
 		case InputDevice.GAMEPAD:
 			this.left.setKey(new Key(KeyEvent.VK_LEFT, "Links"));
 			this.right.setKey(new Key(KeyEvent.VK_RIGHT, "Rechts"));
 			this.down.setKey(new Key(KeyEvent.VK_DOWN, "Unten"));
-			this.drop.setKey(new Key(KeyEvent.VK_4, "4"));
-			this.dreh_uzs.setKey(new Key(KeyEvent.VK_1, "0"));
-			this.dreh_euzs.setKey(new Key(KeyEvent.VK_0, "1"));
-			this.pause.setKey(new Key(KeyEvent.VK_7, "7"));
-			this.quit.setKey(new Key(KeyEvent.VK_6, "6"));
+			this.drop.setKey(new Key(KeyEvent.VK_4, "Taste 4"));
+			this.dreh_uzs.setKey(new Key(KeyEvent.VK_1, "Taste 0"));
+			this.dreh_euzs.setKey(new Key(KeyEvent.VK_0, "Taste 1"));
+			this.pause.setKey(new Key(KeyEvent.VK_7, "Taste 7"));
+			this.quit.setKey(new Key(KeyEvent.VK_6, "Taste 6"));
 			break;
 		}
 	}

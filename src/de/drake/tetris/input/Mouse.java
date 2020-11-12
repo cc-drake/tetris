@@ -10,14 +10,13 @@ public class Mouse extends InputDevice implements MouseListener, MouseWheelListe
 	
 	public Mouse() {
 		super(InputDevice.MOUSE);
-		// TODO Auto-generated constructor stub
 	}
 
-	private final Key left = new Key(MouseEvent.BUTTON1, "LMB");
-	private final Key middle = new Key(MouseEvent.BUTTON2, "CMB");
-	private final Key right = new Key(MouseEvent.BUTTON3, "RMB");
-	private final Key scrollUp = new Key(-1, "SCD");
-	private final Key scrollDown = new Key(0, "SCU");
+	private final Key left = new Key(MouseEvent.BUTTON1, "Links");
+	private final Key middle = new Key(MouseEvent.BUTTON2, "Mitte");
+	private final Key right = new Key(MouseEvent.BUTTON3, "Rechts");
+	private final Key scrollUp = new Key(-1, "Scroll ab");
+	private final Key scrollDown = new Key(0, "Scroll auf");
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {

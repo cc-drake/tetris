@@ -39,25 +39,25 @@ public class Gamepad extends InputDevice implements Runnable {
 		this.right = new Key(KeyEvent.VK_RIGHT, "\u2192");
 		
 		this.component2key.put(controller.getComponent(Identifier.Button._0),
-				new Key(KeyEvent.VK_0, "0"));
+				new Key(KeyEvent.VK_0, "Taste 0"));
 		this.component2key.put(controller.getComponent(Identifier.Button._1),
-				new Key(KeyEvent.VK_1, "1"));
+				new Key(KeyEvent.VK_1, "Taste 1"));
 		this.component2key.put(controller.getComponent(Identifier.Button._2),
-				new Key(KeyEvent.VK_2, "2"));
+				new Key(KeyEvent.VK_2, "Taste 2"));
 		this.component2key.put(controller.getComponent(Identifier.Button._3),
-				new Key(KeyEvent.VK_3, "3"));
+				new Key(KeyEvent.VK_3, "Taste 3"));
 		this.component2key.put(controller.getComponent(Identifier.Button._4),
-				new Key(KeyEvent.VK_4, "4"));
+				new Key(KeyEvent.VK_4, "Taste 4"));
 		this.component2key.put(controller.getComponent(Identifier.Button._5),
-				new Key(KeyEvent.VK_5, "5"));
+				new Key(KeyEvent.VK_5, "Taste 5"));
 		this.component2key.put(controller.getComponent(Identifier.Button._6),
-				new Key(KeyEvent.VK_6, "6"));
+				new Key(KeyEvent.VK_6, "Taste 6"));
 		this.component2key.put(controller.getComponent(Identifier.Button._7),
-				new Key(KeyEvent.VK_7, "7"));
+				new Key(KeyEvent.VK_7, "Taste 7"));
 		this.component2key.put(controller.getComponent(Identifier.Button._8),
-				new Key(KeyEvent.VK_8, "8"));
+				new Key(KeyEvent.VK_8, "Taste 8"));
 		this.component2key.put(controller.getComponent(Identifier.Button._9),
-				new Key(KeyEvent.VK_9, "9"));
+				new Key(KeyEvent.VK_9, "Taste 9"));
 		this.component2key.remove(null);
 		
 		Thread thread = new Thread(this);
