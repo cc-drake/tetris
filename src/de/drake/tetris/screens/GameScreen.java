@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.model.PlayerController;
-import de.drake.tetris.screens.comp.PlayerPanel;
+import de.drake.tetris.screens.util.PlayerPanel;
 import de.drake.tetris.states.GameState;
 
 public class GameScreen extends JPanel {

@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.screens.comp.ComponentFactory;
-import de.drake.tetris.screens.comp.LogoPanel;
+import de.drake.tetris.screens.util.ComponentFactory;
+import de.drake.tetris.screens.util.LogoPanel;
 import de.drake.tetris.states.StartState;
 
 public class StartScreen extends JScrollPane {

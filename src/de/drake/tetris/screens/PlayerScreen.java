@@ -18,9 +18,9 @@ import javax.swing.event.ListSelectionListener;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.screens.comp.ComponentFactory;
-import de.drake.tetris.screens.comp.PlayerList;
-import de.drake.tetris.screens.comp.PlayerOptionTable;
+import de.drake.tetris.screens.util.ComponentFactory;
+import de.drake.tetris.screens.util.PlayerList;
+import de.drake.tetris.screens.util.PlayerOptionTable;
 import de.drake.tetris.states.PlayerState;
 
 public class PlayerScreen extends JScrollPane implements ListSelectionListener {

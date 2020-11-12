@@ -19,11 +19,11 @@ import javax.swing.ToolTipManager;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.screens.comp.ComponentFactory;
-import de.drake.tetris.screens.comp.ListSpinner;
-import de.drake.tetris.screens.comp.OptionTable;
-import de.drake.tetris.screens.comp.NumberSpinner;
-import de.drake.tetris.screens.comp.TimeSpinner;
+import de.drake.tetris.screens.util.ComponentFactory;
+import de.drake.tetris.screens.util.ListSpinner;
+import de.drake.tetris.screens.util.NumberSpinner;
+import de.drake.tetris.screens.util.OptionTable;
+import de.drake.tetris.screens.util.TimeSpinner;
 import de.drake.tetris.states.ModeState;
 
 public class ModeScreen extends JScrollPane {

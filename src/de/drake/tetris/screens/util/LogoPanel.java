@@ -1,4 +1,4 @@
-package de.drake.tetris.screens.comp;
+package de.drake.tetris.screens.util;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
