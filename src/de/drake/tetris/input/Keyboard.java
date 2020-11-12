@@ -22,12 +22,14 @@ public class Keyboard extends InputDevice implements java.awt.event.KeyListener 
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		super.keyPressed(this.getKey(e));
+		if (e.getKeyCode() != 0)
+			super.keyPressed(this.getKey(e));
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		super.keyReleased(this.getKey(e));
+		if (e.getKeyCode() != 0)
+			super.keyReleased(this.getKey(e));
 	}
 
 	@Override

@@ -32,6 +32,7 @@ public class PlayerState extends State implements ActionListener {
 	 */
 	PlayerState() {
 		this.screen = new PlayerScreen(this);
+		this.screen.addPlayer();
 	}
 	
 	@Override
