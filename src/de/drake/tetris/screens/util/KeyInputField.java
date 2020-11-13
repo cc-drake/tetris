@@ -33,7 +33,7 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		this.inputType = inputType;
 		super.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		this.description = new JTextField();
-		this.description.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
+		this.description.setFont(new Font(Font.SERIF, Font.BOLD, Config.SIZE_TEXT));
 		this.description.setEditable(false);
 		this.description.setFocusable(false);
 		super.add(this.description);

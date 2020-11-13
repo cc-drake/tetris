@@ -14,15 +14,25 @@ import de.drake.tetris.model.util.Position;
  */
 class SteinFactory {
 	
+	private final static int STONE_SMALL = 1;
+	private final static int STONE_REGULAR = 2;
+	private final static int STONE_LARGE = 3;
+	private final static int STONE_BOMB = 4;
+	
 	/**
 	 * Zufallsgenerator zur Erzeugung zufälliger Steine.
 	 */
 	private final Random random;
 	
 	/**
-	 * Grundgesamtheit aller erzeugbaren Steine
+	 * Grundgesamtheit aller Steintypen
 	 */
-	private final ArrayList<Stein> grundgesamtheit = new ArrayList<Stein>();
+	private final ArrayList<Integer> grundgesamtheit = new ArrayList<Integer>();
+	
+	/**
+	 * Zuordnung der Steintypen zu den jeweiligen Grundgesamtheiten
+	 */
+	private final HashMap<Integer, ArrayList<Stein>> steintyp2Steine = new HashMap<Integer, ArrayList<Stein>>();
 	
 	/**
 	 * Erzeugt eine neue SteinFactory.
@@ -31,32 +41,51 @@ class SteinFactory {
 	 */
 	SteinFactory(final long seed) {
 		this.random = new Random(seed);
-		if (Config.steinSize_1) {
-			this.grundgesamtheit.add(this.create_Stein_1());
+		for (int i = 0; i < Config.stone_small; i++) {
+			this.grundgesamtheit.add(SteinFactory.STONE_SMALL);
 		}
-		if (Config.steinSize_2) {
-			this.grundgesamtheit.add(this.create_Stein_2());
+		for (int i = 0; i < Config.stone_regular; i++) {
+			this.grundgesamtheit.add(SteinFactory.STONE_REGULAR);
 		}
-		if (Config.steinSize_3) {
-			this.grundgesamtheit.add(this.create_Stein_31());
-			this.grundgesamtheit.add(this.create_Stein_32());
+		for (int i = 0; i < Config.stone_large; i++) {
+			this.grundgesamtheit.add(SteinFactory.STONE_LARGE);
 		}
-		if (Config.steinSize_4) {
-			this.grundgesamtheit.add(this.create_Stein_41());
-			this.grundgesamtheit.add(this.create_Stein_42());
-			this.grundgesamtheit.add(this.create_Stein_43());
-			this.grundgesamtheit.add(this.create_Stein_44());
-			this.grundgesamtheit.add(this.create_Stein_45());
-			this.grundgesamtheit.add(this.create_Stein_46());
-			this.grundgesamtheit.add(this.create_Stein_47());
+		for (int i = 0; i < Config.stone_bomb; i++) {
+			this.grundgesamtheit.add(SteinFactory.STONE_BOMB);
 		}
+		
+		ArrayList<Stein> ggSmall = new ArrayList<Stein>();
+		ggSmall.add(this.create_Stein_1());
+		ggSmall.add(this.create_Stein_2());
+		ggSmall.add(this.create_Stein_31());
+		ggSmall.add(this.create_Stein_32());
+		this.steintyp2Steine.put(SteinFactory.STONE_SMALL, ggSmall);
+		
+		ArrayList<Stein> ggRegular = new ArrayList<Stein>();
+		ggRegular.add(this.create_Stein_41());
+		ggRegular.add(this.create_Stein_42());
+		ggRegular.add(this.create_Stein_43());
+		ggRegular.add(this.create_Stein_44());
+		ggRegular.add(this.create_Stein_45());
+		ggRegular.add(this.create_Stein_46());
+		ggRegular.add(this.create_Stein_47());
+		this.steintyp2Steine.put(SteinFactory.STONE_REGULAR, ggRegular);
+		
+		ArrayList<Stein> ggLarge = new ArrayList<Stein>();//TODO
+		this.steintyp2Steine.put(SteinFactory.STONE_LARGE, ggLarge);
+		
+		ArrayList<Stein> ggBomb = new ArrayList<Stein>();//TODO
+		this.steintyp2Steine.put(SteinFactory.STONE_BOMB, ggBomb);
+		
 	}
 	
 	/**
 	 * Erzeugt einen zufälligen Stein.
 	 */
 	Stein erzeugeRandomStein() {
-		return new Stein(this.grundgesamtheit.get(this.random.nextInt(this.grundgesamtheit.size())));
+		int steintyp = this.grundgesamtheit.get(this.random.nextInt(this.grundgesamtheit.size()));
+		ArrayList<Stein> gg = this.steintyp2Steine.get(steintyp);
+		return new Stein(gg.get(this.random.nextInt(gg.size())));
 	}
 	
 	/**

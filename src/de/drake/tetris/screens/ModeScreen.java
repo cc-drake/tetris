@@ -57,7 +57,7 @@ public class ModeScreen extends JScrollPane {
 		contentPanel.setLayout(new BorderLayout());
 		
 			JPanel topPanel = new JPanel();
-			topPanel.setBackground(Config.bgColor);
+			topPanel.setBackground(Config.COLOR_BACKGROUND);
 			topPanel.setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			c.insets = new Insets(0, 5, 0, 5);
@@ -197,7 +197,7 @@ public class ModeScreen extends JScrollPane {
 						"Wählen", GameMode.CHEESE, listener), c);
 				
 			JPanel bottomPanel = new JPanel();
-			bottomPanel.setBackground(Config.bgColor);
+			bottomPanel.setBackground(Config.COLOR_BACKGROUND);
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 			

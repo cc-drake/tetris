@@ -55,9 +55,12 @@ public class InputManager implements KeyListener {
 			
 		Action action = this.key2action.get(key);
 		this.actionQueue.add(action);
-		if (action == Action.LINKS || action == Action.RECHTS || action == Action.RUNTER) {
+		if (Config.keyRepeatSpeed > 0 &&
+				(action == Action.LINKS || action == Action.RECHTS || action == Action.RUNTER)) {
 			Timer timer = new Timer(true);
-			timer.scheduleAtFixedRate(new KeyTask(this, action), Config.keyRepeatDelay, 1000 / Config.keyRepeatSpeed);
+			timer.scheduleAtFixedRate(new KeyTask(this, action),
+					Config.keyRepeatDelay + 1000 / Config.keyRepeatSpeed,
+					1000 / Config.keyRepeatSpeed);
 			this.timers.put(action, timer);
 		}
 	}

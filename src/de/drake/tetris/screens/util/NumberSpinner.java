@@ -18,7 +18,7 @@ public class NumberSpinner extends JSpinner {
 
 	public NumberSpinner(final double initialValue, final double minValue, final double maxValue, final double step) {
 		
-		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
+		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.SIZE_TEXT));
 		
 		this.setModel(new SpinnerNumberModel(initialValue, minValue, maxValue, step));
 		

@@ -18,7 +18,7 @@ public class ListSpinner extends JSpinner {
 
 	public ListSpinner(final Object[] values, final int length) {
 		
-		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
+		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.SIZE_TEXT));
 		
 		this.setModel(new SpinnerListModel(values));
 		

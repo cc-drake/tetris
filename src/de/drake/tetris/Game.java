@@ -24,7 +24,7 @@ class Game implements Runnable {
 
 	@Override
 	public void run() {
-		long timePerTick = 1000000000L / Config.fps;
+		long timePerTick = 1000000000L / Config.FPS;
 		long lastTick = System.nanoTime();
 		while(true) {
 			if ((System.nanoTime() - lastTick) >= timePerTick) {

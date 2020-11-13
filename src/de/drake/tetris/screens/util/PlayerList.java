@@ -26,7 +26,7 @@ public class PlayerList extends JPanel {
 	public PlayerList(final PlayerScreen screen) {
 		super();
 		super.setLayout(new FlowLayout(FlowLayout.LEFT));
-		super.setBackground(Config.bgColor);
+		super.setBackground(Config.COLOR_BACKGROUND);
 		this.list = new JList<Player>(this.players);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setCellRenderer(new PlayerCellRenderer());

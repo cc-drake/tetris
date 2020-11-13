@@ -20,7 +20,7 @@ public class TimeSpinner extends JSpinner {
 
 	public TimeSpinner(final int valueSec) {
 		
-		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.textSize));
+		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.SIZE_TEXT));
 		
 		SpinnerDateModel model = new SpinnerDateModel();
 		Calendar calender = Calendar.getInstance();

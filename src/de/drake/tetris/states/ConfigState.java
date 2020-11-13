@@ -38,7 +38,8 @@ public class ConfigState extends State implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == ConfigState.back) {
-			State.setCurrentState(State.startState);
+			if (this.screen.applyConfig())
+				State.setCurrentState(State.startState);
 			return;
 		}
 	}

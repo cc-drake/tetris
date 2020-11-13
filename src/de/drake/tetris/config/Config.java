@@ -5,6 +5,56 @@ import java.awt.Color;
 public class Config {
 	
 	/**
+	 * Framerate in Aktionen pro Spieler pro Sekunde.
+	 */
+	public final static int FPS = 100;
+	
+	public final static int SIZE_TEXT = 15;
+	
+	public final static int SIZE_HEADER = 50;
+	
+	public final static Color COLOR_TEXT = Color.white;
+	
+	public final static Color COLOR_BACKGROUND = Color.black;
+	
+	public final static Color COLOR_TEXTBACKGROUND = Color.darkGray;
+	
+	/**
+	 * Gibt an, wie häufig kleine Steine (< 4 Blöcke) spawnen sollen.
+	 */
+	public static int stone_small = 0;
+	
+	/**
+	 * Gibt an, wie häufig "normale" Steine (aus 4 Blöcken) spawnen sollen.
+	 */
+	public static int stone_regular = 1;
+	
+	/**
+	 * Gibt an, wie häufig große Steine (aus 5 Blöcken) spawnen sollen.
+	 */
+	public static int stone_large = 0;
+	
+	/**
+	 * Gibt an, wie häufig Bomben-Steine spawnen sollen.
+	 */
+	public static int stone_bomb = 0;
+	
+	/**
+	 * Gibt die maximale Steingröße zurück.
+	 */
+	public static int getMaxSteinSize() {
+		if (Config.stone_large > 0)
+			return 5;
+		if (Config.stone_regular > 0)
+			return 4;
+		if (Config.stone_small > 0)
+			return 3;
+		if (Config.stone_bomb > 0)
+			return 1;
+		throw new Error("Ungültige Steingröße");
+	}
+	
+	/**
 	 * Die Breite des Spielfeldes (Anzahl der Spalten)
 	 */
 	public static int breite = 10;
@@ -15,69 +65,21 @@ public class Config {
 	 */
 	public static int hoehe = 20;
 	
-	public final static int textSize = 15;
-	
-	public final static int headerSize = 50;
-	
-	public final static Color textColor = Color.white;
-	
-	public final static Color bgColor = Color.black;
-	
-	public final static Color textBgColor = Color.darkGray;
-	
-	/**
-	 * Gibt an, ob Steine bestehend aus einem Block zulässig sind.
-	 */
-	public static boolean steinSize_1 = true;
-	
-	/**
-	 * Gibt an, ob Steine bestehend aus zwei Blöcken zulässig sind.
-	 */
-	public static boolean steinSize_2 = true;
-	
-	/**
-	 * Gibt an, ob Steine bestehend aus drei Blöcken zulässig sind.
-	 */
-	public static boolean steinSize_3 = true;
-	
-	/**
-	 * Gibt an, ob Steine bestehend aus vier Blöcken zulässig sind.
-	 */
-	public static boolean steinSize_4 = true;
-	
 	/**
 	 * Das Seitenverhältnis, mit dem die Tetrisfelder gezeichnet werden (Breite durch Höhe)
 	 */
 	public static double feld_seitenverhaeltnis = 1.5/1.;
 	
 	/**
-	 * Framerate in Aktionen pro Spieler pro Sekunde.
+	 * Zeit, nach der beim Halten der "Links"-Taste das automatische "Weiterlaufen" des Steins nach
+	 * links beginnen soll (in Millisekunden).
 	 */
-	public static int fps = 100;
+	public static int keyRepeatDelay = 170;
 	
 	/**
 	 * Geschwindigkeit, mit der beim Halten der "Links"-Taste der Stein nach links laufen soll
 	 * (in Bewegungen je Sekunde).
 	 */
 	public static int keyRepeatSpeed = 25;
-	
-	/**
-	 * Zeit, nach der beim Halten der "Links"-Taste das automatische "Weiterlaufen" des Steins nach
-	 * links beginnen soll (in Millisekunden).
-	 */
-	public static int keyRepeatDelay = 200;
-	
-	/**
-	 * Gibt die maximale Steingröße zurück.
-	 */
-	public static int getMaxSteinSize() {
-		if (Config.steinSize_4)
-			return 4;
-		if (Config.steinSize_3)
-			return 3;
-		if (Config.steinSize_2)
-			return 2;
-		return 1;
-	}
 	
 }

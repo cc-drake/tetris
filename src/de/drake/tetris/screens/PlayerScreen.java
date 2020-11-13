@@ -45,7 +45,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 		contentPanel.setLayout(new BorderLayout());
 		
 			this.topPanel = new JPanel();
-			this.topPanel.setBackground(Config.bgColor);
+			this.topPanel.setBackground(Config.COLOR_BACKGROUND);
 			this.topPanel.setLayout(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			c.insets = new Insets(0, 5, 0, 5);
@@ -98,7 +98,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 				this.valueChanged(null);
 				
 			JPanel bottomPanel = new JPanel();
-			bottomPanel.setBackground(Config.bgColor);
+			bottomPanel.setBackground(Config.COLOR_BACKGROUND);
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 			

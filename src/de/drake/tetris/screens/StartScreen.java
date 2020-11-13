@@ -27,7 +27,7 @@ public class StartScreen extends JScrollPane {
 			contentPanel.add(new LogoPanel(), BorderLayout.CENTER);
 		
 			JPanel buttonPanel = new JPanel();
-			buttonPanel.setBackground(Config.bgColor);
+			buttonPanel.setBackground(Config.COLOR_BACKGROUND);
 			buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 			

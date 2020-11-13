@@ -39,7 +39,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 		super.addOption("Spielername", name);
 		
 		this.speed = new NumberSpinner(2., 0., 99., .1);
-		super.addOption("Geschwindigkeit", this.speed);
+		super.addOption("Fallgeschwindigkeit", this.speed);
 	
 		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7);
 		this.inputType.addChangeListener(this);

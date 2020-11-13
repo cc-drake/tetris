@@ -25,7 +25,7 @@ public class OptionTable extends JPanel {
 	private Component glue;
 
 	public OptionTable() {
-		this.setBackground(Config.textBgColor);
+		this.setBackground(Config.COLOR_TEXTBACKGROUND);
 		this.setLayout(new GridBagLayout());
 	}
 	
@@ -39,8 +39,8 @@ public class OptionTable extends JPanel {
 			this.remove(this.glue);
 		
 		JLabel label = new JLabel(name + ":");
-		label.setForeground(Config.textColor);
-		label.setFont(new Font(Font.SERIF, Font.PLAIN, Config.textSize));
+		label.setForeground(Config.COLOR_TEXT);
+		label.setFont(new Font(Font.SERIF, Font.PLAIN, Config.SIZE_TEXT));
 		c.gridx = 0;
 		c.anchor = GridBagConstraints.LINE_START;
 		this.add(label, c);

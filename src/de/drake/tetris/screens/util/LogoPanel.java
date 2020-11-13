@@ -16,7 +16,7 @@ public class LogoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public LogoPanel() {
-			this.setBackground(Config.bgColor);
+			this.setBackground(Config.COLOR_BACKGROUND);
 	}
 	
 	/**
