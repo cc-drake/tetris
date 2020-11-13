@@ -160,11 +160,14 @@ public class PlayerPanel extends JPanel {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 				Position position = new Position(spalte, zeile);
 				if (spielfeld.isBlocked(position)) {
-					if (spielfeld.getColor(position) == null) {
-						//TODO
-						System.out.println(this.spieler);
+					if (spielfeld.getColor(position) == null) {//TODO
+						g.drawString("Error: color == null", 10, 10);
+						g.drawString("Spieler " + this.spieler.getName(), 10, 30);
+						g.drawString("Position " + position, 10, 50);
+						g.drawString("isBlocked " + spielfeld.isBlocked(position), 10, 70);
+						System.out.println(this.spieler.getName());
 						System.out.println(position);
-						System.out.println(spielfeld);
+						System.out.println(spielfeld.isBlocked(position));
 						throw new Error("schon wieder dieser Fehler...");
 					}
 					g.drawImage(Assets.getAsset(spielfeld.getColor(position), false),
