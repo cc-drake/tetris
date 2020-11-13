@@ -160,6 +160,13 @@ public class PlayerPanel extends JPanel {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 				Position position = new Position(spalte, zeile);
 				if (spielfeld.isBlocked(position)) {
+					if (spielfeld.getColor(position) == null) {
+						//TODO
+						System.out.println(this.spieler);
+						System.out.println(position);
+						System.out.println(spielfeld);
+						throw new Error("schon wieder dieser Fehler...");
+					}
 					g.drawImage(Assets.getAsset(spielfeld.getColor(position), false),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,

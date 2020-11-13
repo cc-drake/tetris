@@ -22,17 +22,17 @@ public class Config {
 	/**
 	 * Gibt an, wie häufig kleine Steine (< 4 Blöcke) spawnen sollen.
 	 */
-	public static int stone_small = 0;
+	public static int stone_small = 1;
 	
 	/**
 	 * Gibt an, wie häufig "normale" Steine (aus 4 Blöcken) spawnen sollen.
 	 */
-	public static int stone_regular = 1;
+	public static int stone_regular = 3;
 	
 	/**
 	 * Gibt an, wie häufig große Steine (aus 5 Blöcken) spawnen sollen.
 	 */
-	public static int stone_large = 0;
+	public static int stone_large = 1;
 	
 	/**
 	 * Gibt an, wie häufig Bomben-Steine spawnen sollen.
@@ -50,7 +50,7 @@ public class Config {
 		if (Config.stone_small > 0)
 			return 3;
 		if (Config.stone_bomb > 0)
-			return 1;
+			return 3;
 		throw new Error("Ungültige Steingröße");
 	}
 	
