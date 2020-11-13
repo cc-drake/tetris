@@ -100,8 +100,8 @@ public class PlayerController {
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new SteinFactory(random.nextLong());
-		this.stein = this.steinFactory.erzeugeRandomStein();
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
+		this.initialisiereNaechstenStein();
 	}
 	
 	/**
@@ -241,6 +241,10 @@ public class PlayerController {
 			draufwerfen = entfernteReihen;
 		}
 		this.gameState.draufwerfen(this, draufwerfen);
+		this.initialisiereNaechstenStein();
+	}
+	
+	private void initialisiereNaechstenStein() {
 		this.anzahlSteine++;
 		this.stein = this.nächsterStein;
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();

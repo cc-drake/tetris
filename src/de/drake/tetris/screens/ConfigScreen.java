@@ -63,10 +63,10 @@ public class ConfigScreen extends JScrollPane {
 					this.stone_bomb = new NumberSpinner(Config.stone_bomb, 0, 100, 1);
 					table.addOption("Häufigkeit von Bomben", this.stone_bomb);
 					
-					this.breite = new NumberSpinner(Config.breite, 10, 100, 1);
+					this.breite = new NumberSpinner(Config.breite, 1, 100, 1);
 					table.addOption("Breite des Spielfelds (Anzahl Felder)", this.breite);
 					
-					this.hoehe = new NumberSpinner(Config.hoehe, 10, 100, 1);
+					this.hoehe = new NumberSpinner(Config.hoehe, 1, 100, 1);
 					table.addOption("Höhe des Spielfelds (Anzahl Felder)", this.hoehe);
 					
 					this.feld_seitenverhaeltnis = new NumberSpinner(Config.feld_seitenverhaeltnis, .1, 9.9, .1);
