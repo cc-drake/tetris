@@ -2,8 +2,10 @@ package de.drake.tetris.states;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
+import javax.swing.ToolTipManager;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.screens.ModeScreen;
@@ -38,6 +40,7 @@ public class ModeState extends State implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		ToolTipManager.sharedInstance().mouseExited(new MouseEvent(this.screen, 0, 0, 0, 0, 0, 0, true));
 		if (e.getActionCommand() == ModeState.back) {
 			State.setCurrentState(State.startState);
 			return;
