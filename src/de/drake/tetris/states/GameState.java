@@ -175,9 +175,9 @@ public class GameState extends State {
 				maxReihen = spieler.getFertigeReihen();
 			if (spieler.getLaufzeit() > maxTime)
 				maxTime = spieler.getLaufzeit();
-			if (GameMode.gameMode == GameMode.RACE && spieler.getVerbleibendeReihen() < minRaceReihen)
+			if (GameMode.gameMode == GameMode.RACE && spieler.hasState(PlayerController.ACTIVE) && spieler.getVerbleibendeReihen() < minRaceReihen)
 				minRaceReihen = spieler.getVerbleibendeReihen();
-			if (GameMode.gameMode == GameMode.CHEESE && spieler.getCheeseReihen() < minCheeseReihen)
+			if (GameMode.gameMode == GameMode.CHEESE && spieler.hasState(PlayerController.ACTIVE) && spieler.getCheeseReihen() < minCheeseReihen)
 				minCheeseReihen = spieler.getCheeseReihen();
 		}
 		
