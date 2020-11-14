@@ -20,6 +20,11 @@ public class Config {
 	public final static Color COLOR_TEXTBACKGROUND = Color.darkGray;
 	
 	/**
+	 * Das Seitenverhältnis, mit dem die Tetrisfelder gezeichnet werden (Breite durch Höhe)
+	 */
+	public final static double FELD_SEITENVERHAELTNIS = 1.5/1.;
+	
+	/**
 	 * Gibt an, wie häufig kleine Steine (< 4 Blöcke) spawnen sollen.
 	 */
 	public static int stone_small = 1;
@@ -64,11 +69,6 @@ public class Config {
 	 * Die tatsächliche Höhe des Spielfelds ist etwas größer, damit die Steine oben herausragen können.
 	 */
 	public static int hoehe = 20;
-	
-	/**
-	 * Das Seitenverhältnis, mit dem die Tetrisfelder gezeichnet werden (Breite durch Höhe)
-	 */
-	public static double feld_seitenverhaeltnis = 1.5/1.;
 	
 	/**
 	 * Zeit, nach der beim Halten der "Links"-Taste das automatische "Weiterlaufen" des Steins nach
