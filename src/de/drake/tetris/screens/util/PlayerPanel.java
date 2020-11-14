@@ -11,7 +11,7 @@ import de.drake.tetris.config.GameMode;
 import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.Spielfeld;
-import de.drake.tetris.model.Stein;
+import de.drake.tetris.model.Stone;
 import de.drake.tetris.model.util.Position;
 import de.drake.tetris.states.GameState;
 
@@ -175,7 +175,7 @@ public class PlayerPanel extends JPanel {
 		
 		//Aktuellen Stein einzeichnen
 		int zeile, spalte;
-		Stein stein = this.spieler.getStein();
+		Stone stein = this.spieler.getStein();
 		for (Position position : stein.getPositionen()) {
 			zeile = position.getY();
 			spalte = position.getX();
@@ -250,7 +250,7 @@ public class PlayerPanel extends JPanel {
 		
 		//Preview-Stein einzeichnen
 		int zeile, spalte;
-		Stein stein = this.spieler.getNextStein();
+		Stone stein = this.spieler.getNextStein();
 		for (Position position : stein.getRelativkoordinaten()) {
 			zeile = previewfelder / 2 + position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();

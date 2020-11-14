@@ -10,7 +10,7 @@ import de.drake.tetris.model.util.Position;
 /**
  * Ein Stein, der im Tetrisspielfeld fällt.
  */
-public class Stein {
+public class Stone {
 	
 	/**
 	 * Der Typ des Steins.
@@ -35,18 +35,18 @@ public class Stein {
 	 */
 	private final HashMap<Integer, HashSet<Position>> relativkoordinaten;
 	
-	Stein(final StoneType type, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
+	Stone(final StoneType type, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
 		this.type = type;
 		this.mittelpunkt = new Position(Config.breite / 2, 0);
 		this.drehung = 0;
 		this.relativkoordinaten = relativkoordinaten;
 	}
 	
-	Stein(final Stein stein) {
-		this.type = stein.type;
-		this.mittelpunkt = new Position(stein.mittelpunkt);
-		this.drehung = stein.drehung;
-		this.relativkoordinaten = stein.relativkoordinaten;
+	Stone(final Stone stone) {
+		this.type = stone.type;
+		this.mittelpunkt = new Position(stone.mittelpunkt);
+		this.drehung = stone.drehung;
+		this.relativkoordinaten = stone.relativkoordinaten;
 	}
 	
 	/**

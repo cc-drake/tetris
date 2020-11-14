@@ -45,17 +45,17 @@ public class Player {
 	/**
 	 * Der Zufallsgenerator, der die neuen Steine erzeugt
 	 */
-	private final SteinFactory steinFactory;
+	private final StoneFactory steinFactory;
 	
 	/**
 	 * Der Stein, der aktuell im Spielfeld fällt.
 	 */
-	private Stein stein;
+	private Stone stein;
 	
 	/**
 	 * Der Stein, der als nächstes ins Spielfeld fallen wird.
 	 */
-	private Stein nächsterStein;
+	private Stone nächsterStein;
 	
 	/**
 	 * Anzahl der Fallvorgänge pro Sekunde.
@@ -107,7 +107,7 @@ public class Player {
 		this.gameState = gameState;
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
-		this.steinFactory = new SteinFactory(random.nextLong());
+		this.steinFactory = new StoneFactory(random.nextLong());
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
 		this.initialisiereNaechstenStein();
 	}
@@ -292,14 +292,14 @@ public class Player {
 	/**
 	 * Gibt den aktuellen Stein zurück.
 	 */
-	public Stein getStein() {
+	public Stone getStein() {
 		return this.stein;
 	}
 	
 	/**
 	 * Gibt den nächsten Stein zurück.
 	 */
-	public Stein getNextStein() {
+	public Stone getNextStein() {
 		return this.nächsterStein;
 	}
 	
