@@ -28,7 +28,7 @@ public class PlayerController {
 	/**
 	 * Der GameState, der das aktuelle Spiel verwaltet.
 	 */
-	private GameState gameState;
+	private final GameState gameState;
 	
 	/**
 	 * Das Spielfeld, in dem die Steine fallen.
