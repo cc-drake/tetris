@@ -124,6 +124,10 @@ public class Stone {
 		return this.relativkoordinaten.get(0);
 	}
 	
+	public Position getMittelpunkt() {
+		return this.mittelpunkt;
+	}
+	
 	/**
 	 * Gibt den Typ des Steins zurück.
 	 */

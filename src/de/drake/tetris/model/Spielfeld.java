@@ -45,6 +45,30 @@ public class Spielfeld {
 			this.generateCheeseRows(GameMode.cheeseRows);
 	}
 	
+	void verarbeiteStein(Stone stein) {
+		switch (stein.getType()) {
+		case BLUE:
+		case GREEN:
+		case RED:
+		case YELLOW:
+			for (Position position : stein.getPositionen()) {
+				this.felder.put(position, stein.getType());
+			}
+			return;
+		case BOMB_SQUARE:
+			this.entferne3x3(stein.getMittelpunkt());
+			return;
+		case BOMB_HORIZONTAL:
+			this.entferneReihe(stein.getMittelpunkt().getY());
+			return;
+		case BOMB_VERTICAL:
+			this.entferneSpalte(stein.getMittelpunkt().getX());
+			return;
+		default:
+			throw new Error("Ungültiger Steintyp");
+		}
+	}
+	
 	void generateCheeseRows(final int rows) {
 		for (int i = 0; i < rows; i++) {
 			this.generateCheeseRow();
@@ -69,18 +93,6 @@ public class Spielfeld {
 		this.felder.put(new Position(rand, Config.hoehe - 1), StoneType.CLEAR);
 		this.lastRand = rand;
 		
-	}
-
-	/**
-	 * Blockiert ein Feld des Spielfelds mit dem angegebenen Typ.
-	 * 
-	 * @param position
-	 * 		Die Position des Feldes, das geblockt werden soll.
-	 * @param type
-	 * 		Der Typ, mit dem das Feld geblockt werden soll.
-	 */
-	void block(final Position position, final StoneType type) {
-		this.felder.put(position, type);
 	}
 	
 	/**
@@ -128,6 +140,42 @@ public class Spielfeld {
 	}
 	
 	/**
+	 * Entfernt eine Spalte aus dem Spielfeld.
+	 * 
+	 * @param spalte
+	 * 		Der Index der Spalte, die entfernt werden soll.
+	 * 
+	 */
+	private void entferneSpalte(final int spalte) {
+		for (int zeile = -this.zusatzzeilen; zeile < Config.hoehe; zeile++) {
+			this.felder.put(new Position(spalte, zeile), StoneType.CLEAR);
+		}
+	}
+	
+	/**
+	 * Entfernt ein 3x3-Feld aus dem Spielfeld und lässt darüberliegende Felder nachrutschen.
+	 * 
+	 * @param mittelpunkt
+	 * 		Der Mittelpunkt des zu entfernenden 3x3-Feldes.
+	 * 
+	 */
+	private void entferne3x3(final Position mittelpunkt) {
+		int entfernteZeilen = mittelpunkt.getY() == Config.hoehe - 1 ? 2 : 3;
+		for (int y = Math.min(Config.hoehe - 1, mittelpunkt.getY() + 1);
+				y >= -this.zusatzzeilen; y--) {
+			for (int x = Math.max(0, mittelpunkt.getX() - 1);
+					x <= Math.min(Config.breite - 1, mittelpunkt.getX() + 1); x++) {
+				if (y <= entfernteZeilen - this.zusatzzeilen - 1) {
+					this.felder.put(new Position(x, y), StoneType.CLEAR);
+				} else {
+					this.felder.put(new Position(x, y),
+							this.felder.get(new Position(x, y - entfernteZeilen)));
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Gibt den Typ des Feldes an der angegebenen Position zurück.
 	 */
 	public StoneType getStoneType(final Position position) {
@@ -156,5 +204,5 @@ public class Spielfeld {
 		}
 		return result;
 	}
-
+	
 }

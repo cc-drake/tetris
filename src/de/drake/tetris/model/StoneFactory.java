@@ -93,7 +93,9 @@ class StoneFactory {
 		this.steinart2Steine.put(StoneFactory.STONE_LARGE, ggLarge);
 		
 		ArrayList<Stone> ggBomb = new ArrayList<Stone>();
-		ggBomb.add(this.create_Stein_1());//TODO
+		ggBomb.add(this.create_BombSquare());
+		ggBomb.add(this.create_BombHorizontal());
+		ggBomb.add(this.create_BombVertical());
 		this.steinart2Steine.put(StoneFactory.STONE_BOMB, ggBomb);
 		
 	}
@@ -1082,6 +1084,48 @@ class StoneFactory {
 		map.put(3, relativkoordinaten);
 		
 		return new Stone(StoneType.YELLOW, map);
+	}
+	
+	/**
+	 * Eine 1x1 Square-Bombe.
+	 */
+	private Stone create_BombSquare() {
+		HashMap<Integer, HashSet<Position>> map = new HashMap<Integer, HashSet<Position>>(1);
+		HashSet<Position> relativkoordinaten;
+		
+		relativkoordinaten = new HashSet<Position>(1);
+		relativkoordinaten.add(new Position(0, 0));
+		map.put(0, relativkoordinaten);
+		
+		return new Stone(StoneType.BOMB_SQUARE, map);
+	}
+	
+	/**
+	 * Eine 1x1 horizontale Bombe.
+	 */
+	private Stone create_BombHorizontal() {
+		HashMap<Integer, HashSet<Position>> map = new HashMap<Integer, HashSet<Position>>(1);
+		HashSet<Position> relativkoordinaten;
+		
+		relativkoordinaten = new HashSet<Position>(1);
+		relativkoordinaten.add(new Position(0, 0));
+		map.put(0, relativkoordinaten);
+		
+		return new Stone(StoneType.BOMB_HORIZONTAL, map);
+	}
+	
+	/**
+	 * Eine 1x1 vertikale Bombe.
+	 */
+	private Stone create_BombVertical() {
+		HashMap<Integer, HashSet<Position>> map = new HashMap<Integer, HashSet<Position>>(1);
+		HashSet<Position> relativkoordinaten;
+		
+		relativkoordinaten = new HashSet<Position>(1);
+		relativkoordinaten.add(new Position(0, 0));
+		map.put(0, relativkoordinaten);
+		
+		return new Stone(StoneType.BOMB_VERTICAL, map);
 	}
 	
 }

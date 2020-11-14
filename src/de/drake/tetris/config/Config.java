@@ -20,29 +20,24 @@ public class Config {
 	public final static Color COLOR_TEXTBACKGROUND = Color.darkGray;
 	
 	/**
-	 * Das Seitenverhältnis, mit dem die Tetrisfelder gezeichnet werden (Breite durch Höhe)
-	 */
-	public final static double FELD_SEITENVERHAELTNIS = 1.5/1.;
-	
-	/**
 	 * Gibt an, wie häufig kleine Steine (< 4 Blöcke) spawnen sollen.
 	 */
-	public static int stone_small = 1;
+	public static int stone_small = 2;
 	
 	/**
 	 * Gibt an, wie häufig "normale" Steine (aus 4 Blöcken) spawnen sollen.
 	 */
-	public static int stone_regular = 3;
+	public static int stone_regular = 6;
 	
 	/**
 	 * Gibt an, wie häufig große Steine (aus 5 Blöcken) spawnen sollen.
 	 */
-	public static int stone_large = 1;
+	public static int stone_large = 3;
 	
 	/**
 	 * Gibt an, wie häufig Bomben-Steine spawnen sollen.
 	 */
-	public static int stone_bomb = 0;
+	public static int stone_bomb = 1;
 	
 	/**
 	 * Gibt die maximale Steingröße zurück.

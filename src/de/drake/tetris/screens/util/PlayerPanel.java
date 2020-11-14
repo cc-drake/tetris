@@ -116,10 +116,11 @@ public class PlayerPanel extends JPanel {
 		//Höhe und Breite eines Tetrisfeldes auf Basis des zur Verfügung stehenden Platzes ermitteln
 		this.höhe_feld = (this.getHeight() - 4) / Config.hoehe;
 		this.breite_feld = (this.getWidth() - 5) / (Config.breite + this.previewfelder + 1);
-		if (((double) this.breite_feld) / this.höhe_feld < Config.FELD_SEITENVERHAELTNIS) {
-			this.höhe_feld = (int) (this.breite_feld / Config.FELD_SEITENVERHAELTNIS);
+		double seitenverhaeltnis = ((double) Assets.SPRITE_BREITE) / ((double) Assets.SPRITE_HOEHE);
+		if (((double) this.breite_feld) / this.höhe_feld < seitenverhaeltnis) {
+			this.höhe_feld = (int) (this.breite_feld / seitenverhaeltnis);
 		} else {
-			this.breite_feld = (int) (this.höhe_feld * Config.FELD_SEITENVERHAELTNIS);
+			this.breite_feld = (int) (this.höhe_feld * seitenverhaeltnis);
 		}
 		
 		//Höhe und Breite des für das Spielfeld zur Verfügung stehenden Platzes ermitteln

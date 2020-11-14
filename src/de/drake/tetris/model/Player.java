@@ -214,13 +214,10 @@ public class Player {
 	
 	/**
 	 * Setzt einen Stein ab, d.h. der Stein verfestigt sich, fertige Reihen werden entfernt und und ein neuer Stein spawnt.
+	 * Ist der abzusetzende Stein eine Bombe, so detoniert diese.
 	 */
 	private void setzeSteinAb() {
-		for (Position position : this.stein.getPositionen()) {
-			this.spielfeld.block(position, this.stein.getType());
-		}
-		this.spielfeld.generateCheeseRows(this.wartendeReihen);
-		this.wartendeReihen = 0;
+		this.spielfeld.verarbeiteStein(this.stein);
 		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
 		this.fertigeReihen += entfernteReihen;
 		for (int i = 0; i < entfernteReihen; i++) {
@@ -245,6 +242,8 @@ public class Player {
 			draufwerfen = entfernteReihen;
 		}
 		this.gameState.draufwerfen(this, draufwerfen);
+		this.spielfeld.generateCheeseRows(this.wartendeReihen);
+		this.wartendeReihen = 0;
 		this.initialisiereNaechstenStein();
 	}
 	
