@@ -57,5 +57,14 @@ public class NumberSpinner extends JSpinner {
 		this.setEditor(editor);
 		
 	}
+	
+	@Override
+	public Double getValue() {
+		return (Double) super.getValue();
+	}
+	
+	public Integer getIntValue() {
+		return this.getValue().intValue();
+	}
 
 }

@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,7 +27,9 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
 	private final JTextField name;
 	
-	private final JSpinner speed, inputType;
+	private final NumberSpinner speed;
+	
+	private final ListSpinner inputType;
 	
 	private KeyInputField left, right, down, drop, dreh_uzs, dreh_euzs, pause, quit;
 
@@ -84,7 +85,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	}
 
 	public void initializePlayer() {
-		this.player.setInitialSpeed((double) this.speed.getValue());
+		this.player.setInitialSpeed(this.speed.getValue());
 		HashMap<Key, Action> tastenbelegung = new HashMap<Key, Action>();
 		tastenbelegung.put(this.left.getKey(), Action.LINKS);
 		tastenbelegung.put(this.right.getKey(), Action.RECHTS);

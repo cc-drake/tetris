@@ -2,6 +2,7 @@ package de.drake.tetris.screens.util;
 
 import java.awt.Font;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
@@ -36,6 +37,11 @@ public class TimeSpinner extends JSpinner {
 		formatter.setAllowsInvalid(false);
 		formatter.setOverwriteMode(true);
 		this.setEditor(editor);
+	}
+	
+	@Override
+	public Date getValue() {
+		return (Date) super.getValue();
 	}
 
 }

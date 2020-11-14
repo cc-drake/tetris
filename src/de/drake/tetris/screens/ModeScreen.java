@@ -14,7 +14,6 @@ import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.ToolTipManager;
 
 import de.drake.tetris.config.Config;
@@ -28,21 +27,21 @@ import de.drake.tetris.states.ModeState;
 
 public class ModeScreen extends JScrollPane {
 	
-	private final JSpinner timeLimit_com;
+	private final TimeSpinner timeLimit_com;
 	
-	private final JSpinner timeLimit_race;
+	private final TimeSpinner timeLimit_race;
 	
-	private final JSpinner timeLimit_che;
+	private final TimeSpinner timeLimit_che;
 	
-	private final JSpinner speedIncreaseRow;
+	private final NumberSpinner speedIncreaseRow;
 	
-	private final JSpinner speedIncreaseSec;
+	private final NumberSpinner speedIncreaseSec;
 	
-	private final JSpinner raceRows;
+	private final NumberSpinner raceRows;
 	
-	private final JSpinner cheeseRows;
+	private final NumberSpinner cheeseRows;
 	
-	private final JSpinner combatType;
+	private final ListSpinner combatType;
 	
 	/**
 	 * Die Default Serial ID
@@ -205,39 +204,49 @@ public class ModeScreen extends JScrollPane {
 				
 	}
 	
-	public int getTimeLimit(final String gameMode) {
-		Date value = null;
-		if (gameMode == GameMode.SOLITAER)
-			return 0;
-		if (gameMode == GameMode.COMBAT)
-			value = (Date) this.timeLimit_com.getValue();
-		if (gameMode == GameMode.RACE)
-			value = (Date) this.timeLimit_race.getValue();
-		if (gameMode == GameMode.CHEESE)
-			value = (Date) this.timeLimit_che.getValue();
-		Calendar date = Calendar.getInstance();
-		date.setTime(value);
-		return date.get(Calendar.MINUTE) * 60 + date.get(Calendar.SECOND);
+	public void setGameMode(final String gameMode) {
+		if (gameMode == GameMode.SOLITAER) {
+			GameMode.timeLimit = 0;
+			GameMode.speedIncreaseRow = this.speedIncreaseRow.getValue();
+			GameMode.speedIncreaseSec = 0.;
+			GameMode.raceRows = 0;
+			GameMode.cheeseRows = 0;
+			GameMode.gameMode = GameMode.SOLITAER;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
+		}
+		if (gameMode == GameMode.COMBAT) {
+			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_com.getValue());
+			GameMode.speedIncreaseRow = 0.;
+			GameMode.speedIncreaseSec = this.speedIncreaseSec.getValue();
+			GameMode.raceRows = 0;
+			GameMode.cheeseRows = 0;
+			GameMode.gameMode = GameMode.COMBAT;
+			GameMode.combatType = (String) this.combatType.getValue();
+		}
+		if (gameMode == GameMode.RACE) {
+			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_race.getValue());
+			GameMode.speedIncreaseRow = 0.;
+			GameMode.speedIncreaseSec = 0.;
+			GameMode.raceRows = this.raceRows.getIntValue();
+			GameMode.cheeseRows = 0;
+			GameMode.gameMode = GameMode.RACE;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
+		}
+		if (gameMode == GameMode.CHEESE) {
+			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_che.getValue());
+			GameMode.speedIncreaseRow = 0.;
+			GameMode.speedIncreaseSec = 0.;
+			GameMode.raceRows = 0;
+			GameMode.cheeseRows = this.cheeseRows.getIntValue();
+			GameMode.gameMode = GameMode.CHEESE;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
+		}
 	}
 	
-	public String getCombatType() {
-		return (String) this.combatType.getValue();
-	}
-
-	public double getSpeedIncreaseRow() {
-		return (double) this.speedIncreaseRow.getValue();
-	}
-
-	public double getSpeedIncreaseSec() {
-		return (double) this.speedIncreaseSec.getValue();
-	}
-
-	public int getRaceRows() {
-		return (int) (double) this.raceRows.getValue();
-	}
-	
-	public int getCheeseRows() {
-		return (int) (double) this.cheeseRows.getValue();
+	private int calculateSeconds(final Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.MINUTE) * 60 + calendar.get(Calendar.SECOND);
 	}
 	
 }

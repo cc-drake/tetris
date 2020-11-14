@@ -45,42 +45,13 @@ public class ModeState extends State implements ActionListener {
 			State.setCurrentState(State.startState);
 			return;
 		}
-		if (e.getActionCommand() == GameMode.SOLITAER) {
-			GameMode.timeLimit = 0;
-			GameMode.speedIncreaseRow = this.screen.getSpeedIncreaseRow();
-			GameMode.speedIncreaseSec = 0.;
-			GameMode.raceRows = 0;
-			GameMode.cheeseRows = 0;
-			GameMode.gameMode = GameMode.SOLITAER;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
+		if (e.getActionCommand() == GameMode.SOLITAER
+				|| e.getActionCommand() == GameMode.COMBAT
+				|| e.getActionCommand() == GameMode.RACE
+				|| e.getActionCommand() == GameMode.CHEESE) {
+			this.screen.setGameMode(e.getActionCommand());
+			State.setCurrentState(State.playerState);
+			return;
 		}
-		if (e.getActionCommand() == GameMode.COMBAT) {
-			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.COMBAT);
-			GameMode.speedIncreaseRow = 0.;
-			GameMode.speedIncreaseSec = this.screen.getSpeedIncreaseSec();
-			GameMode.raceRows = 0;
-			GameMode.cheeseRows = 0;
-			GameMode.gameMode = GameMode.COMBAT;
-			GameMode.combatType = this.screen.getCombatType();
-		}
-		if (e.getActionCommand() == GameMode.RACE) {
-			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.RACE);
-			GameMode.speedIncreaseRow = 0.;
-			GameMode.speedIncreaseSec = 0.;
-			GameMode.raceRows = this.screen.getRaceRows();
-			GameMode.cheeseRows = 0;
-			GameMode.gameMode = GameMode.RACE;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
-		}
-		if (e.getActionCommand() == GameMode.CHEESE) {
-			GameMode.timeLimit = this.screen.getTimeLimit(GameMode.CHEESE);
-			GameMode.speedIncreaseRow = 0.;
-			GameMode.speedIncreaseSec = 0.;
-			GameMode.raceRows = 0;
-			GameMode.cheeseRows = this.screen.getCheeseRows();
-			GameMode.gameMode = GameMode.CHEESE;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
-		}
-		State.setCurrentState(State.playerState);
 	}
 }

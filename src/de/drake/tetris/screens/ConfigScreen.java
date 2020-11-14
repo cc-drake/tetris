@@ -88,21 +88,21 @@ public class ConfigScreen extends JScrollPane {
 	}
 
 	public boolean applyConfig() {
-		if ((double) this.stone_small.getValue() == 0.
-				&& (double) this.stone_regular.getValue() == 0.
-				&& (double) this.stone_large.getValue() == 0.
-				&& (double) this.stone_bomb.getValue() == 0.) {
+		if (this.stone_small.getIntValue() == 0
+				&& this.stone_regular.getIntValue() == 0
+				&& this.stone_large.getIntValue() == 0
+				&& this.stone_bomb.getIntValue() == 0) {
 			return false;
 		}
-		Config.stone_small = ((Double) this.stone_small.getValue()).intValue();
-		Config.stone_regular = ((Double) this.stone_regular.getValue()).intValue();
-		Config.stone_large = ((Double) this.stone_large.getValue()).intValue();
-		Config.stone_bomb = ((Double) this.stone_bomb.getValue()).intValue();
-		Config.breite = ((Double) this.breite.getValue()).intValue();
-		Config.hoehe = ((Double) this.hoehe.getValue()).intValue();
-		Config.feld_seitenverhaeltnis = (double) this.feld_seitenverhaeltnis.getValue();
-		Config.keyRepeatDelay = ((Double) this.keyRepeatDelay.getValue()).intValue();
-		Config.keyRepeatSpeed = ((Double) this.keyRepeatSpeed.getValue()).intValue();
+		Config.stone_small = this.stone_small.getIntValue();
+		Config.stone_regular = this.stone_regular.getIntValue();
+		Config.stone_large = this.stone_large.getIntValue();
+		Config.stone_bomb = this.stone_bomb.getIntValue();
+		Config.breite = this.breite.getIntValue();
+		Config.hoehe = this.hoehe.getIntValue();
+		Config.feld_seitenverhaeltnis = this.feld_seitenverhaeltnis.getValue();
+		Config.keyRepeatDelay = this.keyRepeatDelay.getIntValue();
+		Config.keyRepeatSpeed = this.keyRepeatSpeed.getIntValue();
 		return true;
 	}
 	
