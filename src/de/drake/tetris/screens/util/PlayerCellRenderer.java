@@ -8,13 +8,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import de.drake.tetris.model.Player;
+import de.drake.tetris.config.PlayerConfig;
 
-class PlayerCellRenderer implements ListCellRenderer<Player> {
+class PlayerCellRenderer implements ListCellRenderer<PlayerConfig> {
 
 	@Override
 	public Component getListCellRendererComponent(
-			JList<? extends Player> list, Player player, int index,
+			JList<? extends PlayerConfig> list, PlayerConfig player, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		JLabel result = new JLabel();
 		if (player.getName() == "") {

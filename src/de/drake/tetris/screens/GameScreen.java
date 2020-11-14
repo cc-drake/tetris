@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import de.drake.tetris.input.InputDevice;
-import de.drake.tetris.model.PlayerController;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.screens.util.PlayerPanel;
 import de.drake.tetris.states.GameState;
 
@@ -22,7 +22,7 @@ public class GameScreen extends JPanel {
 		InputDevice.registerInputDevices(this);
 	}
 	
-	public void addPlayer(final GameState gameState, final PlayerController spieler) {
+	public void addPlayer(final GameState gameState, final Player spieler) {
 		this.add(new PlayerPanel(gameState, spieler));
 		switch (this.getComponentCount()) {
 		case 1:

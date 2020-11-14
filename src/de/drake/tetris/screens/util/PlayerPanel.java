@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.gfx.Assets;
-import de.drake.tetris.model.PlayerController;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stein;
 import de.drake.tetris.model.util.Position;
@@ -30,7 +30,7 @@ public class PlayerPanel extends JPanel {
 	/**
 	 * Der Spieler, dessen Spielfeld hier angezeigt wird.
 	 */
-	private final PlayerController spieler;
+	private final Player spieler;
 	
 	/**
 	 * Die Höhe eines Tetris-Feldes in Pixeln.
@@ -83,7 +83,7 @@ public class PlayerPanel extends JPanel {
 	 * @param spieler
 	 * 		Der Spieler, dessen Spielfeld angezeigt werden soll.
 	 */
-	public PlayerPanel(final GameState gameState, final PlayerController spieler) {
+	public PlayerPanel(final GameState gameState, final Player spieler) {
 		this.gameState = gameState;
 		this.spieler = spieler;
 		this.setBackground(Color.black);
@@ -209,12 +209,12 @@ public class PlayerPanel extends JPanel {
 			break;
 		default:
 			switch (this.spieler.getState()) {
-			case PlayerController.WINNER:
+			case Player.WINNER:
 				g.drawString("WINNER", 
 						this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 4),
 						this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
 				break;
-			case PlayerController.LOSER:
+			case Player.LOSER:
 				g.drawString("LOSER", 
 						this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 3),
 						this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));

@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.model.Player;
+import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.screens.PlayerScreen;
 
 public class PlayerList extends JPanel {
@@ -19,15 +19,15 @@ public class PlayerList extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final Vector<Player> players = new Vector<Player>();
+	private final Vector<PlayerConfig> players = new Vector<PlayerConfig>();
 	
-	private final JList<Player> list;
+	private final JList<PlayerConfig> list;
 	
 	public PlayerList(final PlayerScreen screen) {
 		super();
 		super.setLayout(new FlowLayout(FlowLayout.LEFT));
 		super.setBackground(Config.COLOR_BACKGROUND);
-		this.list = new JList<Player>(this.players);
+		this.list = new JList<PlayerConfig>(this.players);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setCellRenderer(new PlayerCellRenderer());
 		list.getSelectionModel().addListSelectionListener(screen);
@@ -35,7 +35,7 @@ public class PlayerList extends JPanel {
 	}
 
 	public void addPlayer() {
-		Player player = new Player("Spieler " + (this.players.size() + 1));
+		PlayerConfig player = new PlayerConfig("Spieler " + (this.players.size() + 1));
 		this.players.add(player);
 		this.list.updateUI();
 		this.list.setSelectedValue(player, true);
@@ -55,11 +55,11 @@ public class PlayerList extends JPanel {
 		}
 	}
 
-	public Vector<Player> getPlayers() {
+	public Vector<PlayerConfig> getPlayers() {
 		return this.players;
 	}
 
-	public Player getSelectedPlayer() {
+	public PlayerConfig getSelectedPlayer() {
 		return this.list.getSelectedValue();
 	}
 	

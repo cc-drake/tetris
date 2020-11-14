@@ -17,7 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.model.Player;
+import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.screens.util.ComponentFactory;
 import de.drake.tetris.screens.util.PlayerList;
 import de.drake.tetris.screens.util.PlayerOptionTable;
@@ -27,7 +27,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 	
 	private final PlayerList playerList;
 	
-	private final HashMap<Player, PlayerOptionTable> optionTables = new HashMap<Player, PlayerOptionTable>();
+	private final HashMap<PlayerConfig, PlayerOptionTable> optionTables = new HashMap<PlayerConfig, PlayerOptionTable>();
 	
 	private final JPanel topPanel;
 	
@@ -116,14 +116,14 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		for (Player player : new HashSet<Player>(this.optionTables.keySet())) {
+		for (PlayerConfig player : new HashSet<PlayerConfig>(this.optionTables.keySet())) {
 			if (!this.playerList.getPlayers().contains(player)) {
 				this.topPanel.remove(this.optionTables.get(player));
 				this.optionTables.remove(player);
 			}
 		}
 		
-		Player selectedPlayer = this.playerList.getSelectedPlayer();
+		PlayerConfig selectedPlayer = this.playerList.getSelectedPlayer();
 		if (selectedPlayer == null)
 			return;
 		PlayerOptionTable table = this.optionTables.get(selectedPlayer);
@@ -137,7 +137,7 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 	}
 
 	public void initializePlayers() {
-		Player.players = this.playerList.getPlayers();
+		PlayerConfig.playerConfigs = this.playerList.getPlayers();
 		for (PlayerOptionTable table : this.optionTables.values()) {
 			table.initializePlayer();
 		}

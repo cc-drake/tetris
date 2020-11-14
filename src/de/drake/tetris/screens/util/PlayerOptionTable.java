@@ -10,10 +10,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.input.util.InputManager;
 import de.drake.tetris.input.util.Key;
-import de.drake.tetris.model.Player;
 import de.drake.tetris.model.util.Action;
 
 public class PlayerOptionTable extends OptionTable implements ChangeListener {
@@ -23,7 +23,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final Player player;
+	private final PlayerConfig player;
 	
 	private final JTextField name;
 	
@@ -33,7 +33,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
 	private KeyInputField left, right, down, drop, dreh_uzs, dreh_euzs, pause, quit;
 
-	public PlayerOptionTable(final Player player) {
+	public PlayerOptionTable(final PlayerConfig player) {
 		super();
 		this.player = player;
 		
