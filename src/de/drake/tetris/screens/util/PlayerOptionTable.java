@@ -85,7 +85,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	}
 
 	public void initializePlayer() {
-		this.player.setInitialSpeed(this.speed.getValue());
+		this.player.setInitialSpeed(this.speed.getDoubleValue());
 		HashMap<Key, Action> tastenbelegung = new HashMap<Key, Action>();
 		tastenbelegung.put(this.left.getKey(), Action.LINKS);
 		tastenbelegung.put(this.right.getKey(), Action.RECHTS);

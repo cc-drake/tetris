@@ -100,7 +100,7 @@ public class ConfigScreen extends JScrollPane {
 		Config.stone_bomb = this.stone_bomb.getIntValue();
 		Config.breite = this.breite.getIntValue();
 		Config.hoehe = this.hoehe.getIntValue();
-		Config.feld_seitenverhaeltnis = this.feld_seitenverhaeltnis.getValue();
+		Config.feld_seitenverhaeltnis = this.feld_seitenverhaeltnis.getDoubleValue();
 		Config.keyRepeatDelay = this.keyRepeatDelay.getIntValue();
 		Config.keyRepeatSpeed = this.keyRepeatSpeed.getIntValue();
 		return true;

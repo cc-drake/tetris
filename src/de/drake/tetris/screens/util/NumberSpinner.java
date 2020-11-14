@@ -58,13 +58,12 @@ public class NumberSpinner extends JSpinner {
 		
 	}
 	
-	@Override
-	public Double getValue() {
-		return (Double) super.getValue();
+	public Double getDoubleValue() {
+		return (double) super.getValue();
 	}
 	
 	public Integer getIntValue() {
-		return this.getValue().intValue();
+		return this.getDoubleValue().intValue();
 	}
 
 }

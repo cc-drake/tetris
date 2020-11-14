@@ -39,8 +39,7 @@ public class TimeSpinner extends JSpinner {
 		this.setEditor(editor);
 	}
 	
-	@Override
-	public Date getValue() {
+	public Date getDateValue() {
 		return (Date) super.getValue();
 	}
 
