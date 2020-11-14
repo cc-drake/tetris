@@ -5,7 +5,7 @@ import java.util.Random;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.StoneType;
 import de.drake.tetris.model.util.Position;
 
 /**
@@ -13,9 +13,7 @@ import de.drake.tetris.model.util.Position;
  */
 public class Spielfeld {
 	
-	final private Random random;
-	
-	private int lastRand = Integer.MAX_VALUE;
+	private final Random random;
 	
 	/**
 	 * Die Anzahl zusätzlicher, nicht sichtbarer Zeilen oberhalb des Spielfelds.
@@ -27,7 +25,9 @@ public class Spielfeld {
 	/**
 	 * Eine Liste der Felder des Spielfelds, strukturiert nach ihrer Position.
 	 */
-	private final HashMap<Position, Feld> felder = new HashMap<Position, Feld>();
+	private final HashMap<Position, StoneType> felder = new HashMap<Position, StoneType>();
+	
+	private int lastRand = Integer.MAX_VALUE;
 	
 	/**
 	 * Erzeugt ein neues Spielfeld.
@@ -37,7 +37,7 @@ public class Spielfeld {
 		this.random = new Random(seed);
 		for (int x = 0; x < Config.breite; x++) {
 			for (int y = -this.zusatzzeilen; y < Config.hoehe; y++) {
-				this.felder.put(new Position(x, y), new Feld());
+				this.felder.put(new Position(x, y), StoneType.CLEAR);
 			}
 		}
 		
@@ -46,7 +46,6 @@ public class Spielfeld {
 	}
 	
 	void generateCheeseRows(final int rows) {
-		
 		for (int i = 0; i < rows; i++) {
 			this.generateCheeseRow();
 		}
@@ -55,33 +54,33 @@ public class Spielfeld {
 	private void generateCheeseRow() {
 		for (int y = -this.zusatzzeilen; y < Config.hoehe - 1; y++) {
 			for (int x = 0; x < Config.breite; x++) {
-				this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y + 1)));
+				this.felder.put(new Position(x, y), this.felder.get(new Position(x, y + 1)));
 			}
 		}
 		
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
-			this.felder.get(new Position(spalte, Config.hoehe - 1)).setCheese(true);
+			this.felder.put(new Position(spalte, Config.hoehe - 1), StoneType.CHEESE);
 		}
 		
 		int rand = this.lastRand;
 		while (rand == lastRand) {
 			rand = this.random.nextInt(Config.breite);
 		}
-		this.felder.get(new Position(rand, Config.hoehe - 1)).setCheese(false);
+		this.felder.put(new Position(rand, Config.hoehe - 1), StoneType.CLEAR);
 		this.lastRand = rand;
 		
 	}
 
 	/**
-	 * Blockiert ein Feld des Spielfelds mit der angegebenen Farbe.
+	 * Blockiert ein Feld des Spielfelds mit dem angegebenen Typ.
 	 * 
 	 * @param position
 	 * 		Die Position des Feldes, das geblockt werden soll.
-	 * @param color
-	 * 		Die Farbe, mit der das Feld geblockt werden soll.
+	 * @param type
+	 * 		Der Typ, mit dem das Feld geblockt werden soll.
 	 */
-	void block(final Position position, final Color color) {
-		this.felder.get(position).block(color);
+	void block(final Position position, final StoneType type) {
+		this.felder.put(position, type);
 	}
 	
 	/**
@@ -120,19 +119,19 @@ public class Spielfeld {
 		for (int y = zeile; y >= -this.zusatzzeilen; y--) {
 			for (int x = 0; x < Config.breite; x++) {
 				if (y == -this.zusatzzeilen) {
-					this.felder.get(new Position(x, y)).set(new Feld());
+					this.felder.put(new Position(x, y), StoneType.CLEAR);
 				} else {
-					this.felder.get(new Position(x, y)).set(this.felder.get(new Position(x, y - 1)));
+					this.felder.put(new Position(x, y), this.felder.get(new Position(x, y - 1)));
 				}
 			}
 		}
 	}
 	
 	/**
-	 * Gibt die Farbe des Spielfelds an der angegebenen Position zurück.
+	 * Gibt den Typ des Feldes an der angegebenen Position zurück.
 	 */
-	public Color getColor(final Position position) {
-		return this.felder.get(position).getColor();
+	public StoneType getStoneType(final Position position) {
+		return this.felder.get(position);
 	}
 	
 	/**
@@ -142,14 +141,14 @@ public class Spielfeld {
 	public boolean isBlocked(final Position position) {
 		if (!this.felder.containsKey(position))
 			return true;
-		return this.felder.get(position).isBlocked();
+		return (this.felder.get(position) != StoneType.CLEAR);
 	}
 
 	int getCheeseReihen() {
 		int result = 0;
 		for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 			for (int spalte = 0; spalte < Config.breite; spalte++) {
-				if (this.felder.get(new Position(spalte, zeile)).isCheese()) {
+				if (this.felder.get(new Position(spalte, zeile)) == StoneType.CHEESE) {
 					result++;
 					break;
 				}

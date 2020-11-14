@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.StoneType;
 import de.drake.tetris.model.util.Position;
 
 /**
@@ -25,14 +25,14 @@ class SteinFactory {
 	private final Random random;
 	
 	/**
-	 * Grundgesamtheit aller Steintypen
+	 * Grundgesamtheit aller Steinarten
 	 */
 	private final ArrayList<Integer> grundgesamtheit = new ArrayList<Integer>();
 	
 	/**
-	 * Zuordnung der Steintypen zu den jeweiligen Grundgesamtheiten
+	 * Zuordnung der Steinarten zu den jeweiligen Grundgesamtheiten
 	 */
-	private final HashMap<Integer, ArrayList<Stein>> steintyp2Steine = new HashMap<Integer, ArrayList<Stein>>();
+	private final HashMap<Integer, ArrayList<Stein>> steinart2Steine = new HashMap<Integer, ArrayList<Stein>>();
 	
 	/**
 	 * Erzeugt eine neue SteinFactory.
@@ -59,7 +59,7 @@ class SteinFactory {
 		ggSmall.add(this.create_Stein_2());
 		ggSmall.add(this.create_Stein_31());
 		ggSmall.add(this.create_Stein_32());
-		this.steintyp2Steine.put(SteinFactory.STONE_SMALL, ggSmall);
+		this.steinart2Steine.put(SteinFactory.STONE_SMALL, ggSmall);
 		
 		ArrayList<Stein> ggRegular = new ArrayList<Stein>();
 		ggRegular.add(this.create_Stein_41());
@@ -69,7 +69,7 @@ class SteinFactory {
 		ggRegular.add(this.create_Stein_45());
 		ggRegular.add(this.create_Stein_46());
 		ggRegular.add(this.create_Stein_47());
-		this.steintyp2Steine.put(SteinFactory.STONE_REGULAR, ggRegular);
+		this.steinart2Steine.put(SteinFactory.STONE_REGULAR, ggRegular);
 		
 		ArrayList<Stein> ggLarge = new ArrayList<Stein>();
 		ggLarge.add(this.create_Stein_501());
@@ -90,11 +90,11 @@ class SteinFactory {
 		ggLarge.add(this.create_Stein_516());
 		ggLarge.add(this.create_Stein_517());
 		ggLarge.add(this.create_Stein_518());
-		this.steintyp2Steine.put(SteinFactory.STONE_LARGE, ggLarge);
+		this.steinart2Steine.put(SteinFactory.STONE_LARGE, ggLarge);
 		
 		ArrayList<Stein> ggBomb = new ArrayList<Stein>();
 		ggBomb.add(this.create_Stein_1());//TODO
-		this.steintyp2Steine.put(SteinFactory.STONE_BOMB, ggBomb);
+		this.steinart2Steine.put(SteinFactory.STONE_BOMB, ggBomb);
 		
 	}
 	
@@ -102,8 +102,8 @@ class SteinFactory {
 	 * Erzeugt einen zufälligen Stein.
 	 */
 	Stein erzeugeRandomStein() {
-		int steintyp = this.grundgesamtheit.get(this.random.nextInt(this.grundgesamtheit.size()));
-		ArrayList<Stein> gg = this.steintyp2Steine.get(steintyp);
+		int steinart = this.grundgesamtheit.get(this.random.nextInt(this.grundgesamtheit.size()));
+		ArrayList<Stein> gg = this.steinart2Steine.get(steinart);
 		return new Stein(gg.get(this.random.nextInt(gg.size())));
 	}
 	
@@ -118,7 +118,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(0, relativkoordinaten);
 		
-		return new Stein(Color.ROT, map);
+		return new Stein(StoneType.RED, map);
 	}
 	
 	/**
@@ -138,7 +138,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.ROT, map);
+		return new Stein(StoneType.RED, map);
 	}
 	
 	/**
@@ -160,7 +160,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, -1));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.ROT, map);
+		return new Stein(StoneType.RED, map);
 	}
 	
 	/**
@@ -194,7 +194,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 	/**
@@ -232,7 +232,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -270,7 +270,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 0));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 	/**
@@ -308,7 +308,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, -1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -332,7 +332,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -356,7 +356,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 1));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -373,7 +373,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 1));
 		map.put(0, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 	/**
@@ -397,7 +397,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 1));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.ROT, map);
+		return new Stein(StoneType.RED, map);
 	}
 	
 	/**
@@ -423,7 +423,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 2));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.ROT, map);
+		return new Stein(StoneType.RED, map);
 	}
 	
 	/**
@@ -465,7 +465,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -507,7 +507,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, -1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -549,7 +549,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -591,7 +591,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 0));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -633,7 +633,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(-1, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.ROT, map);
+		return new Stein(StoneType.RED, map);
 	}
 	
 	/**
@@ -675,7 +675,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 	/**
@@ -693,7 +693,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 2));
 		map.put(0, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 	/**
@@ -735,7 +735,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 	/**
@@ -777,7 +777,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -819,7 +819,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -861,7 +861,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -903,7 +903,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 1));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -929,7 +929,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 2));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -955,7 +955,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 2));
 		map.put(1, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -997,7 +997,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(0, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.BLAU, map);
+		return new Stein(StoneType.BLUE, map);
 	}
 	
 	/**
@@ -1039,7 +1039,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(-1, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GRÜN, map);
+		return new Stein(StoneType.GREEN, map);
 	}
 	
 	/**
@@ -1081,7 +1081,7 @@ class SteinFactory {
 		relativkoordinaten.add(new Position(1, 2));
 		map.put(3, relativkoordinaten);
 		
-		return new Stein(Color.GELB, map);
+		return new Stein(StoneType.YELLOW, map);
 	}
 	
 }

@@ -2,7 +2,7 @@ package de.drake.tetris.gfx;
 
 import java.awt.image.BufferedImage;
 
-import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.StoneType;
 
 public class Assets {
 	
@@ -26,25 +26,27 @@ public class Assets {
 		Assets.logo = ImageLoader.loadImage("/textures/logo.png");
 	}
 	
-	public static BufferedImage getAsset(final Color color, final boolean isActive) {
+	public static BufferedImage getAsset(final StoneType type, final boolean isActive) {
 		if (isActive) {
-			switch (color) {
-			case GELB: return Assets.gelb_aktiv;
-			case BLAU: return Assets.blau_aktiv;
-			case ROT: return Assets.rot_aktiv;
-			case GRÜN: return Assets.gruen_aktiv;
-			case ORANGE: return Assets.orange_aktiv;
+			switch (type) {
+			case YELLOW: return Assets.gelb_aktiv;
+			case BLUE: return Assets.blau_aktiv;
+			case RED: return Assets.rot_aktiv;
+			case GREEN: return Assets.gruen_aktiv;
+			case CHEESE: return Assets.orange_aktiv;
+			case CLEAR: return null;
 			}
 		} else {
-			switch (color) {
-			case GELB: return Assets.gelb_inaktiv;
-			case BLAU: return Assets.blau_inaktiv;
-			case ROT: return Assets.rot_inaktiv;
-			case GRÜN: return Assets.gruen_inaktiv;
-			case ORANGE: return Assets.orange_inaktiv;
+			switch (type) {
+			case YELLOW: return Assets.gelb_inaktiv;
+			case BLUE: return Assets.blau_inaktiv;
+			case RED: return Assets.rot_inaktiv;
+			case GREEN: return Assets.gruen_inaktiv;
+			case CHEESE: return Assets.orange_inaktiv;
+			case CLEAR: return null;
 			}
 		}
-		throw new Error ("Ungültige Farbe");
+		throw new Error ("Ungültiger Typ");
 	}
 	
 }

@@ -160,17 +160,7 @@ public class PlayerPanel extends JPanel {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 				Position position = new Position(spalte, zeile);
 				if (spielfeld.isBlocked(position)) {
-					if (spielfeld.getColor(position) == null) {//TODO
-						g.drawString("Error: color == null", 10, 10);
-						g.drawString("Spieler " + this.spieler.getName(), 10, 30);
-						g.drawString("Position " + position, 10, 50);
-						g.drawString("isBlocked " + spielfeld.isBlocked(position), 10, 70);
-						System.out.println(this.spieler.getName());
-						System.out.println(position);
-						System.out.println(spielfeld.isBlocked(position));
-						throw new Error("schon wieder dieser Fehler...");
-					}
-					g.drawImage(Assets.getAsset(spielfeld.getColor(position), false),
+					g.drawImage(Assets.getAsset(spielfeld.getStoneType(position), false),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,
 							this.breite_feld, this.höhe_feld, null);
@@ -191,7 +181,7 @@ public class PlayerPanel extends JPanel {
 			spalte = position.getX();
 			if (zeile < 0)
 				continue;
-			g.drawImage(Assets.getAsset(stein.getColor(), true),
+			g.drawImage(Assets.getAsset(stein.getType(), true),
 					this.offsetX_sf + spalte * this.breite_feld,
 					this.offsetY_sf + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);
@@ -264,7 +254,7 @@ public class PlayerPanel extends JPanel {
 		for (Position position : stein.getRelativkoordinaten()) {
 			zeile = previewfelder / 2 + position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();
-			g.drawImage(Assets.getAsset(stein.getColor(), true),
+			g.drawImage(Assets.getAsset(stein.getType(), true),
 					this.offsetX_p + spalte * this.breite_feld,
 					this.offsetY_p + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);

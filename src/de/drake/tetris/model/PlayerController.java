@@ -213,7 +213,7 @@ public class PlayerController {
 	 */
 	private void setzeSteinAb() {
 		for (Position position : this.stein.getPositionen()) {
-			this.spielfeld.block(position, this.stein.getColor());
+			this.spielfeld.block(position, this.stein.getType());
 		}
 		this.spielfeld.generateCheeseRows(this.wartendeReihen);
 		this.wartendeReihen = 0;

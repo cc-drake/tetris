@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.model.util.Color;
+import de.drake.tetris.model.util.StoneType;
 import de.drake.tetris.model.util.Position;
 
 /**
@@ -13,9 +13,9 @@ import de.drake.tetris.model.util.Position;
 public class Stein {
 	
 	/**
-	 * Die Farbe des Steins.
+	 * Der Typ des Steins.
 	 */
-	private final Color color;
+	private final StoneType type;
 	
 	/**
 	 * Die aktuelle Position des Mittelpunkt des Steins.
@@ -35,15 +35,15 @@ public class Stein {
 	 */
 	private final HashMap<Integer, HashSet<Position>> relativkoordinaten;
 	
-	Stein(final Color color, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
-		this.color = color;
+	Stein(final StoneType type, HashMap<Integer, HashSet<Position>> relativkoordinaten) {
+		this.type = type;
 		this.mittelpunkt = new Position(Config.breite / 2, 0);
 		this.drehung = 0;
 		this.relativkoordinaten = relativkoordinaten;
 	}
 	
 	Stein(final Stein stein) {
-		this.color = stein.color;
+		this.type = stein.type;
 		this.mittelpunkt = new Position(stein.mittelpunkt);
 		this.drehung = stein.drehung;
 		this.relativkoordinaten = stein.relativkoordinaten;
@@ -125,9 +125,9 @@ public class Stein {
 	}
 	
 	/**
-	 * Gibt die Farbe des Steins zurück.
+	 * Gibt den Typ des Steins zurück.
 	 */
-	public Color getColor() {
-		return this.color;
+	public StoneType getType() {
+		return this.type;
 	}
 }
