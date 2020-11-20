@@ -63,17 +63,20 @@ public class Position {
 		return this.y;
 	}
 	
-	/**
-	 * Testet zwei Positionen auf Gleichheit. Zwei Positionen sind gleich, wenn x- und y-Koordinate übereinstimmen. Überschreibt Object.equals(object).
-	 */
 	@Override
-	public boolean equals(final Object object) {
-		if (!object.getClass().toString().contains("Position"))
-			return false;
-		Position position = (Position) object;
-		if (this.x == position.x && this.y == position.y)
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		return false;
+		if (obj == null)
+			return false;
+		if (this.getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 	
 	/**
@@ -84,11 +87,8 @@ public class Position {
 		return "(" + this.x + ", " + this.y + ")";
 	}
 	
-	/**
-	 * Gibt einen Hashcode zurück.
-	 */
 	@Override
 	public int hashCode() {
-		return this.x;
+		return this.x + 1013 * this.y;
 	}
 }

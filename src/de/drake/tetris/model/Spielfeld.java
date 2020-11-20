@@ -187,8 +187,6 @@ public class Spielfeld {
 	 * Für Positionen außerhalb des Spielfelds wird stets true zurückgegeben.
 	 */
 	public boolean isBlocked(final Position position) {
-		if (!this.felder.containsKey(position))
-			return true;
 		return (this.felder.get(position) != StoneType.CLEAR);
 	}
 
