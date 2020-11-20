@@ -127,7 +127,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 			this.left.setKey(new Key(KeyEvent.VK_LEFT, "Links"));
 			this.right.setKey(new Key(KeyEvent.VK_RIGHT, "Rechts"));
 			this.down.setKey(new Key(KeyEvent.VK_DOWN, "Unten"));
-			this.drop.setKey(new Key(KeyEvent.VK_4, "Taste 4"));
+			this.drop.setKey(new Key(KeyEvent.VK_5, "Taste 5"));
 			this.dreh_uzs.setKey(new Key(KeyEvent.VK_1, "Taste 0"));
 			this.dreh_euzs.setKey(new Key(KeyEvent.VK_0, "Taste 1"));
 			this.pause.setKey(new Key(KeyEvent.VK_7, "Taste 7"));

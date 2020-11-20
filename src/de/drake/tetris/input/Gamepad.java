@@ -34,10 +34,10 @@ public class Gamepad extends InputDevice implements Runnable {
 		this.controller = controller;
 		this.lfdNr = lfdNr;
 		this.pov = controller.getComponent(Identifier.Axis.POV);
-		this.up = new Key(KeyEvent.VK_UP, "\u2191");
-		this.down = new Key(KeyEvent.VK_DOWN, "\u2193");
-		this.left = new Key(KeyEvent.VK_LEFT, "\u2190");
-		this.right = new Key(KeyEvent.VK_RIGHT, "\u2192");
+		this.up = new Key(KeyEvent.VK_UP, "Oben");
+		this.down = new Key(KeyEvent.VK_DOWN, "Unten");
+		this.left = new Key(KeyEvent.VK_LEFT, "Links");
+		this.right = new Key(KeyEvent.VK_RIGHT, "Rechts");
 		
 		this.component2key.put(controller.getComponent(Identifier.Button._0),
 				new Key(KeyEvent.VK_0, "Taste 0"));
