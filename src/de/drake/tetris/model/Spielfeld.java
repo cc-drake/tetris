@@ -107,7 +107,7 @@ public class Spielfeld {
 		for (int y = -this.zusatzzeilen; y < Config.hoehe; y++) {
 			zeileFertig = true;
 			for (int x = 0; x < Config.breite; x++) {
-				if (!this.isBlocked(new Position(x, y))) {
+				if (this.felder.get(new Position(x, y)) == StoneType.CLEAR) {
 					zeileFertig = false;
 					break;
 				}
@@ -182,14 +182,6 @@ public class Spielfeld {
 		return this.felder.get(position);
 	}
 	
-	/**
-	 * Gibt an, ob das Spielfeld an der angegebenen Position blockiert ist.
-	 * Für Positionen außerhalb des Spielfelds wird stets true zurückgegeben.
-	 */
-	public boolean isBlocked(final Position position) {
-		return (this.felder.get(position) != StoneType.CLEAR);
-	}
-
 	int getCheeseReihen() {
 		int result = 0;
 		for (int zeile = 0; zeile < Config.hoehe; zeile++) {
@@ -201,6 +193,10 @@ public class Spielfeld {
 			}
 		}
 		return result;
+	}
+
+	public boolean isBlocked(Position position) {
+		return this.felder.get(position) != StoneType.CLEAR;
 	}
 	
 }

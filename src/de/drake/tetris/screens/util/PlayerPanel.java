@@ -13,6 +13,7 @@ import de.drake.tetris.model.Player;
 import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stone;
 import de.drake.tetris.model.util.Position;
+import de.drake.tetris.model.util.StoneType;
 import de.drake.tetris.states.GameState;
 
 /**
@@ -157,11 +158,12 @@ public class PlayerPanel extends JPanel {
 				Config.breite * this.breite_feld + 1, Config.hoehe * this.höhe_feld + 1);
 		
 		//Felder ausmalen
+		StoneType type;
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
-				Position position = new Position(spalte, zeile);
-				if (spielfeld.isBlocked(position)) {
-					g.drawImage(Assets.getAsset(spielfeld.getStoneType(position), false),
+				type = spielfeld.getStoneType(new Position(spalte, zeile));
+				if (type != StoneType.CLEAR) {
+					g.drawImage(Assets.getAsset(type, false),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,
 							this.breite_feld, this.höhe_feld, null);
