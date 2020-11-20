@@ -1,8 +1,11 @@
 package de.drake.tetris.screens.util;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,12 +18,17 @@ import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.input.util.Key;
 import de.drake.tetris.input.util.KeyListener;
 
-public class KeyInputField extends JPanel implements ActionListener, KeyListener {
+public class KeyInputField extends JPanel implements ActionListener, KeyListener, FocusListener {
 	
 	/**
 	 * Default Serial ID
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private final String clear = "Clear";
+	private final String edit = "Edit";
+	
+	private final Color bgColor = new Color(238, 238, 238);
 	
 	private final JSpinner inputType;
 	
@@ -37,9 +45,14 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		this.description.setEditable(false);
 		this.description.setFocusable(false);
 		super.add(this.description);
-		JButton button = ComponentFactory.createButton("X", this);
-		super.add(button);
-		InputDevice.registerInputDevices(button);
+		JButton editButton = ComponentFactory.createButton("Ändern", this);
+		editButton.setActionCommand(this.edit);
+		InputDevice.registerInputDevices(editButton);
+		editButton.addFocusListener(this);
+		super.add(editButton);
+		JButton clearButton = ComponentFactory.createButton("Leeren", this);
+		clearButton.setActionCommand(this.clear);
+		super.add(clearButton);
 	}
 	
 	public void setKey(final Key key) {
@@ -55,20 +68,39 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		InputDevice.removeInputManagers();
-		InputDevice inputDevice = (InputDevice) this.inputType.getValue();
-		inputDevice.addKeyListener(this);
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand() == this.edit) {
+			InputDevice inputDevice = (InputDevice) this.inputType.getValue();
+			inputDevice.addKeyListener(this);
+			this.description.setBackground(Color.red);
+			return;
+		}
+		if (e.getActionCommand() == this.clear) {
+			this.setKey(null);
+			return;
+		}
 	}
 
 	@Override
 	public void keyPressed(final Key key) {
 		this.setKey(key);
+		this.description.setBackground(this.bgColor);
 		InputDevice.removeInputManagers();
 	}
 
 	@Override
 	public void keyReleased(final Key key) {
+	}
+
+
+	@Override
+	public void focusGained(FocusEvent e) {
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.description.setBackground(this.bgColor);
+		InputDevice.removeInputManagers();
 	}
 
 }
