@@ -154,7 +154,7 @@ public class GameState extends State {
 	 * Prüft, ob Spieler gewonnen oder verloren haben, und beendet ggfs. das Spiel.
 	 */
 	private void checkWinLose() {
-		
+
 		//Variablen initialisieren und zugebaute Spieler auf LOSER setzen
 		boolean timeout = false;
 		if (GameMode.timeLimit > 0 && this.laufzeitNano / 1000000000. >= GameMode.timeLimit)
@@ -238,6 +238,7 @@ public class GameState extends State {
 			break;
 			
 		}
+
 	}
 	
 	public void draufwerfen(final Player werfer, final int rows) {
