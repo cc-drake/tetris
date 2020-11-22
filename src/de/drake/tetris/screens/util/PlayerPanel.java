@@ -161,8 +161,8 @@ public class PlayerPanel extends JPanel {
 		StoneType type;
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
-				type = spielfeld.getStoneType(new Position(spalte, zeile));
-				if (type != StoneType.CLEAR) {
+				type = spielfeld.getStoneType(spalte, zeile);
+				if (type != null) {
 					g.drawImage(Assets.getAsset(type, false),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,
