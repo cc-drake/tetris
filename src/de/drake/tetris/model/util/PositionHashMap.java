@@ -2,19 +2,18 @@ package de.drake.tetris.model.util;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
 
 public class PositionHashMap<ContentClass> {
 	
 	private HashMap<Integer, HashMap<Integer, ContentClass>> content = new HashMap<Integer, HashMap<Integer, ContentClass>>();
 	
-	private int yMin() {
+	public int yMin() {
 		if (this.content.isEmpty())
 			return Integer.MAX_VALUE;
 		return Collections.min(this.content.keySet());
 	}
 	
-	private int yMax() {
+	public int yMax() {
 		if (this.content.isEmpty())
 			return Integer.MIN_VALUE;
 		return Collections.max(this.content.keySet());
@@ -60,7 +59,8 @@ public class PositionHashMap<ContentClass> {
 	public void cut(final int spalte, final int zeile) {
 		this.remove(spalte, zeile);
 		
-		for (int y = zeile - 1; y >= this.yMin(); y--) {
+		int yMin = this.yMin();
+		for (int y = zeile - 1; y >= yMin; y--) {
 			ContentClass value = this.remove(spalte, y);
 			if (value != null)
 				this.put(spalte, y + 1, value);
@@ -81,7 +81,9 @@ public class PositionHashMap<ContentClass> {
 	}
 	
 	public void cutColumn(final int spalte) {
-		for (int y = this.yMin(); y <= this.yMax(); y++) {
+		int yMin = this.yMin();
+		int yMax = this.yMax();
+		for (int y = yMin; y <= yMax; y++) {
 			this.remove(spalte, y);
 		}
 	}
@@ -97,10 +99,6 @@ public class PositionHashMap<ContentClass> {
 		return this.get(position.getX(), position.getY());
 	}
 	
-	public Set<Integer> getRows() {
-		return this.content.keySet();
-	}
-
 	public boolean containsKey(final int x, final int y) {
 		if (!this.content.containsKey(y)) {
 			return false;

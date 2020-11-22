@@ -80,14 +80,17 @@ public class Spielfeld {
 	}
 	
 	/**
-	 * Entfernt rekursiv alle fertigen Reihen aus dem Spielfeld (ohne Rekursion kommt es zu Seiteneffekten).
+	 * Entfernt alle fertigen Reihen aus dem Spielfeld.
 	 * 
 	 * @return
 	 * 		Die Anzahl der fertigen Reihen, die entfernt wurden.
 	 */
 	int entferneFertigeReihen() {
+		int result = 0;
 		boolean zeileFertig;
-		for (int y : this.blockierteFelder.getRows()) {
+		int yMin = this.blockierteFelder.yMin();
+		int yMax = this.blockierteFelder.yMax();
+		for (int y = yMin; y <= yMax; y++) {
 			zeileFertig = true;
 			for (int x = 0; x < Config.breite; x++) {
 				if (!this.isBlocked(new Position(x, y))) {
@@ -97,10 +100,10 @@ public class Spielfeld {
 			}
 			if (zeileFertig) {
 				this.blockierteFelder.cutRow(y);
-				return this.entferneFertigeReihen() + 1;
+				result++;
 			}
 		}
-		return 0;
+		return result;
 	}
 	
 	/**
@@ -129,7 +132,9 @@ public class Spielfeld {
 	
 	int getCheeseReihen() {
 		int result = 0;
-		for (int zeile : this.blockierteFelder.getRows()) {
+		int yMin = this.blockierteFelder.yMin();
+		int yMax = this.blockierteFelder.yMax();
+		for (int zeile = yMin; zeile <= yMax; zeile ++) {
 			for (int spalte = 0; spalte < Config.breite; spalte++) {
 				if (this.blockierteFelder.get(spalte, zeile) == StoneType.CHEESE) {
 					result++;
