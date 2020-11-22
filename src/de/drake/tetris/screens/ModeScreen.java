@@ -188,7 +188,7 @@ public class ModeScreen extends JScrollPane {
 					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimit_che);
 					
 					this.cheeseRows = new NumberSpinner(
-							GameMode.cheeseRows, 1, Config.hoehe - Config.getMaxSteinSize(), 1);
+							GameMode.cheeseRows, 1, 100, 1);
 					options_che.addOption("Reihen", this.cheeseRows);
 					
 				c.gridy = 3;
