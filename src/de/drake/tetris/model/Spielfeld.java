@@ -80,7 +80,7 @@ public class Spielfeld {
 	}
 	
 	/**
-	 * Entfernt rekursiv alle fertigen Reihen aus dem Spielfeld.
+	 * Entfernt rekursiv alle fertigen Reihen aus dem Spielfeld (ohne Rekursion kommt es zu Seiteneffekten).
 	 * 
 	 * @return
 	 * 		Die Anzahl der fertigen Reihen, die entfernt wurden.
