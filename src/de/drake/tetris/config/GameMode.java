@@ -24,7 +24,7 @@ public class GameMode {
 	/**
 	 * Das Zeitlimit in Sekunden, nach dem das Spiel beendet wird.
 	 */
-	public static int timeLimit = 0;
+	public static int timeLimit;
 	
 	/**
 	 * Die Logik, nach der fertige Reihen den Gegnern "draufgeworfen" werden.
@@ -34,21 +34,21 @@ public class GameMode {
 	/**
 	 * Die Beschleunigung nach Elimination einer Reihe in %
 	 */
-	public static double speedIncreaseRow = 1.;
+	public static double speedIncreaseRow;
 	
 	/**
 	 * Die Beschleunigung je Sekunde in %
 	 */
-	public static double speedIncreaseSec = 0.5;
+	public static double speedIncreaseSec;
 	
 	/**
 	 * Anzahl der Reihen, die im Race-Modus zu eliminieren sind.
 	 */
-	public static int raceRows = 50;
+	public static int raceRows;
 	
 	/**
 	 * Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind.
 	 */
-	public static int cheeseRows = 9;
+	public static int cheeseRows;
 	
 }
