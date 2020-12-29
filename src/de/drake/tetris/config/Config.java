@@ -22,22 +22,22 @@ public class Config {
 	/**
 	 * Gibt an, wie häufig kleine Steine (< 4 Blöcke) spawnen sollen.
 	 */
-	public static int stone_small = 2;
+	public static int stone_small;
 	
 	/**
 	 * Gibt an, wie häufig "normale" Steine (aus 4 Blöcken) spawnen sollen.
 	 */
-	public static int stone_regular = 6;
+	public static int stone_regular;
 	
 	/**
 	 * Gibt an, wie häufig große Steine (aus 5 Blöcken) spawnen sollen.
 	 */
-	public static int stone_large = 3;
+	public static int stone_large;
 	
 	/**
 	 * Gibt an, wie häufig Bomben-Steine spawnen sollen.
 	 */
-	public static int stone_bomb = 1;
+	public static int stone_bomb;
 	
 	/**
 	 * Gibt die maximale Steingröße zurück.
@@ -57,24 +57,24 @@ public class Config {
 	/**
 	 * Die Breite des Spielfeldes (Anzahl der Spalten)
 	 */
-	public static int breite = 10;
+	public static int breite;
 	
 	/**
 	 * Die sichtbare Höhe des Spielfelds, d.h. die Anzahl der in der GUI dargestellten Zeilen.
 	 * Die tatsächliche Höhe des Spielfelds ist etwas größer, damit die Steine oben herausragen können.
 	 */
-	public static int hoehe = 20;
+	public static int hoehe;
 	
 	/**
 	 * Zeit, nach der beim Halten der "Links"-Taste das automatische "Weiterlaufen" des Steins nach
 	 * links beginnen soll (in Millisekunden).
 	 */
-	public static int keyRepeatDelay = 170;
+	public static int keyRepeatDelay;
 	
 	/**
 	 * Geschwindigkeit, mit der beim Halten der "Links"-Taste der Stein nach links laufen soll
 	 * (in Bewegungen je Sekunde).
 	 */
-	public static int keyRepeatSpeed = 25;
+	public static int keyRepeatSpeed;
 	
 }
