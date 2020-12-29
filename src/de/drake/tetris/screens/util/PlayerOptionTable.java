@@ -1,8 +1,6 @@
 package de.drake.tetris.screens.util;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 import javax.swing.JTextField;
@@ -40,7 +38,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 		this.name = ComponentFactory.createJTextField(player.getName());
 		super.addOption("Spielername", name);
 		
-		this.speed = new NumberSpinner(2., 0., Config.FPS, .1);
+		this.speed = new NumberSpinner(PlayerConfig.initialSpeed, 0., Config.FPS, .1);
 		super.addOption("Fallgeschwindigkeit", this.speed);
 	
 		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7);
@@ -103,35 +101,35 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	public void stateChanged(ChangeEvent arg0) {
 		InputDevice device = (InputDevice) this.inputType.getValue();
 		switch (device.getType()) {
-		case InputDevice.MOUSE:
-			this.left.setKey(new Key(MouseEvent.BUTTON1, "Links"));
-			this.right.setKey(new Key(MouseEvent.BUTTON3, "Rechts"));
-			this.down.setKey(null);
-			this.drop.setKey(new Key(MouseEvent.BUTTON2, "Mitte"));
-			this.dreh_uzs.setKey(new Key(-1, "Scroll ab"));
-			this.dreh_euzs.setKey(new Key(0, "Scroll auf"));
-			this.pause.setKey(null);
-			this.quit.setKey(null);
-			break;
 		case InputDevice.KEYBOARD:
-			this.left.setKey(new Key(KeyEvent.VK_A, "A"));
-			this.right.setKey(new Key(KeyEvent.VK_D, "D"));
-			this.down.setKey(new Key(KeyEvent.VK_S, "S"));
-			this.drop.setKey(new Key(KeyEvent.VK_SPACE, "Leertaste"));
-			this.dreh_uzs.setKey(new Key(KeyEvent.VK_NUMPAD5, "Numpad-5"));
-			this.dreh_euzs.setKey(new Key(KeyEvent.VK_NUMPAD4, "Numpad-4"));
-			this.pause.setKey(new Key(KeyEvent.VK_ENTER, "Eingabe"));
-			this.quit.setKey(new Key(KeyEvent.VK_ESCAPE, "ESC"));
+			this.left.setKey(PlayerConfig.keyboard_left);
+			this.right.setKey(PlayerConfig.keyboard_right);
+			this.down.setKey(PlayerConfig.keyboard_down);
+			this.drop.setKey(PlayerConfig.keyboard_drop);
+			this.dreh_uzs.setKey(PlayerConfig.keyboard_dreh_uzs);
+			this.dreh_euzs.setKey(PlayerConfig.keyboard_dreh_euzs);
+			this.pause.setKey(PlayerConfig.keyboard_pause);
+			this.quit.setKey(PlayerConfig.keyboard_quit);
+			break;
+		case InputDevice.MOUSE:
+			this.left.setKey(PlayerConfig.mouse_left);
+			this.right.setKey(PlayerConfig.mouse_right);
+			this.down.setKey(PlayerConfig.mouse_down);
+			this.drop.setKey(PlayerConfig.mouse_drop);
+			this.dreh_uzs.setKey(PlayerConfig.mouse_dreh_uzs);
+			this.dreh_euzs.setKey(PlayerConfig.mouse_dreh_euzs);
+			this.pause.setKey(PlayerConfig.mouse_pause);
+			this.quit.setKey(PlayerConfig.mouse_quit);
 			break;
 		case InputDevice.GAMEPAD:
-			this.left.setKey(new Key(KeyEvent.VK_LEFT, "Links"));
-			this.right.setKey(new Key(KeyEvent.VK_RIGHT, "Rechts"));
-			this.down.setKey(new Key(KeyEvent.VK_DOWN, "Unten"));
-			this.drop.setKey(new Key(KeyEvent.VK_5, "Taste 5"));
-			this.dreh_uzs.setKey(new Key(KeyEvent.VK_1, "Taste 0"));
-			this.dreh_euzs.setKey(new Key(KeyEvent.VK_0, "Taste 1"));
-			this.pause.setKey(new Key(KeyEvent.VK_7, "Taste 7"));
-			this.quit.setKey(new Key(KeyEvent.VK_6, "Taste 6"));
+			this.left.setKey(PlayerConfig.gamepad_left);
+			this.right.setKey(PlayerConfig.gamepad_right);
+			this.down.setKey(PlayerConfig.gamepad_down);
+			this.drop.setKey(PlayerConfig.gamepad_drop);
+			this.dreh_uzs.setKey(PlayerConfig.gamepad_dreh_uzs);
+			this.dreh_euzs.setKey(PlayerConfig.gamepad_dreh_euzs);
+			this.pause.setKey(PlayerConfig.gamepad_pause);
+			this.quit.setKey(PlayerConfig.gamepad_quit);
 			break;
 		}
 	}
