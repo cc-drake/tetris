@@ -127,7 +127,7 @@ public class ModeScreen extends JScrollPane {
 					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimit_com);
 					
 					this.speedIncreaseSec = new NumberSpinner(
-							GameMode.speedIncreaseSec, 0., 10., 0.1);
+							GameMode.speedIncreaseSec, 0., 100., 0.1);
 					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
 					String[] values = {GameMode.COMBAT_CLASSIC, GameMode.COMBAT_BADASS, GameMode.COMBAT_PEACE};
