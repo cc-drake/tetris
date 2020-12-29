@@ -1,6 +1,7 @@
 package de.drake.tetris;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.config.IniInOut;
 import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.screens.Display;
@@ -14,6 +15,7 @@ class Game implements Runnable {
 	private final Display display;
 	
 	Game() {
+		IniInOut.initConfig();
 		Assets.init();
 		InputDevice.init();
 		this.display = new Display();
