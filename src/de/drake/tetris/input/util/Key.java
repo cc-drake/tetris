@@ -31,7 +31,11 @@ public class Key {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
+	}
+	
+	public int getID() {
+		return this.id;
 	}
 	
 }
