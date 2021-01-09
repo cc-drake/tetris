@@ -21,7 +21,7 @@ import de.drake.tetris.states.ModeState;
 public class ConfigScreen extends JScrollPane {
 
 	private NumberSpinner stone_small, stone_regular, stone_large, stone_bomb, 
-			hoehe, breite, keyRepeatDelay, keyRepeatSpeed;
+			hoehe, breite, initialSpeed, keyRepeatDelay, keyRepeatSpeed;
 	
 	/**
 	 * Die Default Serial ID
@@ -69,6 +69,9 @@ public class ConfigScreen extends JScrollPane {
 					this.hoehe = new NumberSpinner(Config.hoehe, 1, 100, 1);
 					table.addOption("Höhe des Spielfelds (Anzahl Felder)", this.hoehe);
 					
+					this.initialSpeed = new NumberSpinner(Config.initialSpeed, 0., Config.FPS, .1);
+					table.addOption("Initiale Fallgeschwindigkeit (Felder/Sekunde)", this.initialSpeed);
+					
 					this.keyRepeatDelay = new NumberSpinner(Config.keyRepeatDelay, 0, 1000, 10);
 					table.addOption("Tastenwiederholung: Verzögerung (Millisekunden)", this.keyRepeatDelay);
 					
@@ -97,6 +100,7 @@ public class ConfigScreen extends JScrollPane {
 		Config.stone_bomb = this.stone_bomb.getIntValue();
 		Config.breite = this.breite.getIntValue();
 		Config.hoehe = this.hoehe.getIntValue();
+		Config.initialSpeed = this.initialSpeed.getDoubleValue();
 		Config.keyRepeatDelay = this.keyRepeatDelay.getIntValue();
 		Config.keyRepeatSpeed = this.keyRepeatSpeed.getIntValue();
 		return true;
