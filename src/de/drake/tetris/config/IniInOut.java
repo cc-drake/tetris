@@ -3,6 +3,8 @@ package de.drake.tetris.config;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -10,21 +12,27 @@ import de.drake.tetris.input.util.Key;
 
 public class IniInOut {
 	
-	private final HashMap<String, String> parameter2value = new HashMap<String, String>();
-	
 	public static void initConfig() {
-		IniInOut ini = new IniInOut();
-		ini.readIni();
-		ini.setConfig();
+		
+		HashMap<String, String> parameters = null;
+		
+		try {
+			parameters = IniInOut.readIni();
+		} catch (IOException e) {
+		}
+		
+		IniInOut.setConfig(parameters);
+		
+		try {
+			IniInOut.saveIni();
+		} catch (IOException e) {
+		}
+		
 	}
 	
-	private void readIni() {
-		FileReader filereader;
-		try {
-			filereader = new FileReader("Tetris.ini");
-		} catch (Exception e) {
-			return;
-		}
+	private static HashMap<String, String> readIni() throws IOException {
+		HashMap<String, String> result = new HashMap<String, String>();
+		FileReader filereader = new FileReader("Tetris.ini");
 		Scanner scanner = new Scanner(filereader);
 		String line;
 		String[] splitLine;
@@ -34,312 +42,484 @@ public class IniInOut {
 				continue;
 			splitLine = line.split("=");
 			if (splitLine.length == 2)
-				this.parameter2value.put(splitLine[0].trim(), splitLine[1].trim());
+				result.put(splitLine[0].trim(), splitLine[1].trim());
 		}
 		scanner.close();
-		try {
-			filereader.close();
-		} catch (Exception e) {
-		}
+		filereader.close();
+		return result;
 	}
 	
-	private void setConfig() {
+	public static void setConfig(HashMap<String, String> parameters) {
+		if (parameters == null)
+			parameters = new HashMap<String, String>();
+		
 		String value;
 		
-		value = this.getValue("stone_small");
+		value = parameters.get("stone_small");
 		try {
 			Config.stone_small = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.stone_small = 2;
 		}
 		
-		value = this.getValue("stone_regular");
+		value = parameters.get("stone_regular");
 		try {
 			Config.stone_regular = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.stone_regular = 6;
 		}
 		
-		value = this.getValue("stone_large");
+		value = parameters.get("stone_large");
 		try {
 			Config.stone_large = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.stone_large = 3;
 		}
 		
-		value = this.getValue("stone_bomb");
+		value = parameters.get("stone_bomb");
 		try {
 			Config.stone_bomb = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.stone_bomb = 1;
 		}
 		
-		value = this.getValue("breite");
+		value = parameters.get("breite");
 		try {
 			Config.breite = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.breite = 10;
 		}
 		
-		value = this.getValue("hoehe");
+		value = parameters.get("hoehe");
 		try {
 			Config.hoehe = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.hoehe = 20;
 		}
 		
-		value = this.getValue("keyRepeatDelay");
+		value = parameters.get("initialSpeed");
+		try {
+			Config.initialSpeed = Double.parseDouble(value);
+		} catch (Exception e) {
+			Config.initialSpeed = 2.;
+		}
+		
+		value = parameters.get("keyRepeatDelay");
 		try {
 			Config.keyRepeatDelay = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.keyRepeatDelay = 170;
 		}
 		
-		value = this.getValue("keyRepeatSpeed");
+		value = parameters.get("keyRepeatSpeed");
 		try {
 			Config.keyRepeatSpeed = Integer.parseInt(value);
 		} catch (Exception e) {
 			Config.keyRepeatSpeed = 25;
 		}
 		
-		value = this.getValue("timeLimit");
+		value = parameters.get("timeLimit");
 		try {
 			GameMode.timeLimit = Integer.parseInt(value);
 		} catch (Exception e) {
 			GameMode.timeLimit = 0;
 		}
 		
-		value = this.getValue("speedIncreaseRow");
+		value = parameters.get("speedIncreaseRow");
 		try {
 			GameMode.speedIncreaseRow = Double.parseDouble(value);
 		} catch (Exception e) {
 			GameMode.speedIncreaseRow = 1.;
 		}
 		
-		value = this.getValue("speedIncreaseSec");
+		value = parameters.get("speedIncreaseSec");
 		try {
 			GameMode.speedIncreaseSec = Double.parseDouble(value);
 		} catch (Exception e) {
 			GameMode.speedIncreaseSec = 0.5;
 		}
 		
-		value = this.getValue("raceRows");
+		value = parameters.get("raceRows");
 		try {
 			GameMode.raceRows = Integer.parseInt(value);
 		} catch (Exception e) {
 			GameMode.raceRows = 50;
 		}
 		
-		value = this.getValue("cheeseRows");
+		value = parameters.get("cheeseRows");
 		try {
 			GameMode.cheeseRows = Integer.parseInt(value);
 		} catch (Exception e) {
 			GameMode.cheeseRows = 9;
 		}
 		
-		value = this.getValue("initialSpeed");
-		try {
-			PlayerConfig.initialSpeed = Double.parseDouble(value);
-		} catch (Exception e) {
-			PlayerConfig.initialSpeed = 2.;
-		}
-		
 		try {
 			PlayerConfig.keyboard_left = new Key(
-					Integer.parseInt(this.getValue("keyboard_left_ID")),
-					this.getValue("keyboard_left_description"));
+					Integer.parseInt(parameters.get("keyboard_left_ID")),
+					parameters.get("keyboard_left_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_left = new Key(KeyEvent.VK_A, "A");
 		}
 		
 		try {
 			PlayerConfig.keyboard_right = new Key(
-					Integer.parseInt(this.getValue("keyboard_right_ID")),
-					this.getValue("keyboard_right_description"));
+					Integer.parseInt(parameters.get("keyboard_right_ID")),
+					parameters.get("keyboard_right_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_right = new Key(KeyEvent.VK_D, "D");
 		}
 		
 		try {
 			PlayerConfig.keyboard_down = new Key(
-					Integer.parseInt(this.getValue("keyboard_down_ID")),
-					this.getValue("keyboard_down_description"));
+					Integer.parseInt(parameters.get("keyboard_down_ID")),
+					parameters.get("keyboard_down_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_down = new Key(KeyEvent.VK_S, "S");
 		}
 		
 		try {
 			PlayerConfig.keyboard_drop = new Key(
-					Integer.parseInt(this.getValue("keyboard_drop_ID")),
-					this.getValue("keyboard_drop_description"));
+					Integer.parseInt(parameters.get("keyboard_drop_ID")),
+					parameters.get("keyboard_drop_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_drop = new Key(KeyEvent.VK_SPACE, "Leertaste");
 		}
 		
 		try {
 			PlayerConfig.keyboard_dreh_uzs = new Key(
-					Integer.parseInt(this.getValue("keyboard_dreh_uzs_ID")),
-					this.getValue("keyboard_dreh_uzs_description"));
+					Integer.parseInt(parameters.get("keyboard_dreh_uzs_ID")),
+					parameters.get("keyboard_dreh_uzs_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_dreh_uzs = new Key(KeyEvent.VK_NUMPAD5, "Numpad-5");
 		}
 		
 		try {
 			PlayerConfig.keyboard_dreh_euzs = new Key(
-					Integer.parseInt(this.getValue("keyboard_dreh_euzs_ID")),
-					this.getValue("keyboard_dreh_euzs_description"));
+					Integer.parseInt(parameters.get("keyboard_dreh_euzs_ID")),
+					parameters.get("keyboard_dreh_euzs_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_dreh_euzs = new Key(KeyEvent.VK_NUMPAD4, "Numpad-4");
 		}
 		
 		try {
 			PlayerConfig.keyboard_pause = new Key(
-					Integer.parseInt(this.getValue("keyboard_pause_ID")),
-					this.getValue("keyboard_pause_description"));
+					Integer.parseInt(parameters.get("keyboard_pause_ID")),
+					parameters.get("keyboard_pause_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_pause = new Key(KeyEvent.VK_ENTER, "Eingabe");
 		}
 		
 		try {
 			PlayerConfig.keyboard_quit = new Key(
-					Integer.parseInt(this.getValue("keyboard_quit_ID")),
-					this.getValue("keyboard_quit_description"));
+					Integer.parseInt(parameters.get("keyboard_quit_ID")),
+					parameters.get("keyboard_quit_description"));
 		} catch (Exception e) {
 			PlayerConfig.keyboard_quit = new Key(KeyEvent.VK_ESCAPE, "ESC");
 		}
 		
 		try {
 			PlayerConfig.mouse_left = new Key(
-					Integer.parseInt(this.getValue("mouse_left_ID")),
-					this.getValue("mouse_left_description"));
+					Integer.parseInt(parameters.get("mouse_left_ID")),
+					parameters.get("mouse_left_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_left = new Key(MouseEvent.BUTTON1, "Links");
 		}
 		
 		try {
 			PlayerConfig.mouse_right = new Key(
-					Integer.parseInt(this.getValue("mouse_right_ID")),
-					this.getValue("mouse_right_description"));
+					Integer.parseInt(parameters.get("mouse_right_ID")),
+					parameters.get("mouse_right_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_right = new Key(MouseEvent.BUTTON3, "Rechts");
 		}
 		
 		try {
 			PlayerConfig.mouse_down = new Key(
-					Integer.parseInt(this.getValue("mouse_down_ID")),
-					this.getValue("mouse_down_description"));
+					Integer.parseInt(parameters.get("mouse_down_ID")),
+					parameters.get("mouse_down_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_down = null;
 		}
 		
 		try {
 			PlayerConfig.mouse_drop = new Key(
-					Integer.parseInt(this.getValue("mouse_drop_ID")),
-					this.getValue("mouse_drop_description"));
+					Integer.parseInt(parameters.get("mouse_drop_ID")),
+					parameters.get("mouse_drop_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_drop = new Key(MouseEvent.BUTTON2, "Mitte");
 		}
 		
 		try {
 			PlayerConfig.mouse_dreh_uzs = new Key(
-					Integer.parseInt(this.getValue("mouse_dreh_uzs_ID")),
-					this.getValue("mouse_dreh_uzs_description"));
+					Integer.parseInt(parameters.get("mouse_dreh_uzs_ID")),
+					parameters.get("mouse_dreh_uzs_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_dreh_uzs = new Key(-1, "Scroll ab");
 		}
 		
 		try {
 			PlayerConfig.mouse_dreh_euzs = new Key(
-					Integer.parseInt(this.getValue("mouse_dreh_euzs_ID")),
-					this.getValue("mouse_dreh_euzs_description"));
+					Integer.parseInt(parameters.get("mouse_dreh_euzs_ID")),
+					parameters.get("mouse_dreh_euzs_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_dreh_euzs = new Key(0, "Scroll auf");
 		}
 		
 		try {
 			PlayerConfig.mouse_pause = new Key(
-					Integer.parseInt(this.getValue("mouse_pause_ID")),
-					this.getValue("mouse_pause_description"));
+					Integer.parseInt(parameters.get("mouse_pause_ID")),
+					parameters.get("mouse_pause_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_pause = null;
 		}
 		
 		try {
 			PlayerConfig.mouse_quit = new Key(
-					Integer.parseInt(this.getValue("mouse_quit_ID")),
-					this.getValue("mouse_quit_description"));
+					Integer.parseInt(parameters.get("mouse_quit_ID")),
+					parameters.get("mouse_quit_description"));
 		} catch (Exception e) {
 			PlayerConfig.mouse_quit = null;
 		}
 		
 		try {
 			PlayerConfig.gamepad_left = new Key(
-					Integer.parseInt(this.getValue("gamepad_left_ID")),
-					this.getValue("gamepad_left_description"));
+					Integer.parseInt(parameters.get("gamepad_left_ID")),
+					parameters.get("gamepad_left_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_left = new Key(KeyEvent.VK_LEFT, "Links");
 		}
 		
 		try {
 			PlayerConfig.gamepad_right = new Key(
-					Integer.parseInt(this.getValue("gamepad_right_ID")),
-					this.getValue("gamepad_right_description"));
+					Integer.parseInt(parameters.get("gamepad_right_ID")),
+					parameters.get("gamepad_right_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_right = new Key(KeyEvent.VK_RIGHT, "Rechts");
 		}
 		
 		try {
 			PlayerConfig.gamepad_down = new Key(
-					Integer.parseInt(this.getValue("gamepad_down_ID")),
-					this.getValue("gamepad_down_description"));
+					Integer.parseInt(parameters.get("gamepad_down_ID")),
+					parameters.get("gamepad_down_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_down = new Key(KeyEvent.VK_DOWN, "Unten");
 		}
 		
 		try {
 			PlayerConfig.gamepad_drop = new Key(
-					Integer.parseInt(this.getValue("gamepad_drop_ID")),
-					this.getValue("gamepad_drop_description"));
+					Integer.parseInt(parameters.get("gamepad_drop_ID")),
+					parameters.get("gamepad_drop_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_drop = new Key(KeyEvent.VK_5, "Taste 5");
 		}
 		
 		try {
 			PlayerConfig.gamepad_dreh_uzs = new Key(
-					Integer.parseInt(this.getValue("gamepad_dreh_uzs_ID")),
-					this.getValue("gamepad_dreh_uzs_description"));
+					Integer.parseInt(parameters.get("gamepad_dreh_uzs_ID")),
+					parameters.get("gamepad_dreh_uzs_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_dreh_uzs = new Key(KeyEvent.VK_1, "Taste 1");
 		}
 		
 		try {
 			PlayerConfig.gamepad_dreh_euzs = new Key(
-					Integer.parseInt(this.getValue("gamepad_dreh_euzs_ID")),
-					this.getValue("gamepad_dreh_euzs_description"));
+					Integer.parseInt(parameters.get("gamepad_dreh_euzs_ID")),
+					parameters.get("gamepad_dreh_euzs_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_dreh_euzs = new Key(KeyEvent.VK_0, "Taste 0");
 		}
 		
 		try {
 			PlayerConfig.gamepad_pause = new Key(
-					Integer.parseInt(this.getValue("gamepad_pause_ID")),
-					this.getValue("gamepad_pause_description"));
+					Integer.parseInt(parameters.get("gamepad_pause_ID")),
+					parameters.get("gamepad_pause_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_pause = new Key(KeyEvent.VK_7, "Taste 7");
 		}
 		
 		try {
 			PlayerConfig.gamepad_quit = new Key(
-					Integer.parseInt(this.getValue("gamepad_quit_ID")),
-					this.getValue("gamepad_quit_description"));
+					Integer.parseInt(parameters.get("gamepad_quit_ID")),
+					parameters.get("gamepad_quit_description"));
 		} catch (Exception e) {
 			PlayerConfig.gamepad_quit = new Key(KeyEvent.VK_6, "Taste 6");
 		}
 		
 	}
 	
-	private String getValue(final String parameter) {
-		return this.parameter2value.get(parameter);
+	public static void saveIni() throws IOException {
+		String ini = "";
+		ini += "// Parameter werden beim Start von Tetris eingelesen. Kommentare mit \"//\" einrücken.\r\n";
+		ini += "\r\n";
+		
+		ini += "// Häufigkeit kleiner Steine aus 3 oder weniger Teilen.\r\n";
+		ini += "stone_small = " + Config.stone_small + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Häufigkeit normaler Steine aus 4 Teilen.\r\n";
+		ini += "stone_regular = " + Config.stone_regular + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Häufigkeit großer Steine aus 5 Teilen.\r\n";
+		ini += "stone_large = " + Config.stone_large + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Häufigkeit von Bomben.\r\n";
+		ini += "stone_bomb = " + Config.stone_bomb + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Breite des Spielfelds.\r\n";
+		ini += "breite = " + Config.breite + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Höhe des Spielfelds.\r\n";
+		ini += "hoehe = " + Config.hoehe + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die initiale Fallgeschwindigkeit der Steine in Feldern pro Sekunde.\r\n";
+		ini += "initialSpeed = " + Config.initialSpeed + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Verzögerung der Tastenwiederholung in Millisekunden.\r\n";
+		ini += "keyRepeatDelay = " + Config.keyRepeatDelay + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Geschwindigkeit der Tastenwiederholung in Feldern pro Sekunde.\r\n";
+		ini += "keyRepeatSpeed = " + Config.keyRepeatSpeed + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Das Zeitlimit der Runden in Sekunden.\r\n";
+		ini += "timeLimit = " + GameMode.timeLimit + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Erhöhung der Spielgeschwindigkeit je entfernter Reihe in % (Solitär-Modus).\r\n";
+		ini += "speedIncreaseRow = " + GameMode.speedIncreaseRow + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Erhöhung der Spielgeschwindigkeit je Sekunde in % (Combat-Modus).\r\n";
+		ini += "speedIncreaseSec = " + GameMode.speedIncreaseSec + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Zahl der zu eliminierenden Reihen (Race-Modus).\r\n";
+		ini += "raceRows = " + GameMode.raceRows + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Die Zahl der zu eliminierenden Cheese-Reihen (Cheese-Modus).\r\n";
+		ini += "cheeseRows = " + GameMode.cheeseRows + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Links\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_left", PlayerConfig.keyboard_left);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Rechts\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_right", PlayerConfig.keyboard_right);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Runter\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_down", PlayerConfig.keyboard_down);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Absetzen\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_drop", PlayerConfig.keyboard_drop);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Drehen im Uhrzeigersinn\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_dreh_uzs", PlayerConfig.keyboard_dreh_uzs);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Drehen gegen den Uhrzeigersinn\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_dreh_euzs", PlayerConfig.keyboard_dreh_euzs);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Pause\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_pause", PlayerConfig.keyboard_pause);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Tastatur für \"Beenden\".\r\n";
+		ini += IniInOut.getKeyString("keyboard_quit", PlayerConfig.keyboard_quit);
+		ini += "\r\n";
+
+		ini += "// Default-Tastenbelegung der Maus für \"Links\".\r\n";
+		ini += IniInOut.getKeyString("mouse_left", PlayerConfig.mouse_left);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Rechts\".\r\n";
+		ini += IniInOut.getKeyString("mouse_right", PlayerConfig.mouse_right);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Runter\".\r\n";
+		ini += IniInOut.getKeyString("mouse_down", PlayerConfig.mouse_down);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Absetzen\".\r\n";
+		ini += IniInOut.getKeyString("mouse_drop", PlayerConfig.mouse_drop);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Drehen im Uhrzeigersinn\".\r\n";
+		ini += IniInOut.getKeyString("mouse_dreh_uzs", PlayerConfig.mouse_dreh_uzs);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Drehen gegen den Uhrzeigersinn\".\r\n";
+		ini += IniInOut.getKeyString("mouse_dreh_euzs", PlayerConfig.mouse_dreh_euzs);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Pause\".\r\n";
+		ini += IniInOut.getKeyString("mouse_pause", PlayerConfig.mouse_pause);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung der Maus für \"Beenden\".\r\n";
+		ini += IniInOut.getKeyString("mouse_quit", PlayerConfig.mouse_quit);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Links\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_left", PlayerConfig.gamepad_left);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Rechts\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_right", PlayerConfig.gamepad_right);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Runter\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_down", PlayerConfig.gamepad_down);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Absetzen\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_drop", PlayerConfig.gamepad_drop);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Drehen im Uhrzeigersinn\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_dreh_uzs", PlayerConfig.gamepad_dreh_uzs);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Drehen gegen den Uhrzeigersinn\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_dreh_euzs", PlayerConfig.gamepad_dreh_euzs);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Pause\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_pause", PlayerConfig.gamepad_pause);
+		ini += "\r\n";
+		
+		ini += "// Default-Tastenbelegung des Gamepads für \"Beenden\".\r\n";
+		ini += IniInOut.getKeyString("gamepad_quit", PlayerConfig.gamepad_quit);
+		ini += "\r\n";
+		
+		FileWriter filewriter = new FileWriter("Tetris.ini", false);
+		filewriter.write(ini);
+		filewriter.flush();
+		filewriter.close();
+	}
+	
+	private static String getKeyString(final String type, final Key key) {
+		String result = "";
+		if (key == null) {
+			result += type + "_ID = \r\n";
+			result += type + "_description = \r\n";
+		} else {
+			result += type + "_ID = " + key.getID() + "\r\n";
+			result += type + "_description = " + key.getDescription() + "\r\n";
+		}
+		return result;
 	}
 	
 }
