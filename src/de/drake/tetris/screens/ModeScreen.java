@@ -206,40 +206,40 @@ public class ModeScreen extends JScrollPane {
 	
 	public void setGameMode(final String gameMode) {
 		if (gameMode == GameMode.SOLITAER) {
+			GameMode.gameMode = GameMode.SOLITAER;
 			GameMode.timeLimit = 0;
 			GameMode.speedIncreaseRow = this.speedIncreaseRow.getDoubleValue();
 			GameMode.speedIncreaseSec = 0.;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
 			GameMode.raceRows = 0;
 			GameMode.cheeseRows = 0;
-			GameMode.gameMode = GameMode.SOLITAER;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
 		if (gameMode == GameMode.COMBAT) {
+			GameMode.gameMode = GameMode.COMBAT;
 			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_com.getDateValue());
 			GameMode.speedIncreaseRow = 0.;
 			GameMode.speedIncreaseSec = this.speedIncreaseSec.getDoubleValue();
+			GameMode.combatType = (String) this.combatType.getValue();
 			GameMode.raceRows = 0;
 			GameMode.cheeseRows = 0;
-			GameMode.gameMode = GameMode.COMBAT;
-			GameMode.combatType = (String) this.combatType.getValue();
 		}
 		if (gameMode == GameMode.RACE) {
+			GameMode.gameMode = GameMode.RACE;
 			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_race.getDateValue());
 			GameMode.speedIncreaseRow = 0.;
 			GameMode.speedIncreaseSec = 0.;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
 			GameMode.raceRows = this.raceRows.getIntValue();
 			GameMode.cheeseRows = 0;
-			GameMode.gameMode = GameMode.RACE;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
 		if (gameMode == GameMode.CHEESE) {
+			GameMode.gameMode = GameMode.CHEESE;
 			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_che.getDateValue());
 			GameMode.speedIncreaseRow = 0.;
 			GameMode.speedIncreaseSec = 0.;
+			GameMode.combatType = GameMode.COMBAT_PEACE;
 			GameMode.raceRows = 0;
 			GameMode.cheeseRows = this.cheeseRows.getIntValue();
-			GameMode.gameMode = GameMode.CHEESE;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
 		}
 	}
 	
