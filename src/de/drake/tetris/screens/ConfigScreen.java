@@ -82,7 +82,11 @@ public class ConfigScreen extends JScrollPane {
 			bottomPanel.setBackground(Config.COLOR_BACKGROUND);
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
-			
+				
+				bottomPanel.add(ComponentFactory.createButton(ConfigState.save, listener));
+				
+				bottomPanel.add(ComponentFactory.createButton(ConfigState.reset, listener));
+				
 				bottomPanel.add(ComponentFactory.createButton(ConfigState.back, listener));
 				
 	}
