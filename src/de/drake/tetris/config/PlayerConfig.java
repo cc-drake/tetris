@@ -9,8 +9,6 @@ public class PlayerConfig {
 	
 	public static Vector<PlayerConfig> playerConfigs;
 	
-	public static double initialSpeed = 2.;
-	
 	public static Key keyboard_left,
 			keyboard_right,
 			keyboard_down,
