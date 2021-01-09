@@ -27,11 +27,6 @@ public class GameMode {
 	public static int timeLimit;
 	
 	/**
-	 * Die Logik, nach der fertige Reihen den Gegnern "draufgeworfen" werden.
-	 */
-	public static String combatType = GameMode.COMBAT_PEACE;
-	
-	/**
 	 * Die Beschleunigung nach Elimination einer Reihe in %
 	 */
 	public static double speedIncreaseRow;
@@ -40,6 +35,11 @@ public class GameMode {
 	 * Die Beschleunigung je Sekunde in %
 	 */
 	public static double speedIncreaseSec;
+	
+	/**
+	 * Die Logik, nach der fertige Reihen den Gegnern "draufgeworfen" werden.
+	 */
+	public static String combatType = GameMode.COMBAT_PEACE;
 	
 	/**
 	 * Anzahl der Reihen, die im Race-Modus zu eliminieren sind.
