@@ -66,6 +66,11 @@ public class Config {
 	public static int hoehe;
 	
 	/**
+	 * Die initiale Fallgeschwindigkeit der Steine in Felder pro Sekunde.
+	 */
+	public static double initialSpeed;
+	
+	/**
 	 * Zeit, nach der beim Halten der "Links"-Taste das automatische "Weiterlaufen" des Steins nach
 	 * links beginnen soll (in Millisekunden).
 	 */
