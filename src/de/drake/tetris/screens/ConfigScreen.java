@@ -16,7 +16,7 @@ import de.drake.tetris.config.Config;
 import de.drake.tetris.screens.util.ComponentFactory;
 import de.drake.tetris.screens.util.NumberSpinner;
 import de.drake.tetris.screens.util.OptionTable;
-import de.drake.tetris.states.ModeState;
+import de.drake.tetris.states.ConfigState;
 
 public class ConfigScreen extends JScrollPane {
 
@@ -83,7 +83,7 @@ public class ConfigScreen extends JScrollPane {
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 			
-				bottomPanel.add(ComponentFactory.createButton(ModeState.back, listener));
+				bottomPanel.add(ComponentFactory.createButton(ConfigState.back, listener));
 				
 	}
 
