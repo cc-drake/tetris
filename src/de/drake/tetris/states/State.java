@@ -4,9 +4,6 @@ import javax.swing.JComponent;
 
 public abstract class State {
 	
-	public final static State startState = new StartState();
-	public final static State configState = new ConfigState();
-	public final static State modeState = new ModeState();
 	public final static State playerState = new PlayerState();
 	
 	private static State currentState;
