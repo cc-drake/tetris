@@ -204,40 +204,15 @@ public class ModeScreen extends JScrollPane {
 				
 	}
 	
-	public void setGameMode(final String mode) {
-		GameMode gameMode = new GameMode(mode);
-		if (mode == GameMode.SOLITAER) {
-			gameMode.setTimeLimit(0);
-			gameMode.setSpeedIncreaseRow(this.speedIncreaseRow.getDoubleValue());
-			gameMode.setSpeedIncreaseSec(0.);
-			gameMode.setCombatType(GameMode.COMBAT_PEACE);
-			gameMode.setRaceRows(0);
-			gameMode.setCheeseRows(0);
-		}
-		if (mode == GameMode.COMBAT) {
-			gameMode.setTimeLimit(this.calculateSeconds(this.timeLimitCombat.getDateValue()));
-			gameMode.setSpeedIncreaseRow(0.);
-			gameMode.setSpeedIncreaseSec(this.speedIncreaseSec.getDoubleValue());
-			gameMode.setCombatType((String) this.combatType.getValue());
-			gameMode.setRaceRows(0);
-			gameMode.setCheeseRows(0);
-		}
-		if (mode == GameMode.RACE) {
-			gameMode.setTimeLimit(this.calculateSeconds(this.timeLimitRace.getDateValue()));
-			gameMode.setSpeedIncreaseRow(0.);
-			gameMode.setSpeedIncreaseSec(0.);
-			gameMode.setCombatType(GameMode.COMBAT_PEACE);
-			gameMode.setRaceRows(this.raceRows.getIntValue());
-			gameMode.setCheeseRows(0);
-		}
-		if (mode == GameMode.CHEESE) {
-			gameMode.setTimeLimit(this.calculateSeconds(this.timeLimitCheese.getDateValue()));
-			gameMode.setSpeedIncreaseRow(0.);
-			gameMode.setSpeedIncreaseSec(0.);
-			gameMode.setCombatType(GameMode.COMBAT_PEACE);
-			gameMode.setRaceRows(0);
-			gameMode.setCheeseRows(this.cheeseRows.getIntValue());
-		}
+	public void updateConfig() {
+		Config.timeLimitCombat = this.calculateSeconds(this.timeLimitCombat.getDateValue());
+		Config.timeLimitRace = this.calculateSeconds(this.timeLimitRace.getDateValue());
+		Config.timeLimitCheese = this.calculateSeconds(this.timeLimitCheese.getDateValue());
+		Config.speedIncreaseRow = this.speedIncreaseRow.getDoubleValue();
+		Config.speedIncreaseSec = this.speedIncreaseSec.getDoubleValue();
+		Config.combatType = (String) this.combatType.getValue();
+		Config.raceRows = this.raceRows.getIntValue();
+		Config.cheeseRows = this.cheeseRows.getIntValue();
 	}
 	
 	private int calculateSeconds(final Date date) {
