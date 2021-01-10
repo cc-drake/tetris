@@ -46,10 +46,10 @@ public class ModeState extends State implements ActionListener {
 		this.screen.updateConfig();
 		switch (e.getActionCommand()) {
 		case ModeState.back:
-			State.setCurrentState(State.startState);
+			State.setCurrentState(new StartState());
 			return;
 		case ModeState.config:
-			State.setCurrentState(State.configState);
+			State.setCurrentState(new ConfigState());
 			return;
 		case GameMode.SOLITAER:
 		case GameMode.COMBAT:
