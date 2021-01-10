@@ -118,7 +118,7 @@ public class GameState extends State {
 	private void toggleQuit() {
 		switch (this.state) {
 		case GameState.ENDED:
-			State.setCurrentState(State.startState);
+			State.setCurrentState(new StartState());
 			break;
 		case GameState.QUIT:
 			this.state = GameState.RUNNING;
@@ -135,7 +135,7 @@ public class GameState extends State {
 		switch (this.state) {
 		case GameState.QUIT:
 			this.state = GameState.ENDED;
-			State.setCurrentState(State.startState);
+			State.setCurrentState(new StartState());
 			break;
 		case GameState.ENDED:
 			State.setCurrentState(new GameState());
