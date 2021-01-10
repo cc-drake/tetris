@@ -26,60 +26,68 @@ public class GameMode {
 	/**
 	 * Das Zeitlimit in Sekunden, nach dem das Spiel beendet wird.
 	 */
-	private int timeLimit;
+	private final int timeLimit;
 	
 	/**
 	 * Die Beschleunigung nach Elimination einer Reihe in %
 	 */
-	private double speedIncreaseRow;
+	private final double speedIncreaseRow;
 	
 	/**
 	 * Die Beschleunigung je Sekunde in %
 	 */
-	private double speedIncreaseSec;
+	private final double speedIncreaseSec;
 	
 	/**
 	 * Die Logik, nach der fertige Reihen den Gegnern "draufgeworfen" werden.
 	 */
-	private String combatType;
+	private final String combatType;
 	
 	/**
 	 * Anzahl der Reihen, die im Race-Modus zu eliminieren sind.
 	 */
-	private int raceRows;
+	private final int raceRows;
 	
 	/**
 	 * Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind.
 	 */
-	private int cheeseRows;
+	private final int cheeseRows;
 	
-	public GameMode(String mode) {
+	private GameMode(final String mode) {
 		this.mode = mode;
-		GameMode.instance = this;
-	}
-
-	public void setTimeLimit(final int timeLimit) {
-		this.timeLimit = timeLimit;
-	}
-
-	public void setSpeedIncreaseRow(final double speedIncreaseRow) {
-		this.speedIncreaseRow = speedIncreaseRow;
-	}
-
-	public void setSpeedIncreaseSec(final double speedIncreaseSec) {
-		this.speedIncreaseSec = speedIncreaseSec;
-	}
-
-	public void setCombatType(final String combatType) {
-		this.combatType = combatType;
+		if (mode == GameMode.SOLITAER) {
+			this.timeLimit = 0;
+			this.speedIncreaseRow = Config.speedIncreaseRow;
+			this.speedIncreaseSec = 0.;
+			this.combatType = GameMode.COMBAT_PEACE;
+			this.raceRows = 0;
+			this.cheeseRows = 0;
+		} else if (mode == GameMode.COMBAT) {
+			this.timeLimit = Config.timeLimitCombat;
+			this.speedIncreaseRow = 0.;
+			this.speedIncreaseSec = Config.speedIncreaseSec;
+			this.combatType = Config.combatType;
+			this.raceRows = 0;
+			this.cheeseRows = 0;
+		} else if (mode == GameMode.RACE) {
+			this.timeLimit = Config.timeLimitRace;
+			this.speedIncreaseRow = 0.;
+			this.speedIncreaseSec = 0.;
+			this.combatType = GameMode.COMBAT_PEACE;
+			this.raceRows = Config.raceRows;
+			this.cheeseRows = 0;
+		} else if (mode == GameMode.CHEESE) {
+			this.timeLimit = Config.timeLimitCheese;
+			this.speedIncreaseRow = 0.;
+			this.speedIncreaseSec = 0.;
+			this.combatType = GameMode.COMBAT_PEACE;
+			this.raceRows = 0;
+			this.cheeseRows = Config.cheeseRows;
+		} else throw (new Error());
 	}
 	
-	public void setRaceRows(final int raceRows) {
-		this.raceRows = raceRows;
-	}
-
-	public void setCheeseRows(final int cheeseRows) {
-		this.cheeseRows = cheeseRows;
+	public static void createInstance(final String mode) {
+		GameMode.instance = new GameMode(mode);
 	}
 	
 	public static GameMode getInstance() {
