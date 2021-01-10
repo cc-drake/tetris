@@ -103,7 +103,7 @@ public class Player {
 	public Player(final PlayerConfig config, final GameState gameState, final long seed) {
 		this.name = config.getName();
 		this.inputManager = config.getInputManager();
-		this.speed = config.getSpeed();
+		this.speed = config.getInitialSpeed();
 		this.gameState = gameState;
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
