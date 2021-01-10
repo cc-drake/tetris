@@ -16,7 +16,7 @@ public class ListSpinner extends JSpinner {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ListSpinner(final Object[] values, final int length) {
+	public ListSpinner(final Object[] values, final int length, final Object selectedValue) {
 		
 		this.setFont(new Font(Font.SERIF, Font.BOLD, Config.SIZE_TEXT));
 		
@@ -27,6 +27,9 @@ public class ListSpinner extends JSpinner {
 		field.setColumns(length);
 		field.setEditable(false);
 		field.setHorizontalAlignment(JTextField.RIGHT);
+		
+
+		this.setValue(selectedValue);
 		
 	}
 

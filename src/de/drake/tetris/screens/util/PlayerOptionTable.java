@@ -41,7 +41,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 		this.speed = new NumberSpinner(Config.initialSpeed, 0., Config.FPS, .1);
 		super.addOption("Fallgeschwindigkeit", this.speed);
 	
-		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7);
+		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7, InputDevice.allInputdevices.get(0));
 		this.inputType.addChangeListener(this);
 		super.addOption("Eingabegerät", this.inputType);
 		

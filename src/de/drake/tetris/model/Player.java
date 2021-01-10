@@ -177,7 +177,7 @@ public class Player {
 			
 			if ((laufzeitIndex - this.letzteSeczeit) >= 1000000000.) {
 				this.letzteSeczeit += 1000000000.;
-				this.speed *= (1 + GameMode.speedIncreaseSec / 100.);
+				this.speed *= (1 + GameMode.getSpeedIncreaseSec() / 100.);
 			}
 
 		default:
@@ -221,10 +221,10 @@ public class Player {
 		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
 		this.fertigeReihen += entfernteReihen;
 		for (int i = 0; i < entfernteReihen; i++) {
-			this.speed *= (1 + GameMode.speedIncreaseRow / 100.);
+			this.speed *= (1 + GameMode.getSpeedIncreaseRow() / 100.);
 		}
 		int draufwerfen = 0;
-		if (GameMode.combatType == GameMode.COMBAT_CLASSIC) {
+		if (GameMode.getCombatType() == GameMode.COMBAT_CLASSIC) {
 			switch (entfernteReihen) {
 			case 0:
 			case 1:
@@ -238,7 +238,7 @@ public class Player {
 				draufwerfen = entfernteReihen;
 			}
 		}
-		if (GameMode.combatType == GameMode.COMBAT_BADASS) {
+		if (GameMode.getCombatType() == GameMode.COMBAT_BADASS) {
 			draufwerfen = entfernteReihen;
 		}
 		this.gameState.draufwerfen(this, draufwerfen);
@@ -327,7 +327,7 @@ public class Player {
 	 * Gibt die verbleibende Spielzeit in Sekunden zurück.
 	 */
 	public int getVerbleibendeZeitSec() {
-		return GameMode.timeLimit - this.getVergangeneZeitSec();
+		return GameMode.getTimeLimit() - this.getVergangeneZeitSec();
 	}
 	
 	/**
@@ -348,7 +348,7 @@ public class Player {
 	 * Gibt die verbleibende Zahl zu eliminierender Reihen zurück.
 	 */
 	public int getVerbleibendeReihen() {
-		return GameMode.raceRows - this.fertigeReihen;
+		return GameMode.getRaceRows() - this.fertigeReihen;
 	}
 	
 	/**

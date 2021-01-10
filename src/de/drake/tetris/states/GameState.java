@@ -157,7 +157,7 @@ public class GameState extends State {
 
 		//Variablen initialisieren und zugebaute Spieler auf LOSER setzen
 		boolean timeout = false;
-		if (GameMode.timeLimit > 0 && this.laufzeitNano / 1000000000. >= GameMode.timeLimit)
+		if (GameMode.getTimeLimit() > 0 && this.laufzeitNano / 1000000000. >= GameMode.getTimeLimit())
 			timeout = true;
 		
 		int anzahlSpieler = this.spielerliste.size();
@@ -167,7 +167,7 @@ public class GameState extends State {
 		int minRaceReihen = Integer.MAX_VALUE;
 		int minCheeseReihen = Integer.MAX_VALUE;
 		for (Player spieler : this.spielerliste) {
-			if (spieler.hasState(Player.UNDEF) && GameMode.gameMode != GameMode.SOLITAER)
+			if (spieler.hasState(Player.UNDEF) && GameMode.getMode() != GameMode.SOLITAER)
 				spieler.setState(Player.LOSER);
 			if (spieler.hasState(Player.ACTIVE))
 				anzahlAktiveSpieler++;
@@ -175,13 +175,13 @@ public class GameState extends State {
 				maxReihen = spieler.getFertigeReihen();
 			if (spieler.getLaufzeit() > maxTime)
 				maxTime = spieler.getLaufzeit();
-			if (GameMode.gameMode == GameMode.RACE && spieler.hasState(Player.ACTIVE) && spieler.getVerbleibendeReihen() < minRaceReihen)
+			if (GameMode.getRaceRows() > 0 && spieler.hasState(Player.ACTIVE) && spieler.getVerbleibendeReihen() < minRaceReihen)
 				minRaceReihen = spieler.getVerbleibendeReihen();
-			if (GameMode.gameMode == GameMode.CHEESE && spieler.hasState(Player.ACTIVE) && spieler.getCheeseReihen() < minCheeseReihen)
+			if (GameMode.getCheeseRows() > 0 && spieler.hasState(Player.ACTIVE) && spieler.getCheeseReihen() < minCheeseReihen)
 				minCheeseReihen = spieler.getCheeseReihen();
 		}
 		
-		switch (GameMode.gameMode) {
+		switch (GameMode.getMode()) {
 		
 		case GameMode.SOLITAER:
 			if (timeout || anzahlAktiveSpieler == 0) {

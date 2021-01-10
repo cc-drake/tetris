@@ -118,39 +118,64 @@ public class IniInOut {
 			Config.keyRepeatSpeed = 25;
 		}
 		
-		value = parameters.get("timeLimit");
+		value = parameters.get("timeLimitCombat");
 		try {
-			GameMode.timeLimit = Integer.parseInt(value);
+			Config.timeLimitCombat = Integer.parseInt(value);
 		} catch (Exception e) {
-			GameMode.timeLimit = 0;
+			Config.timeLimitCombat = 0;
+		}
+		
+		value = parameters.get("timeLimitRace");
+		try {
+			Config.timeLimitRace = Integer.parseInt(value);
+		} catch (Exception e) {
+			Config.timeLimitRace = 0;
+		}
+		
+		value = parameters.get("timeLimitCheese");
+		try {
+			Config.timeLimitCheese = Integer.parseInt(value);
+		} catch (Exception e) {
+			Config.timeLimitCheese = 0;
 		}
 		
 		value = parameters.get("speedIncreaseRow");
 		try {
-			GameMode.speedIncreaseRow = Double.parseDouble(value);
+			Config.speedIncreaseRow = Double.parseDouble(value);
 		} catch (Exception e) {
-			GameMode.speedIncreaseRow = 1.;
+			Config.speedIncreaseRow = 1.;
 		}
 		
 		value = parameters.get("speedIncreaseSec");
 		try {
-			GameMode.speedIncreaseSec = Double.parseDouble(value);
+			Config.speedIncreaseSec = Double.parseDouble(value);
 		} catch (Exception e) {
-			GameMode.speedIncreaseSec = 0.5;
+			Config.speedIncreaseSec = 0.5;
+		}
+		
+		value = parameters.get("combatType");
+		try {
+			if (value == GameMode.COMBAT_BADASS || value == GameMode.COMBAT_CLASSIC || value == GameMode.COMBAT_PEACE) {
+				Config.combatType = value;
+			} else {
+				throw (new Exception());
+			}
+		} catch (Exception e) {
+			Config.combatType = GameMode.COMBAT_PEACE;
 		}
 		
 		value = parameters.get("raceRows");
 		try {
-			GameMode.raceRows = Integer.parseInt(value);
+			Config.raceRows = Integer.parseInt(value);
 		} catch (Exception e) {
-			GameMode.raceRows = 50;
+			Config.raceRows = 50;
 		}
 		
 		value = parameters.get("cheeseRows");
 		try {
-			GameMode.cheeseRows = Integer.parseInt(value);
+			Config.cheeseRows = Integer.parseInt(value);
 		} catch (Exception e) {
-			GameMode.cheeseRows = 9;
+			Config.cheeseRows = 9;
 		}
 		
 		try {
@@ -388,24 +413,36 @@ public class IniInOut {
 		ini += "keyRepeatSpeed = " + Config.keyRepeatSpeed + "\r\n";
 		ini += "\r\n";
 		
-		ini += "// Das Zeitlimit der Runden in Sekunden.\r\n";
-		ini += "timeLimit = " + GameMode.timeLimit + "\r\n";
+		ini += "// Das Zeitlimit für den Combat-Modus in Sekunden.\r\n";
+		ini += "timeLimit = " + Config.timeLimitCombat + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Das Zeitlimit für den Race-Modus in Sekunden.\r\n";
+		ini += "timeLimit = " + Config.timeLimitRace + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Das Zeitlimit für den Cheese-Modus in Sekunden.\r\n";
+		ini += "timeLimit = " + Config.timeLimitCheese + "\r\n";
 		ini += "\r\n";
 		
 		ini += "// Die Erhöhung der Spielgeschwindigkeit je entfernter Reihe in % (Solitär-Modus).\r\n";
-		ini += "speedIncreaseRow = " + GameMode.speedIncreaseRow + "\r\n";
+		ini += "speedIncreaseRow = " + Config.speedIncreaseRow + "\r\n";
 		ini += "\r\n";
 		
 		ini += "// Die Erhöhung der Spielgeschwindigkeit je Sekunde in % (Combat-Modus).\r\n";
-		ini += "speedIncreaseSec = " + GameMode.speedIncreaseSec + "\r\n";
+		ini += "speedIncreaseSec = " + Config.speedIncreaseSec + "\r\n";
+		ini += "\r\n";
+		
+		ini += "// Der Battlemode im Combat-Modus.\r\n";
+		ini += "combatType = " + Config.combatType + "\r\n";
 		ini += "\r\n";
 		
 		ini += "// Die Zahl der zu eliminierenden Reihen (Race-Modus).\r\n";
-		ini += "raceRows = " + GameMode.raceRows + "\r\n";
+		ini += "raceRows = " + Config.raceRows + "\r\n";
 		ini += "\r\n";
 		
 		ini += "// Die Zahl der zu eliminierenden Cheese-Reihen (Cheese-Modus).\r\n";
-		ini += "cheeseRows = " + GameMode.cheeseRows + "\r\n";
+		ini += "cheeseRows = " + Config.cheeseRows + "\r\n";
 		ini += "\r\n";
 		
 		ini += "// Default-Tastenbelegung der Tastatur für \"Links\".\r\n";

@@ -27,11 +27,11 @@ import de.drake.tetris.states.ModeState;
 
 public class ModeScreen extends JScrollPane {
 	
-	private final TimeSpinner timeLimit_com;
+	private final TimeSpinner timeLimitCombat;
 	
-	private final TimeSpinner timeLimit_race;
+	private final TimeSpinner timeLimitRace;
 	
-	private final TimeSpinner timeLimit_che;
+	private final TimeSpinner timeLimitCheese;
 	
 	private final NumberSpinner speedIncreaseRow;
 	
@@ -94,7 +94,7 @@ public class ModeScreen extends JScrollPane {
 				topPanel.add(options_sol, c);
 					
 					this.speedIncreaseRow = new NumberSpinner(
-							GameMode.speedIncreaseRow, 0., 100., 0.1);
+							Config.speedIncreaseRow, 0., 100., 0.1);
 					options_sol.addOption("Beschleunigung je Reihe (%)", this.speedIncreaseRow);
 					
 				c.gridy = 3;
@@ -123,15 +123,15 @@ public class ModeScreen extends JScrollPane {
 				OptionTable options_com = new OptionTable();
 				topPanel.add(options_com, c);
 				
-					this.timeLimit_com = new TimeSpinner(GameMode.timeLimit);
-					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimit_com);
+					this.timeLimitCombat = new TimeSpinner(Config.timeLimitCombat);
+					options_com.addOption("Zeitlimit (mm:ss)", this.timeLimitCombat);
 					
 					this.speedIncreaseSec = new NumberSpinner(
-							GameMode.speedIncreaseSec, 0., 100., 0.1);
+							Config.speedIncreaseSec, 0., 100., 0.1);
 					options_com.addOption("Beschleunigung je Sekunde (%)", this.speedIncreaseSec);
 					
 					String[] values = {GameMode.COMBAT_CLASSIC, GameMode.COMBAT_BADASS, GameMode.COMBAT_PEACE};
-					this.combatType = new ListSpinner(values, 5);
+					this.combatType = new ListSpinner(values, 5, Config.combatType);
 					options_com.addOption("Battlemode", combatType);
 					
 				c.gridy = 3;
@@ -155,11 +155,11 @@ public class ModeScreen extends JScrollPane {
 				OptionTable options_race = new OptionTable();
 				topPanel.add(options_race, c);
 				
-					this.timeLimit_race = new TimeSpinner(GameMode.timeLimit);
-					options_race.addOption("Zeitlimit (mm:ss)", this.timeLimit_race);
+					this.timeLimitRace = new TimeSpinner(Config.timeLimitRace);
+					options_race.addOption("Zeitlimit (mm:ss)", this.timeLimitRace);
 					
 					this.raceRows = new NumberSpinner(
-							GameMode.raceRows, 1, 9999, 1);
+							Config.raceRows, 1, 9999, 1);
 					options_race.addOption("Reihen", this.raceRows);
 					
 				c.gridy = 3;
@@ -184,11 +184,11 @@ public class ModeScreen extends JScrollPane {
 				OptionTable options_che = new OptionTable();
 				topPanel.add(options_che, c);
 				
-					this.timeLimit_che = new TimeSpinner(GameMode.timeLimit);
-					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimit_che);
+					this.timeLimitCheese = new TimeSpinner(Config.timeLimitCheese);
+					options_che.addOption("Zeitlimit (mm:ss)", this.timeLimitCheese);
 					
 					this.cheeseRows = new NumberSpinner(
-							GameMode.cheeseRows, 1, 100, 1);
+							Config.cheeseRows, 1, 100, 1);
 					options_che.addOption("Reihen", this.cheeseRows);
 					
 				c.gridy = 3;
@@ -204,42 +204,39 @@ public class ModeScreen extends JScrollPane {
 				
 	}
 	
-	public void setGameMode(final String gameMode) {
-		if (gameMode == GameMode.SOLITAER) {
-			GameMode.gameMode = GameMode.SOLITAER;
-			GameMode.timeLimit = 0;
-			GameMode.speedIncreaseRow = this.speedIncreaseRow.getDoubleValue();
-			GameMode.speedIncreaseSec = 0.;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
-			GameMode.raceRows = 0;
-			GameMode.cheeseRows = 0;
+	public void setGameMode(final String mode) {
+		GameMode gameMode = new GameMode(mode);
+		if (mode == GameMode.SOLITAER) {
+			gameMode.setTimeLimit(0);
+			gameMode.setSpeedIncreaseRow(this.speedIncreaseRow.getDoubleValue());
+			gameMode.setSpeedIncreaseSec(0.);
+			gameMode.setCombatType(GameMode.COMBAT_PEACE);
+			gameMode.setRaceRows(0);
+			gameMode.setCheeseRows(0);
 		}
-		if (gameMode == GameMode.COMBAT) {
-			GameMode.gameMode = GameMode.COMBAT;
-			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_com.getDateValue());
-			GameMode.speedIncreaseRow = 0.;
-			GameMode.speedIncreaseSec = this.speedIncreaseSec.getDoubleValue();
-			GameMode.combatType = (String) this.combatType.getValue();
-			GameMode.raceRows = 0;
-			GameMode.cheeseRows = 0;
+		if (mode == GameMode.COMBAT) {
+			gameMode.setTimeLimit(this.calculateSeconds(this.timeLimitCombat.getDateValue()));
+			gameMode.setSpeedIncreaseRow(0.);
+			gameMode.setSpeedIncreaseSec(this.speedIncreaseSec.getDoubleValue());
+			gameMode.setCombatType((String) this.combatType.getValue());
+			gameMode.setRaceRows(0);
+			gameMode.setCheeseRows(0);
 		}
-		if (gameMode == GameMode.RACE) {
-			GameMode.gameMode = GameMode.RACE;
-			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_race.getDateValue());
-			GameMode.speedIncreaseRow = 0.;
-			GameMode.speedIncreaseSec = 0.;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
-			GameMode.raceRows = this.raceRows.getIntValue();
-			GameMode.cheeseRows = 0;
+		if (mode == GameMode.RACE) {
+			gameMode.setTimeLimit(this.calculateSeconds(this.timeLimitRace.getDateValue()));
+			gameMode.setSpeedIncreaseRow(0.);
+			gameMode.setSpeedIncreaseSec(0.);
+			gameMode.setCombatType(GameMode.COMBAT_PEACE);
+			gameMode.setRaceRows(this.raceRows.getIntValue());
+			gameMode.setCheeseRows(0);
 		}
-		if (gameMode == GameMode.CHEESE) {
-			GameMode.gameMode = GameMode.CHEESE;
-			GameMode.timeLimit = this.calculateSeconds(this.timeLimit_che.getDateValue());
-			GameMode.speedIncreaseRow = 0.;
-			GameMode.speedIncreaseSec = 0.;
-			GameMode.combatType = GameMode.COMBAT_PEACE;
-			GameMode.raceRows = 0;
-			GameMode.cheeseRows = this.cheeseRows.getIntValue();
+		if (mode == GameMode.CHEESE) {
+			gameMode.setTimeLimit(this.calculateSeconds(this.timeLimitCheese.getDateValue()));
+			gameMode.setSpeedIncreaseRow(0.);
+			gameMode.setSpeedIncreaseSec(0.);
+			gameMode.setCombatType(GameMode.COMBAT_PEACE);
+			gameMode.setRaceRows(0);
+			gameMode.setCheeseRows(this.cheeseRows.getIntValue());
 		}
 	}
 	

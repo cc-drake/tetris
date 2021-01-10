@@ -277,7 +277,7 @@ public class PlayerPanel extends JPanel {
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		g.drawString(this.spieler.getName(), 
 				this.offsetX_i, this.offsetY_i + 1 * fontsize);
-		if (GameMode.timeLimit == 0) {
+		if (GameMode.getTimeLimit() == 0) {
 			g.drawString("Zeit: " + PlayerPanel.getTime(this.spieler.getVergangeneZeitSec()),
 					this.offsetX_i, this.offsetY_i + 3 * fontsize);
 		} else {
@@ -287,10 +287,10 @@ public class PlayerPanel extends JPanel {
 				
 		g.drawString("Steine: " + this.spieler.getAnzahlSteine(),
 				this.offsetX_i, this.offsetY_i + 5 * fontsize);
-		if (GameMode.gameMode == GameMode.RACE) {
+		if (GameMode.getRaceRows() > 0) {
 			g.drawString("Reihen: " + this.spieler.getVerbleibendeReihen(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
-		} else if (GameMode.gameMode == GameMode.CHEESE){
+		} else if (GameMode.getCheeseRows() > 0){
 			g.drawString("Reihen: " + this.spieler.getCheeseReihen(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		} else {

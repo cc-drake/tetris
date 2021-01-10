@@ -28,8 +28,7 @@ public class Spielfeld {
 	 */
 	Spielfeld(final long seed) {
 		this.random = new Random(seed);
-		if (GameMode.gameMode == GameMode.CHEESE)
-			this.generateCheeseRows(GameMode.cheeseRows);
+		this.generateCheeseRows(GameMode.getCheeseRows());
 	}
 	
 	void verarbeiteStein(Stone stein) {

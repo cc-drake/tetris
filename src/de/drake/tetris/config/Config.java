@@ -82,4 +82,44 @@ public class Config {
 	 */
 	public static int keyRepeatSpeed;
 	
+	/**
+	 * Das Default-Zeitlimit in Sekunden, nach dem ein Spiel im Combat-Modus beendet wird. Das tatsächliche Zeitlimit wird über den GameMode konfiguriert.
+	 */
+	public static int timeLimitCombat;
+	
+	/**
+	 * Das Default-Zeitlimit in Sekunden, nach dem ein Spiel im Race-Modus beendet wird. Das tatsächliche Zeitlimit wird über den GameMode konfiguriert.
+	 */
+	public static int timeLimitRace;
+	
+	/**
+	 * Das Default-Zeitlimit in Sekunden, nach dem ein Spiel im Cheese-Modus beendet wird. Das tatsächliche Zeitlimit wird über den GameMode konfiguriert.
+	 */
+	public static int timeLimitCheese;
+	
+	/**
+	 * Die Default-Beschleunigung nach Elimination einer Reihe in %. Die tatsächliche Beschleunigung wird über den GameMode konfiguriert.
+	 */
+	public static double speedIncreaseRow;
+	
+	/**
+	 * Die Default-Beschleunigung je Sekunde in %. Die tatsächliche Beschleunigung wird über den GameMode konfiguriert.
+	 */
+	public static double speedIncreaseSec;
+	
+	/**
+	 * Die Default-Logik, nach der fertige Reihen den Gegnern "draufgeworfen" werden. Die tatsächliche Logik wird über den GameMode konfiguriert.
+	 */
+	public static String combatType;
+	
+	/**
+	 * Die Default-Anzahl der Reihen, die im Race-Modus zu eliminieren sind. Die tatsächliche Anzahl wird über den GameMode konfiguriert.
+	 */
+	public static int raceRows;
+	
+	/**
+	 * Die Default-Anzahl der Reihen, die im Cheese-Modus zu eliminieren sind. Die tatsächliche Anzahl wird über den GameMode konfiguriert.
+	 */
+	public static int cheeseRows;
+	
 }
