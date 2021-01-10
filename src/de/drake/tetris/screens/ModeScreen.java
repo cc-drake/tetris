@@ -205,7 +205,7 @@ public class ModeScreen extends JScrollPane {
 				
 	}
 	
-	public void updateConfig() {
+	public void applyConfig() {
 		Config.timeLimitCombat = this.calculateSeconds(this.timeLimitCombat.getDateValue());
 		Config.timeLimitRace = this.calculateSeconds(this.timeLimitRace.getDateValue());
 		Config.timeLimitCheese = this.calculateSeconds(this.timeLimitCheese.getDateValue());

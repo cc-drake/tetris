@@ -43,7 +43,7 @@ public class ModeState extends State implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ToolTipManager.sharedInstance().mouseExited(new MouseEvent(this.screen, 0, 0, 0, 0, 0, 0, true));
-		this.screen.updateConfig();
+		this.screen.applyConfig();
 		switch (e.getActionCommand()) {
 		case ModeState.back:
 			State.setCurrentState(new StartState());
