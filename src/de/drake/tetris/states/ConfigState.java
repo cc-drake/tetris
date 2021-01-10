@@ -18,9 +18,9 @@ public class ConfigState extends State implements ActionListener {
 	 */
 	private final ConfigScreen screen;
 	
-	public final static String save = "In Tetris.ini speichern";
+	public final static String reset = "Default-Einstellungen wiederherstellen";
 	
-	public final static String reset = "Tetris.ini zurücksetzen";
+	public final static String save = "Einstellungen speichern (Tetris.ini)";
 	
 	public final static String back = "Zurück";
 	
@@ -46,7 +46,7 @@ public class ConfigState extends State implements ActionListener {
 			return;
 		switch (e.getActionCommand()) {
 		case ConfigState.back:
-			State.setCurrentState(State.modeState);
+			State.setCurrentState(new ModeState());
 			return;
 		case ConfigState.save:
 			try {
@@ -56,10 +56,7 @@ public class ConfigState extends State implements ActionListener {
 			return;
 		case ConfigState.reset:
 			IniInOut.setConfig(null);
-			try {
-				IniInOut.saveIni();
-			} catch (Exception e2) {
-			}
+			State.setCurrentState(new ConfigState());
 			return;
 		}
 	}
