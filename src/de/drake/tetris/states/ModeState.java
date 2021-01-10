@@ -56,7 +56,7 @@ public class ModeState extends State implements ActionListener {
 		case GameMode.RACE:
 		case GameMode.CHEESE:
 			GameMode.createInstance(e.getActionCommand());
-			State.setCurrentState(State.playerState);
+			State.setCurrentState(new PlayerState());
 			return;
 		}
 	}

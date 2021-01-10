@@ -32,11 +32,11 @@ public class PlayerState extends State implements ActionListener {
 	 */
 	PlayerState() {
 		this.screen = new PlayerScreen(this);
-		this.screen.addPlayer();
 	}
 	
 	@Override
 	public void tick() {
+		this.screen.tick();
 	}
 
 	@Override
@@ -49,10 +49,11 @@ public class PlayerState extends State implements ActionListener {
 		InputDevice.removeInputManagers();
 		switch (e.getActionCommand()) {
 		case PlayerState.back:
+			this.screen.applyPlayerConfigs();
 			State.setCurrentState(new ModeState());
 			return;
 		case PlayerState.start:
-			this.screen.initializePlayers();
+			this.screen.applyPlayerConfigs();
 			if (PlayerConfig.playerConfigs.size() > 0)
 				State.setCurrentState(new GameState());
 			return;
@@ -60,7 +61,7 @@ public class PlayerState extends State implements ActionListener {
 			this.screen.addPlayer();
 			return;
 		case PlayerState.removePlayer:
-			this.screen.removePlayer();
+			this.screen.removeSelectedPlayer();
 			return;
 		}
 	}

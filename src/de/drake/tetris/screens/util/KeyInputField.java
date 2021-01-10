@@ -36,7 +36,7 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 	
 	private Key key;
 
-	public KeyInputField(final JSpinner inputType) {
+	public KeyInputField(final JSpinner inputType, final Key initialValue) {
 		super();
 		this.inputType = inputType;
 		super.setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
@@ -53,6 +53,7 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		JButton clearButton = ComponentFactory.createButton("Leeren", this);
 		clearButton.setActionCommand(this.clear);
 		super.add(clearButton);
+		this.setKey(initialValue);
 	}
 	
 	public void setKey(final Key key) {

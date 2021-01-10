@@ -4,8 +4,6 @@ import javax.swing.JComponent;
 
 public abstract class State {
 	
-	public final static State playerState = new PlayerState();
-	
 	private static State currentState;
 	
 	public static void setCurrentState(final State state) {

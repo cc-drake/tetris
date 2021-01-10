@@ -1,8 +1,5 @@
 package de.drake.tetris.screens.util;
 
-import java.awt.Graphics;
-import java.util.HashMap;
-
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -10,11 +7,8 @@ import javax.swing.event.ChangeListener;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.input.InputDevice;
-import de.drake.tetris.input.util.InputManager;
-import de.drake.tetris.input.util.Key;
-import de.drake.tetris.model.util.Action;
 
-public class PlayerOptionTable extends OptionTable implements ChangeListener {
+public class PlayerConfigTable extends OptionTable implements ChangeListener {
 	
 	/**
 	 * Die Default serialVersionUID.
@@ -31,70 +25,62 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
 	private KeyInputField left, right, down, drop, dreh_uzs, dreh_euzs, pause, quit;
 
-	public PlayerOptionTable(final PlayerConfig playerConfig) {
+	public PlayerConfigTable(final PlayerConfig playerConfig) {
 		super();
 		this.playerConfig = playerConfig;
 		
 		this.name = ComponentFactory.createJTextField(playerConfig.getName());
 		super.addOption("Spielername", name);
 		
-		this.initialSpeed = new NumberSpinner(Config.initialSpeed, 0., Config.FPS, .1);
+		this.initialSpeed = new NumberSpinner(playerConfig.getInitialSpeed(), 0., Config.FPS, .1);
 		super.addOption("Fallgeschwindigkeit", this.initialSpeed);
 	
-		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7, InputDevice.allInputdevices.get(0));
+		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7, playerConfig.getInputDevice());
 		this.inputType.addChangeListener(this);
 		super.addOption("Eingabegerät", this.inputType);
 		
-		this.left = new KeyInputField(inputType);
+		this.left = new KeyInputField(inputType, playerConfig.getLeft());
 		super.addOption("Links", this.left);
 		
-		this.right = new KeyInputField(inputType);
+		this.right = new KeyInputField(inputType, playerConfig.getRight());
 		super.addOption("Rechts", this.right);
 		
-		this.down = new KeyInputField(inputType);
+		this.down = new KeyInputField(inputType, playerConfig.getDown());
 		super.addOption("Runter", this.down);
 		
-		this.drop = new KeyInputField(inputType);
+		this.drop = new KeyInputField(inputType, playerConfig.getDrop());
 		super.addOption("Absetzen", this.drop);
 		
-		this.dreh_uzs = new KeyInputField(inputType);
+		this.dreh_uzs = new KeyInputField(inputType, playerConfig.getDreh_uzs());
 		super.addOption("Drehen (UZS)", this.dreh_uzs);
 		
-		this.dreh_euzs = new KeyInputField(inputType);
+		this.dreh_euzs = new KeyInputField(inputType, playerConfig.getDreh_euzs());
 		super.addOption("Drehen (eUZS)", this.dreh_euzs);
 		
-		this.pause = new KeyInputField(inputType);
+		this.pause = new KeyInputField(inputType, playerConfig.getPause());
 		super.addOption("Pause", this.pause);
 		
-		this.quit = new KeyInputField(inputType);
+		this.quit = new KeyInputField(inputType, playerConfig.getQuit());
 		super.addOption("Beenden", this.quit);
-		
-		//Initialisiert die Tastenbelegung
-		this.stateChanged(null);
+
 	}
 	
-	public void paintComponent(Graphics g) {
+	public void applyPlayerConfig() {
 		if (this.name.getText().isEmpty()) {
 			this.playerConfig.setName("Namenloser Spieler");
 		} else {
 			this.playerConfig.setName(this.name.getText());
 		}
-		super.paintComponent(g);
-	}
-
-	public void initializePlayer() {
 		this.playerConfig.setInitialSpeed(this.initialSpeed.getDoubleValue());
-		HashMap<Key, Action> tastenbelegung = new HashMap<Key, Action>();
-		tastenbelegung.put(this.left.getKey(), Action.LINKS);
-		tastenbelegung.put(this.right.getKey(), Action.RECHTS);
-		tastenbelegung.put(this.down.getKey(), Action.RUNTER);
-		tastenbelegung.put(this.drop.getKey(), Action.GANZ_RUNTER);
-		tastenbelegung.put(this.dreh_uzs.getKey(), Action.DREHUNG_UHRZEIGERSINN);
-		tastenbelegung.put(this.dreh_euzs.getKey(), Action.DREHUNG_ENTGEGEN_UHRZEIGERSINN);
-		tastenbelegung.put(this.pause.getKey(), Action.PAUSE);
-		tastenbelegung.put(this.quit.getKey(), Action.QUIT);
-		this.playerConfig.setInputManager(new InputManager(
-				(InputDevice) this.inputType.getValue(), tastenbelegung));
+		this.playerConfig.setInputDevice((InputDevice) this.inputType.getValue());
+		this.playerConfig.setLeft(this.left.getKey());
+		this.playerConfig.setRight(this.right.getKey());
+		this.playerConfig.setDown(this.down.getKey());
+		this.playerConfig.setDrop(this.drop.getKey());
+		this.playerConfig.setDreh_uzs(this.dreh_uzs.getKey());
+		this.playerConfig.setDreh_euzs(this.dreh_euzs.getKey());
+		this.playerConfig.setPause(this.pause.getKey());
+		this.playerConfig.setQuit(this.quit.getKey());
 	}
 
 	@Override

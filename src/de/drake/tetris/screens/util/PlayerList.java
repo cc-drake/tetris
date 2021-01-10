@@ -19,44 +19,46 @@ public class PlayerList extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final Vector<PlayerConfig> players = new Vector<PlayerConfig>();
+	private final Vector<PlayerConfig> playerConfigs = new Vector<PlayerConfig>();
 	
-	private final JList<PlayerConfig> list;
+	private final JList<PlayerConfig> list = new JList<PlayerConfig>(this.playerConfigs);
 	
 	public PlayerList(final PlayerScreen screen) {
 		super();
 		super.setLayout(new FlowLayout(FlowLayout.LEFT));
 		super.setBackground(Config.COLOR_BACKGROUND);
-		this.list = new JList<PlayerConfig>(this.players);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setCellRenderer(new PlayerCellRenderer());
 		list.getSelectionModel().addListSelectionListener(screen);
 		super.add(list);
 	}
 
-	public void addPlayer() {
-		PlayerConfig player = new PlayerConfig("Spieler " + (this.players.size() + 1));
-		this.players.add(player);
+	public void addPlayer(final PlayerConfig player) {
+		this.playerConfigs.add(player);
 		this.list.updateUI();
 		this.list.setSelectedValue(player, true);
 	}
 
-	public void removePlayer() {
+	public void removePlayer(final PlayerConfig player) {
 		int index = this.list.getSelectedIndex();
-		if (index == -1)
-			return;
-		this.players.remove(index);
+		this.playerConfigs.remove(player);
 		this.list.clearSelection();
 		this.list.updateUI();
-		if (index < this.players.size()) {
+		if (index < this.playerConfigs.size()) {
 			this.list.setSelectedIndex(index);
 		} else {
-			this.list.setSelectedIndex(this.players.size() - 1);
+			this.list.setSelectedIndex(this.playerConfigs.size() - 1);
+		}
+	}
+	
+	public void selectFirstPlayer() {
+		if (this.playerConfigs.size() > 0) {
+			this.list.setSelectedIndex(0);
 		}
 	}
 
-	public Vector<PlayerConfig> getPlayers() {
-		return this.players;
+	public Vector<PlayerConfig> getPlayerConfigs() {
+		return this.playerConfigs;
 	}
 
 	public PlayerConfig getSelectedPlayer() {

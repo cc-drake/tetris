@@ -52,17 +52,16 @@ public class GameState extends State {
 	private long letzteTickzeit = 0;
 	
 	/**
-	 * Erstellt einen neuen PlayState.
+	 * Erstellt einen neuen GameState.
 	 */
 	GameState() {
 		this.screen = new GameScreen();
 		Random random = new Random();
 		long seed = random.nextLong();
-		Player playerController;
-		for (PlayerConfig player : PlayerConfig.playerConfigs) {
-			playerController = new Player(player, this, seed);
-			this.spielerliste.add(playerController);
-			this.screen.addPlayer(this, playerController);
+		for (PlayerConfig config : PlayerConfig.playerConfigs) {
+			Player player = new Player(config, this, seed);
+			this.spielerliste.add(player);
+			this.screen.addPlayer(this, player);
 		}
 	}
 	
@@ -166,19 +165,19 @@ public class GameState extends State {
 		long maxTime = 0;
 		int minRaceReihen = Integer.MAX_VALUE;
 		int minCheeseReihen = Integer.MAX_VALUE;
-		for (Player spieler : this.spielerliste) {
-			if (spieler.hasState(Player.UNDEF) && !GameMode.getMode().equals(GameMode.SOLITAER))
-				spieler.setState(Player.LOSER);
-			if (spieler.hasState(Player.ACTIVE))
+		for (Player player : this.spielerliste) {
+			if (player.hasState(Player.UNDEF) && !GameMode.getMode().equals(GameMode.SOLITAER))
+				player.setState(Player.LOSER);
+			if (player.hasState(Player.ACTIVE))
 				anzahlAktiveSpieler++;
-			if (spieler.getFertigeReihen() > maxReihen)
-				maxReihen = spieler.getFertigeReihen();
-			if (spieler.getLaufzeit() > maxTime)
-				maxTime = spieler.getLaufzeit();
-			if (GameMode.getRaceRows() > 0 && spieler.hasState(Player.ACTIVE) && spieler.getVerbleibendeReihen() < minRaceReihen)
-				minRaceReihen = spieler.getVerbleibendeReihen();
-			if (GameMode.getCheeseRows() > 0 && spieler.hasState(Player.ACTIVE) && spieler.getCheeseReihen() < minCheeseReihen)
-				minCheeseReihen = spieler.getCheeseReihen();
+			if (player.getFertigeReihen() > maxReihen)
+				maxReihen = player.getFertigeReihen();
+			if (player.getLaufzeit() > maxTime)
+				maxTime = player.getLaufzeit();
+			if (GameMode.getRaceRows() > 0 && player.hasState(Player.ACTIVE) && player.getVerbleibendeReihen() < minRaceReihen)
+				minRaceReihen = player.getVerbleibendeReihen();
+			if (GameMode.getCheeseRows() > 0 && player.hasState(Player.ACTIVE) && player.getCheeseReihen() < minCheeseReihen)
+				minCheeseReihen = player.getCheeseReihen();
 		}
 		
 		switch (GameMode.getMode()) {
@@ -225,12 +224,12 @@ public class GameState extends State {
 		case GameMode.CHEESE:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minCheeseReihen == 0) {
-				for (Player spieler : this.spielerliste) {
-					if (spieler.hasState(Player.ACTIVE)
-							&& spieler.getCheeseReihen() == minCheeseReihen) {
-						spieler.setState(Player.WINNER);
+				for (Player player : this.spielerliste) {
+					if (player.hasState(Player.ACTIVE)
+							&& player.getCheeseReihen() == minCheeseReihen) {
+						player.setState(Player.WINNER);
 					} else {
-						spieler.setState(Player.LOSER);
+						player.setState(Player.LOSER);
 					}
 				}
 				this.state = GameState.ENDED;

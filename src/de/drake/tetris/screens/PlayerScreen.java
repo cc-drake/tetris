@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -18,16 +17,17 @@ import javax.swing.event.ListSelectionListener;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.PlayerConfig;
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.screens.util.ComponentFactory;
 import de.drake.tetris.screens.util.PlayerList;
-import de.drake.tetris.screens.util.PlayerOptionTable;
+import de.drake.tetris.screens.util.PlayerConfigTable;
 import de.drake.tetris.states.PlayerState;
 
 public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 	
 	private final PlayerList playerList;
 	
-	private final HashMap<PlayerConfig, PlayerOptionTable> optionTables = new HashMap<PlayerConfig, PlayerOptionTable>();
+	private final HashMap<PlayerConfig, PlayerConfigTable> playerConfigTables = new HashMap<PlayerConfig, PlayerConfigTable>();
 	
 	private final JPanel topPanel;
 	
@@ -104,43 +104,56 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 			
 				bottomPanel.add(ComponentFactory.createButton(PlayerState.start, listener));
 				bottomPanel.add(ComponentFactory.createButton(PlayerState.back, listener));
+		
+		if (PlayerConfig.playerConfigs == null || PlayerConfig.playerConfigs.size() == 0) {
+			this.addPlayer();
+		} else {
+			for (PlayerConfig config : PlayerConfig.playerConfigs) {
+				this.addPlayer(config);
+			}
+		}
+		this.playerList.selectFirstPlayer();
 	}
 
+	public void addPlayer(final PlayerConfig playerConfig) {
+		PlayerConfigTable table = new PlayerConfigTable(playerConfig);
+		this.playerConfigTables.put(playerConfig, table);
+		this.topPanel.add(table, this.optionsConstraints);
+		this.playerList.addPlayer(playerConfig);
+	}
+	
 	public void addPlayer() {
-		this.playerList.addPlayer();
+		this.addPlayer(new PlayerConfig("Spieler " + (this.playerConfigTables.size() + 1), InputDevice.allInputdevices.get(0)));
 	}
 
-	public void removePlayer() {
-		this.playerList.removePlayer();
+	public void removeSelectedPlayer() {
+		PlayerConfig selectedPlayer = this.playerList.getSelectedPlayer();
+		if (selectedPlayer == null)
+			return;
+		this.playerList.removePlayer(selectedPlayer);
+		this.topPanel.remove(this.playerConfigTables.get(selectedPlayer));
+		this.playerConfigTables.remove(selectedPlayer);
 	}
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		for (PlayerConfig player : new HashSet<PlayerConfig>(this.optionTables.keySet())) {
-			if (!this.playerList.getPlayers().contains(player)) {
-				this.topPanel.remove(this.optionTables.get(player));
-				this.optionTables.remove(player);
-			}
-		}
-		
 		PlayerConfig selectedPlayer = this.playerList.getSelectedPlayer();
-		if (selectedPlayer == null)
+		if (selectedPlayer == null) {
+			this.playerList.selectFirstPlayer();
 			return;
-		PlayerOptionTable table = this.optionTables.get(selectedPlayer);
-		if (table == null) {
-			table = new PlayerOptionTable(selectedPlayer);
-				
-			this.topPanel.add(table, this.optionsConstraints);
-			this.optionTables.put(selectedPlayer, table);
 		}
-		this.topPanel.setComponentZOrder(table, 0);
+		this.topPanel.setComponentZOrder(this.playerConfigTables.get(selectedPlayer), 0);
 	}
 
-	public void initializePlayers() {
-		PlayerConfig.playerConfigs = this.playerList.getPlayers();
-		for (PlayerOptionTable table : this.optionTables.values()) {
-			table.initializePlayer();
+	public void applyPlayerConfigs() {
+		PlayerConfig.playerConfigs = this.playerList.getPlayerConfigs();
+		for (PlayerConfigTable table : this.playerConfigTables.values()) {
+			table.applyPlayerConfig();
 		}
+	}
+	
+	public void tick() {
+		this.applyPlayerConfigs(); // Wird benötigt, um die Spielernamen in der PlayerList aktualisieren zu können (PlayerCellRenderer)
 	}
 	
 }
