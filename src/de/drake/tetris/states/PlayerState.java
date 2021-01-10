@@ -47,21 +47,19 @@ public class PlayerState extends State implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		InputDevice.removeInputManagers();
-		if (e.getActionCommand() == PlayerState.back) {
+		switch (e.getActionCommand()) {
+		case PlayerState.back:
 			State.setCurrentState(State.modeState);
 			return;
-		}
-		if (e.getActionCommand() == PlayerState.start) {
+		case PlayerState.start:
 			this.screen.initializePlayers();
 			if (PlayerConfig.playerConfigs.size() > 0)
-			State.setCurrentState(new GameState());
+				State.setCurrentState(new GameState());
 			return;
-		}
-		if (e.getActionCommand() == PlayerState.addPlayer) {
+		case PlayerState.addPlayer:
 			this.screen.addPlayer();
 			return;
-		}
-		if (e.getActionCommand() == PlayerState.removePlayer) {
+		case PlayerState.removePlayer:
 			this.screen.removePlayer();
 			return;
 		}
