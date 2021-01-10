@@ -12,7 +12,7 @@ public class PlayerConfig {
 	
 	private InputManager inputManager;
 	
-	private double speed;
+	private double initialSpeed;
 	
 	public PlayerConfig(final String name) {
 		this.name = name;
@@ -26,8 +26,8 @@ public class PlayerConfig {
 		return inputManager;
 	}
 
-	public double getSpeed() {
-		return speed;
+	public double getInitialSpeed() {
+		return initialSpeed;
 	}
 
 	public void setName(final String name) {
@@ -38,7 +38,7 @@ public class PlayerConfig {
 		this.inputManager = manager;
 	}
 
-	public void setSpeed(final double speed) {
-		this.speed = speed;
+	public void setInitialSpeed(final double speed) {
+		this.initialSpeed = speed;
 	}
 }
