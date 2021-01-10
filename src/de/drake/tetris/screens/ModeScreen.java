@@ -200,6 +200,7 @@ public class ModeScreen extends JScrollPane {
 			bottomPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 			contentPanel.add(bottomPanel, BorderLayout.SOUTH);
 			
+				bottomPanel.add(ComponentFactory.createButton(ModeState.config, listener));
 				bottomPanel.add(ComponentFactory.createButton(ModeState.back, listener));
 				
 	}

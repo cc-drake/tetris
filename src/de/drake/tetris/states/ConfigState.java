@@ -42,21 +42,19 @@ public class ConfigState extends State implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand() == ConfigState.back) {
-			if (this.screen.applyConfig())
-				State.setCurrentState(State.startState);
+		if (!this.screen.applyConfig())
 			return;
-		}
-		if (e.getActionCommand() == ConfigState.save) {
-			if (this.screen.applyConfig()) {
-				try {
-					IniInOut.saveIni();
-				} catch (Exception e1) {
-				}
+		switch (e.getActionCommand()) {
+		case ConfigState.back:
+			State.setCurrentState(State.modeState);
+			return;
+		case ConfigState.save:
+			try {
+				IniInOut.saveIni();
+			} catch (Exception e1) {
 			}
 			return;
-		}
-		if (e.getActionCommand() == ConfigState.reset) {
+		case ConfigState.reset:
 			IniInOut.setConfig(null);
 			try {
 				IniInOut.saveIni();

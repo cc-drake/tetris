@@ -22,6 +22,8 @@ public class ModeState extends State implements ActionListener {
 	
 	public final static String back = "Zurück";
 	
+	public final static String config = "Erweiterte Optionen";
+	
 	/**
 	 * Erstellt einen neuen ModeState.
 	 */
@@ -41,16 +43,18 @@ public class ModeState extends State implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ToolTipManager.sharedInstance().mouseExited(new MouseEvent(this.screen, 0, 0, 0, 0, 0, 0, true));
-		if (e.getActionCommand() == ModeState.back) {
-			this.screen.updateConfig();
+		this.screen.updateConfig();
+		switch (e.getActionCommand()) {
+		case ModeState.back:
 			State.setCurrentState(State.startState);
 			return;
-		}
-		if (e.getActionCommand() == GameMode.SOLITAER
-				|| e.getActionCommand() == GameMode.COMBAT
-				|| e.getActionCommand() == GameMode.RACE
-				|| e.getActionCommand() == GameMode.CHEESE) {
-			this.screen.updateConfig();
+		case ModeState.config:
+			State.setCurrentState(State.configState);
+			return;
+		case GameMode.SOLITAER:
+		case GameMode.COMBAT:
+		case GameMode.RACE:
+		case GameMode.CHEESE:
 			GameMode.createInstance(e.getActionCommand());
 			State.setCurrentState(State.playerState);
 			return;
