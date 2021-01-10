@@ -224,7 +224,7 @@ public class Player {
 			this.speed *= (1 + GameMode.getSpeedIncreaseRow() / 100.);
 		}
 		int draufwerfen = 0;
-		if (GameMode.getCombatType() == GameMode.COMBAT_CLASSIC) {
+		if (GameMode.getCombatType().equals(GameMode.COMBAT_CLASSIC)) {
 			switch (entfernteReihen) {
 			case 0:
 			case 1:
@@ -238,7 +238,7 @@ public class Player {
 				draufwerfen = entfernteReihen;
 			}
 		}
-		if (GameMode.getCombatType() == GameMode.COMBAT_BADASS) {
+		if (GameMode.getCombatType().equals(GameMode.COMBAT_BADASS)) {
 			draufwerfen = entfernteReihen;
 		}
 		this.gameState.draufwerfen(this, draufwerfen);
