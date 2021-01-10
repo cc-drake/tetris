@@ -23,7 +23,7 @@ public class StartState extends State implements ActionListener {
 	/**
 	 * Erstellt einen neuen StartState.
 	 */
-	StartState() {
+	public StartState() {
 		this.screen = new StartScreen(this);
 	}
 
@@ -31,7 +31,7 @@ public class StartState extends State implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case StartState.newGame:
-			State.setCurrentState(State.modeState);
+			State.setCurrentState(new ModeState());
 			return;
 		case StartState.endGame:
 			System.exit(0);
