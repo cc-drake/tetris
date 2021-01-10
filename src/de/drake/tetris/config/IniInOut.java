@@ -155,9 +155,17 @@ public class IniInOut {
 		
 		value = parameters.get("combatType");
 		try {
-			if (value == GameMode.COMBAT_BADASS || value == GameMode.COMBAT_CLASSIC || value == GameMode.COMBAT_PEACE) {
-				Config.combatType = value;
-			} else {
+			switch (value) {
+			case GameMode.COMBAT_BADASS:
+				Config.combatType = GameMode.COMBAT_BADASS;
+				break;
+			case GameMode.COMBAT_CLASSIC:
+				Config.combatType = GameMode.COMBAT_CLASSIC;
+				break;
+			case GameMode.COMBAT_PEACE:
+				Config.combatType = GameMode.COMBAT_PEACE;
+				break;
+			default:
 				throw (new Exception());
 			}
 		} catch (Exception e) {
