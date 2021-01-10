@@ -42,6 +42,7 @@ public class ModeState extends State implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		ToolTipManager.sharedInstance().mouseExited(new MouseEvent(this.screen, 0, 0, 0, 0, 0, 0, true));
 		if (e.getActionCommand() == ModeState.back) {
+			this.screen.updateConfig();
 			State.setCurrentState(State.startState);
 			return;
 		}
@@ -49,7 +50,8 @@ public class ModeState extends State implements ActionListener {
 				|| e.getActionCommand() == GameMode.COMBAT
 				|| e.getActionCommand() == GameMode.RACE
 				|| e.getActionCommand() == GameMode.CHEESE) {
-			this.screen.setGameMode(e.getActionCommand());
+			this.screen.updateConfig();
+			GameMode.createInstance(e.getActionCommand());
 			State.setCurrentState(State.playerState);
 			return;
 		}
