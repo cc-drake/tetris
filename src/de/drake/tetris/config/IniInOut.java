@@ -169,7 +169,7 @@ public class IniInOut {
 				throw (new Exception());
 			}
 		} catch (Exception e) {
-			Config.combatType = GameMode.COMBAT_PEACE;
+			Config.combatType = GameMode.COMBAT_CLASSIC;
 		}
 		
 		value = parameters.get("raceRows");
