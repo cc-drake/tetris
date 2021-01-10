@@ -102,34 +102,34 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 		InputDevice device = (InputDevice) this.inputType.getValue();
 		switch (device.getType()) {
 		case InputDevice.KEYBOARD:
-			this.left.setKey(PlayerConfig.keyboard_left);
-			this.right.setKey(PlayerConfig.keyboard_right);
-			this.down.setKey(PlayerConfig.keyboard_down);
-			this.drop.setKey(PlayerConfig.keyboard_drop);
-			this.dreh_uzs.setKey(PlayerConfig.keyboard_dreh_uzs);
-			this.dreh_euzs.setKey(PlayerConfig.keyboard_dreh_euzs);
-			this.pause.setKey(PlayerConfig.keyboard_pause);
-			this.quit.setKey(PlayerConfig.keyboard_quit);
+			this.left.setKey(Config.keyboard_left);
+			this.right.setKey(Config.keyboard_right);
+			this.down.setKey(Config.keyboard_down);
+			this.drop.setKey(Config.keyboard_drop);
+			this.dreh_uzs.setKey(Config.keyboard_dreh_uzs);
+			this.dreh_euzs.setKey(Config.keyboard_dreh_euzs);
+			this.pause.setKey(Config.keyboard_pause);
+			this.quit.setKey(Config.keyboard_quit);
 			break;
 		case InputDevice.MOUSE:
-			this.left.setKey(PlayerConfig.mouse_left);
-			this.right.setKey(PlayerConfig.mouse_right);
-			this.down.setKey(PlayerConfig.mouse_down);
-			this.drop.setKey(PlayerConfig.mouse_drop);
-			this.dreh_uzs.setKey(PlayerConfig.mouse_dreh_uzs);
-			this.dreh_euzs.setKey(PlayerConfig.mouse_dreh_euzs);
-			this.pause.setKey(PlayerConfig.mouse_pause);
-			this.quit.setKey(PlayerConfig.mouse_quit);
+			this.left.setKey(Config.mouse_left);
+			this.right.setKey(Config.mouse_right);
+			this.down.setKey(Config.mouse_down);
+			this.drop.setKey(Config.mouse_drop);
+			this.dreh_uzs.setKey(Config.mouse_dreh_uzs);
+			this.dreh_euzs.setKey(Config.mouse_dreh_euzs);
+			this.pause.setKey(Config.mouse_pause);
+			this.quit.setKey(Config.mouse_quit);
 			break;
 		case InputDevice.GAMEPAD:
-			this.left.setKey(PlayerConfig.gamepad_left);
-			this.right.setKey(PlayerConfig.gamepad_right);
-			this.down.setKey(PlayerConfig.gamepad_down);
-			this.drop.setKey(PlayerConfig.gamepad_drop);
-			this.dreh_uzs.setKey(PlayerConfig.gamepad_dreh_uzs);
-			this.dreh_euzs.setKey(PlayerConfig.gamepad_dreh_euzs);
-			this.pause.setKey(PlayerConfig.gamepad_pause);
-			this.quit.setKey(PlayerConfig.gamepad_quit);
+			this.left.setKey(Config.gamepad_left);
+			this.right.setKey(Config.gamepad_right);
+			this.down.setKey(Config.gamepad_down);
+			this.drop.setKey(Config.gamepad_drop);
+			this.dreh_uzs.setKey(Config.gamepad_dreh_uzs);
+			this.dreh_euzs.setKey(Config.gamepad_dreh_euzs);
+			this.pause.setKey(Config.gamepad_pause);
+			this.quit.setKey(Config.gamepad_quit);
 			break;
 		}
 	}
