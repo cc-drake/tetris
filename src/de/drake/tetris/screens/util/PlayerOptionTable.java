@@ -17,29 +17,29 @@ import de.drake.tetris.model.util.Action;
 public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
 	/**
-	 * 
+	 * Die Default serialVersionUID.
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private final PlayerConfig player;
+	private final PlayerConfig playerConfig;
 	
 	private final JTextField name;
 	
-	private final NumberSpinner speed;
+	private final NumberSpinner initialSpeed;
 	
 	private final ListSpinner inputType;
 	
 	private KeyInputField left, right, down, drop, dreh_uzs, dreh_euzs, pause, quit;
 
-	public PlayerOptionTable(final PlayerConfig player) {
+	public PlayerOptionTable(final PlayerConfig playerConfig) {
 		super();
-		this.player = player;
+		this.playerConfig = playerConfig;
 		
-		this.name = ComponentFactory.createJTextField(player.getName());
+		this.name = ComponentFactory.createJTextField(playerConfig.getName());
 		super.addOption("Spielername", name);
 		
-		this.speed = new NumberSpinner(Config.initialSpeed, 0., Config.FPS, .1);
-		super.addOption("Fallgeschwindigkeit", this.speed);
+		this.initialSpeed = new NumberSpinner(Config.initialSpeed, 0., Config.FPS, .1);
+		super.addOption("Fallgeschwindigkeit", this.initialSpeed);
 	
 		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7, InputDevice.allInputdevices.get(0));
 		this.inputType.addChangeListener(this);
@@ -75,15 +75,15 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 	
 	public void paintComponent(Graphics g) {
 		if (this.name.getText().isEmpty()) {
-			this.player.setName("Namenloser Spieler");
+			this.playerConfig.setName("Namenloser Spieler");
 		} else {
-			this.player.setName(this.name.getText());
+			this.playerConfig.setName(this.name.getText());
 		}
 		super.paintComponent(g);
 	}
 
 	public void initializePlayer() {
-		this.player.setSpeed(this.speed.getDoubleValue());
+		this.playerConfig.setInitialSpeed(this.initialSpeed.getDoubleValue());
 		HashMap<Key, Action> tastenbelegung = new HashMap<Key, Action>();
 		tastenbelegung.put(this.left.getKey(), Action.LINKS);
 		tastenbelegung.put(this.right.getKey(), Action.RECHTS);
@@ -93,7 +93,7 @@ public class PlayerOptionTable extends OptionTable implements ChangeListener {
 		tastenbelegung.put(this.dreh_euzs.getKey(), Action.DREHUNG_ENTGEGEN_UHRZEIGERSINN);
 		tastenbelegung.put(this.pause.getKey(), Action.PAUSE);
 		tastenbelegung.put(this.quit.getKey(), Action.QUIT);
-		this.player.setInputManager(new InputManager(
+		this.playerConfig.setInputManager(new InputManager(
 				(InputDevice) this.inputType.getValue(), tastenbelegung));
 	}
 
