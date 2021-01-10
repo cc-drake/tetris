@@ -49,7 +49,7 @@ public class PlayerState extends State implements ActionListener {
 		InputDevice.removeInputManagers();
 		switch (e.getActionCommand()) {
 		case PlayerState.back:
-			State.setCurrentState(State.modeState);
+			State.setCurrentState(new ModeState());
 			return;
 		case PlayerState.start:
 			this.screen.initializePlayers();
