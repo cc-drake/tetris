@@ -90,10 +90,6 @@ public class GameMode {
 		GameMode.instance = new GameMode(mode);
 	}
 	
-	public static GameMode getInstance() {
-		return GameMode.instance;
-	}
-	
 	public static String getMode() {
 		return GameMode.instance.mode;
 	}
