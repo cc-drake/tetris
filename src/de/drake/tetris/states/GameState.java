@@ -167,7 +167,7 @@ public class GameState extends State {
 		int minRaceReihen = Integer.MAX_VALUE;
 		int minCheeseReihen = Integer.MAX_VALUE;
 		for (Player spieler : this.spielerliste) {
-			if (spieler.hasState(Player.UNDEF) && GameMode.getMode() != GameMode.SOLITAER)
+			if (spieler.hasState(Player.UNDEF) && !GameMode.getMode().equals(GameMode.SOLITAER))
 				spieler.setState(Player.LOSER);
 			if (spieler.hasState(Player.ACTIVE))
 				anzahlAktiveSpieler++;
