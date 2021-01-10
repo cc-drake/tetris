@@ -5,6 +5,7 @@ import de.drake.tetris.config.IniInOut;
 import de.drake.tetris.gfx.Assets;
 import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.screens.Display;
+import de.drake.tetris.states.StartState;
 import de.drake.tetris.states.State;
 
 /**
@@ -19,7 +20,7 @@ class Game implements Runnable {
 		Assets.init();
 		InputDevice.init();
 		this.display = new Display();
-		State.setCurrentState(State.startState);
+		State.setCurrentState(new StartState());
 		Thread gameLoop = new Thread(this);
 		gameLoop.start();
 	}
