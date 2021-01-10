@@ -18,7 +18,6 @@ public class StartState extends State implements ActionListener {
 	private final StartScreen screen;
 	
 	public final static String newGame = "Neues Spiel";
-	public final static String config = "Optionen";
 	public final static String endGame = "Beenden";
 	
 	/**
@@ -30,15 +29,11 @@ public class StartState extends State implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand() == StartState.newGame) {
+		switch (e.getActionCommand()) {
+		case StartState.newGame:
 			State.setCurrentState(State.modeState);
 			return;
-		}
-		if (e.getActionCommand() == StartState.config) {
-			State.setCurrentState(State.configState);
-			return;
-		}
-		if (e.getActionCommand() == StartState.endGame) {
+		case StartState.endGame:
 			System.exit(0);
 			return;
 		}
