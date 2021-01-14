@@ -143,7 +143,7 @@ public class IniInOut {
 		try {
 			Config.speedIncreaseRow = Double.parseDouble(value);
 		} catch (Exception e) {
-			Config.speedIncreaseRow = 1.;
+			Config.speedIncreaseRow = 2.;
 		}
 		
 		value = parameters.get("speedIncreaseSec");
@@ -287,7 +287,7 @@ public class IniInOut {
 					Integer.parseInt(parameters.get("mouse_dreh_uzs_ID")),
 					parameters.get("mouse_dreh_uzs_description"));
 		} catch (Exception e) {
-			Config.mouse_dreh_uzs = new Key(-1, "Scroll ab");
+			Config.mouse_dreh_uzs = new Key(0, "Scroll auf");
 		}
 		
 		try {
@@ -295,7 +295,7 @@ public class IniInOut {
 					Integer.parseInt(parameters.get("mouse_dreh_euzs_ID")),
 					parameters.get("mouse_dreh_euzs_description"));
 		} catch (Exception e) {
-			Config.mouse_dreh_euzs = new Key(0, "Scroll auf");
+			Config.mouse_dreh_euzs = new Key(-1, "Scroll ab");
 		}
 		
 		try {
