@@ -2,9 +2,9 @@ package de.drake.tetris.model;
 
 import java.util.Random;
 
+import de.drake.tetris.model.util.StoneType;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.model.util.StoneType;
 import de.drake.tetris.model.util.Position;
 import de.drake.tetris.model.util.PositionHashMap;
 

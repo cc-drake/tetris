@@ -3,8 +3,8 @@ package de.drake.tetris.model;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import de.drake.tetris.config.Config;
 import de.drake.tetris.model.util.StoneType;
+import de.drake.tetris.config.Config;
 import de.drake.tetris.model.util.Position;
 
 /**

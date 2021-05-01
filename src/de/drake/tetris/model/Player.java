@@ -4,10 +4,10 @@ import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
-import de.drake.tetris.input.util.InputManager;
 import de.drake.tetris.model.util.Action;
+import de.drake.tetris.model.util.GameStatus;
 import de.drake.tetris.model.util.Position;
-import de.drake.tetris.states.GameState;
+import de.drake.tetris.view.input.util.InputManager;
 
 /**
  * Der Player verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
@@ -33,9 +33,9 @@ public class Player {
 	private final InputManager inputManager;
 	
 	/**
-	 * Der GameState, der das aktuelle Spiel verwaltet.
+	 * Das aktuelle Spiel
 	 */
-	private final GameState gameState;
+	private final Game game;
 	
 	/**
 	 * Das Spielfeld, in dem die Steine fallen.
@@ -100,11 +100,11 @@ public class Player {
 	/**
 	 * Erzeugt einen neuen Spieler.
 	 */
-	public Player(final PlayerConfig config, final GameState gameState, final long seed) {
+	public Player(final PlayerConfig config, final Game game, final long seed) {
 		this.name = config.getName();
 		this.inputManager = config.getInputManager();
 		this.speed = config.getInitialSpeed();
-		this.gameState = gameState;
+		this.game = game;
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new StoneFactory(random.nextLong());
@@ -159,23 +159,23 @@ public class Player {
 	 * Führt zeitgesteuerte Vorgänge aus, wie den nächsten automatischen "Steinfall"
 	 * oder die Aktualisierung der Zeit.
 	 */
-	public void tick(final int gameStateState, final long laufzeitIndex) {
+	public void tick(final GameStatus gameStatus) {
 		
 		if (this.state != Player.ACTIVE)
 			return;
 		
-		this.laufzeit = laufzeitIndex;
+		this.laufzeit = game.getLaufzeit();
 		
-		switch (gameStateState) {
-		case GameState.RUNNING:
+		switch (gameStatus) {
+		case RUNNING:
 			
 			long ZeitProSteinfall = (long) (1000000000. / this.speed);
-			if ((laufzeitIndex - this.letzteFallzeit) >= ZeitProSteinfall) {
+			if ((this.laufzeit - this.letzteFallzeit) >= ZeitProSteinfall) {
 				this.letzteFallzeit += ZeitProSteinfall;
 				this.performMoveAction(Action.RUNTER);
 			}
 			
-			if ((laufzeitIndex - this.letzteSeczeit) >= 1000000000.) {
+			if ((this.laufzeit - this.letzteSeczeit) >= 1000000000.) {
 				this.letzteSeczeit += 1000000000.;
 				this.speed *= (1 + GameMode.getSpeedIncreaseSec() / 100.);
 			}
@@ -241,7 +241,7 @@ public class Player {
 		if (GameMode.getCombatType().equals(GameMode.COMBAT_BADASS)) {
 			draufwerfen = entfernteReihen;
 		}
-		this.gameState.draufwerfen(this, draufwerfen);
+		this.game.draufwerfen(this, draufwerfen);
 		this.spielfeld.generateCheeseRows(this.wartendeReihen);
 		this.wartendeReihen = 0;
 		this.initialisiereNaechstenStein();
