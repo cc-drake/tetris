@@ -1,8 +1,10 @@
-package de.drake.tetris.view.gfx;
+package de.drake.tetris.view;
 
 import java.awt.image.BufferedImage;
 
 import de.drake.tetris.model.util.StoneType;
+import de.drake.tetris.view.gfx.ImageLoader;
+import de.drake.tetris.view.gfx.SpriteSheet;
 
 public class Assets {
 	
@@ -34,7 +36,7 @@ public class Assets {
 		Assets.logo = ImageLoader.loadImage("/textures/logo.png");
 	}
 	
-	public static BufferedImage getAsset(final StoneType type, final boolean isActive) {
+	public static BufferedImage getImage(final StoneType type, final boolean isActive) {
 		if (isActive) {
 			switch (type) {
 			case YELLOW:

@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.view.gfx.Assets;
+import de.drake.tetris.view.Assets;
 
 public class LogoPanel extends JPanel {
 	

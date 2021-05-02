@@ -14,7 +14,7 @@ import de.drake.tetris.model.Spielfeld;
 import de.drake.tetris.model.Stone;
 import de.drake.tetris.model.util.Position;
 import de.drake.tetris.model.util.StoneType;
-import de.drake.tetris.view.gfx.Assets;
+import de.drake.tetris.view.Assets;
 
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.
@@ -163,7 +163,7 @@ public class PlayerPanel extends JPanel {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 				type = spielfeld.getStoneType(spalte, zeile);
 				if (type != null) {
-					g.drawImage(Assets.getAsset(type, false),
+					g.drawImage(Assets.getImage(type, false),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,
 							this.breite_feld, this.höhe_feld, null);
@@ -184,7 +184,7 @@ public class PlayerPanel extends JPanel {
 			spalte = position.getX();
 			if (zeile < 0)
 				continue;
-			g.drawImage(Assets.getAsset(stein.getType(), true),
+			g.drawImage(Assets.getImage(stein.getType(), true),
 					this.offsetX_sf + spalte * this.breite_feld,
 					this.offsetY_sf + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);
@@ -260,7 +260,7 @@ public class PlayerPanel extends JPanel {
 		for (Position position : stein.getRelativkoordinaten()) {
 			zeile = previewfelder / 2 + position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();
-			g.drawImage(Assets.getAsset(stein.getType(), true),
+			g.drawImage(Assets.getImage(stein.getType(), true),
 					this.offsetX_p + spalte * this.breite_feld,
 					this.offsetY_p + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);

@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-class ImageLoader {
+public class ImageLoader {
 	
-	static BufferedImage loadImage(final String path) {
+	public static BufferedImage loadImage(final String path) {
 		try {
 			return ImageIO.read(ImageLoader.class.getResource(path));
 		} catch (IOException e) {
