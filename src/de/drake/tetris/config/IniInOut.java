@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import de.drake.tetris.view.input.util.Key;
+import de.drake.tetris.input.util.Key;
 
 public class IniInOut {
 	

@@ -1,11 +1,11 @@
-package de.drake.tetris.view.input;
+package de.drake.tetris.input;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.view.input.util.Key;
+import de.drake.tetris.input.util.Key;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;

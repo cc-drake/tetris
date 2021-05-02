@@ -3,9 +3,9 @@ package de.drake.tetris;
 import de.drake.tetris.config.IniInOut;
 import de.drake.tetris.controller.GameLoop;
 import de.drake.tetris.controller.states.StateManager;
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.view.Display;
 import de.drake.tetris.view.gfx.Assets;
-import de.drake.tetris.view.input.InputDevice;
 
 /**
  * Startet das Tetris-Programm.

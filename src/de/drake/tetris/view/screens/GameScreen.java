@@ -5,9 +5,9 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.view.input.InputDevice;
 import de.drake.tetris.view.screens.util.PlayerPanel;
 
 public class GameScreen extends JPanel {

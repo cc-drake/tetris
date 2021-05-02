@@ -2,7 +2,7 @@ package de.drake.tetris.config;
 
 import java.awt.Color;
 
-import de.drake.tetris.view.input.util.Key;
+import de.drake.tetris.input.util.Key;
 
 public class Config {
 	

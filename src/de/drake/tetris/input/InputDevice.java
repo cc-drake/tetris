@@ -1,4 +1,4 @@
-package de.drake.tetris.view.input;
+package de.drake.tetris.input;
 
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.HashSet;
 
 import javax.swing.JComponent;
 
-import de.drake.tetris.view.input.util.Key;
-import de.drake.tetris.view.input.util.KeyListener;
+import de.drake.tetris.input.util.Key;
+import de.drake.tetris.input.util.KeyListener;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Controller.Type;

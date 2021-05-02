@@ -6,12 +6,12 @@ import java.util.Random;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.PlayerConfig;
+import de.drake.tetris.input.util.InputHandler;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.util.Action;
 import de.drake.tetris.model.util.GameStatus;
 import de.drake.tetris.model.util.PlayerStatus;
-import de.drake.tetris.view.input.util.InputHandler;
 import de.drake.tetris.view.screens.GameScreen;
 
 /**

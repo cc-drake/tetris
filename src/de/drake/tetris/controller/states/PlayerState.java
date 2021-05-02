@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 
 import de.drake.tetris.config.PlayerConfig;
-import de.drake.tetris.view.input.InputDevice;
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.view.screens.PlayerScreen;
 
 /**

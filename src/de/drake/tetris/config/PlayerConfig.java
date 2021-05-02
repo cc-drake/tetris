@@ -3,10 +3,10 @@ package de.drake.tetris.config;
 import java.util.HashMap;
 import java.util.Vector;
 
+import de.drake.tetris.input.InputDevice;
+import de.drake.tetris.input.util.InputHandler;
+import de.drake.tetris.input.util.Key;
 import de.drake.tetris.model.util.Action;
-import de.drake.tetris.view.input.InputDevice;
-import de.drake.tetris.view.input.util.InputHandler;
-import de.drake.tetris.view.input.util.Key;
 
 public class PlayerConfig {
 	

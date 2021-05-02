@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.PlayerConfig;
-import de.drake.tetris.view.input.InputDevice;
+import de.drake.tetris.input.InputDevice;
 
 public class PlayerConfigTable extends OptionTable implements ChangeListener {
 	

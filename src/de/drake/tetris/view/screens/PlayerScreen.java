@@ -18,7 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.controller.states.PlayerState;
-import de.drake.tetris.view.input.InputDevice;
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.view.screens.util.ComponentFactory;
 import de.drake.tetris.view.screens.util.PlayerConfigTable;
 import de.drake.tetris.view.screens.util.PlayerList;

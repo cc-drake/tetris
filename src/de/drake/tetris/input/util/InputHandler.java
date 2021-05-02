@@ -1,4 +1,4 @@
-package de.drake.tetris.view.input.util;
+package de.drake.tetris.input.util;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,8 +6,8 @@ import java.util.Timer;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.model.util.Action;
-import de.drake.tetris.view.input.InputDevice;
 
 public class InputHandler implements KeyListener {
 	

@@ -1,4 +1,4 @@
-package de.drake.tetris.view.input.util;
+package de.drake.tetris.input.util;
 
 public interface KeyListener {
 	
