@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import de.drake.tetris.model.util.Action;
 import de.drake.tetris.view.input.InputDevice;
-import de.drake.tetris.view.input.util.InputManager;
+import de.drake.tetris.view.input.util.InputHandler;
 import de.drake.tetris.view.input.util.Key;
 
 public class PlayerConfig {
@@ -146,7 +146,7 @@ public class PlayerConfig {
 		this.quit = quit;
 	}
 	
-	public InputManager getInputManager() {
+	public InputHandler createInputHandler() {
 		HashMap<Key, Action> tastenbelegung = new HashMap<Key, Action>();
 		tastenbelegung.put(this.left, Action.LINKS);
 		tastenbelegung.put(this.right, Action.RECHTS);
@@ -156,7 +156,7 @@ public class PlayerConfig {
 		tastenbelegung.put(this.dreh_euzs, Action.DREHUNG_ENTGEGEN_UHRZEIGERSINN);
 		tastenbelegung.put(this.pause, Action.PAUSE);
 		tastenbelegung.put(this.quit, Action.QUIT);
-		return new InputManager((InputDevice) this.inputDevice, tastenbelegung);
+		return new InputHandler((InputDevice) this.inputDevice, tastenbelegung);
 	}
 	
 }

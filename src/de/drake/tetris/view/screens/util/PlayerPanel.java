@@ -211,16 +211,19 @@ public class PlayerPanel extends JPanel {
 					this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
 			break;
 		default:
-			switch (this.spieler.getState()) {
-			case Player.WINNER:
+			switch (this.spieler.getStatus()) {
+			case WINNER:
 				g.drawString("WINNER", 
 						this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 4),
 						this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
 				break;
-			case Player.LOSER:
+			case LOSER:
 				g.drawString("LOSER", 
 						this.offsetX_sf + this.breite_feld * (Config.breite / 2 - 3),
 						this.offsetY_sf + this.höhe_feld * (Config.hoehe / 2));
+				break;
+			default:
+				break;
 			}
 		}
 		

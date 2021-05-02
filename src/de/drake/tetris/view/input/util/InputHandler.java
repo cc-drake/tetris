@@ -9,7 +9,7 @@ import de.drake.tetris.config.Config;
 import de.drake.tetris.model.util.Action;
 import de.drake.tetris.view.input.InputDevice;
 
-public class InputManager implements KeyListener {
+public class InputHandler implements KeyListener {
 	
 	/**
 	 * Speichert die aktuell gedrückten Tasten. Wird benötigt, um das windowseigene 
@@ -33,7 +33,7 @@ public class InputManager implements KeyListener {
 	 */
 	private final HashMap<Action, Timer> timers = new HashMap<Action, Timer>();
 	
-	public InputManager(final InputDevice device, final HashMap<Key, Action> tastenbelegung) {
+	public InputHandler(final InputDevice device, final HashMap<Key, Action> tastenbelegung) {
 		this.key2action = tastenbelegung;
 		device.addKeyListener(this);
 	}

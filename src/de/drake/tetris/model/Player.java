@@ -5,32 +5,18 @@ import java.util.Random;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.model.util.Action;
-import de.drake.tetris.model.util.GameStatus;
+import de.drake.tetris.model.util.PlayerStatus;
 import de.drake.tetris.model.util.Position;
-import de.drake.tetris.view.input.util.InputManager;
 
 /**
  * Der Player verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
  */
 public class Player {
 	
-	public final static int UNDEF = 0;
-	
-	public final static int ACTIVE = 1;
-	
-	public final static int LOSER = 2;
-	
-	public final static int WINNER = 3;
-	
 	/**
 	 * Der Name des Spielers
 	 */
 	private final String name;
-	
-	/**
-	 * Der InputManager, der die Spieleingaben verarbeitet
-	 */
-	private final InputManager inputManager;
 	
 	/**
 	 * Das aktuelle Spiel
@@ -75,7 +61,7 @@ public class Player {
 	/**
 	 * Die Spielzeit des Spielers in Nanosekunden.
 	 */
-	private long laufzeit = 0;
+	private long laufzeitNano = 0;
 	
 	/**
 	 * Die Anzahl der Reihen, die fertiggestellt wurden.
@@ -95,14 +81,13 @@ public class Player {
 	/**
 	 * Gibt den aktuellen Zustand des Spielers an.
 	 */
-	private int state = Player.ACTIVE;
+	private PlayerStatus status = PlayerStatus.ACTIVE;
 	
 	/**
 	 * Erzeugt einen neuen Spieler.
 	 */
 	public Player(final PlayerConfig config, final Game game, final long seed) {
 		this.name = config.getName();
-		this.inputManager = config.getInputManager();
 		this.speed = config.getInitialSpeed();
 		this.game = game;
 		Random random = new Random(seed);
@@ -113,19 +98,9 @@ public class Player {
 	}
 	
 	/**
-	 * Gibt die nächste vom InputManager vorgesehene Aktionseingabe zurück.
-	 */
-	public Action getInputAction() {
-		return this.inputManager.getNextAction();
-	}
-	
-	/**
-	 * Führt die angegebene Bewegungsaktion aus, sofern der Spieler noch aktiv ist.
+	 * Führt die angegebene Bewegungsaktion aus.
 	 */
 	public void performMoveAction(final Action action) {
-		
-		if (this.state != Player.ACTIVE)
-			return;
 
 		switch (action) {
 		case LINKS:
@@ -159,29 +134,22 @@ public class Player {
 	 * Führt zeitgesteuerte Vorgänge aus, wie den nächsten automatischen "Steinfall"
 	 * oder die Aktualisierung der Zeit.
 	 */
-	public void tick(final GameStatus gameStatus) {
+	public void tick() {
 		
-		if (this.state != Player.ACTIVE)
-			return;
+		// Laufzeit des Spielers aktualisieren, sofern dieser noch lebt
+		this.laufzeitNano = game.getLaufzeitNano();
 		
-		this.laufzeit = game.getLaufzeit();
+		// Zeitgesteuert "Runter" auslösen
+		long ZeitProSteinfall = (long) (1000000000. / this.speed);
+		if ((this.laufzeitNano - this.letzteFallzeit) >= ZeitProSteinfall) {
+			this.letzteFallzeit += ZeitProSteinfall;
+			this.performMoveAction(Action.RUNTER);
+		}
 		
-		switch (gameStatus) {
-		case RUNNING:
-			
-			long ZeitProSteinfall = (long) (1000000000. / this.speed);
-			if ((this.laufzeit - this.letzteFallzeit) >= ZeitProSteinfall) {
-				this.letzteFallzeit += ZeitProSteinfall;
-				this.performMoveAction(Action.RUNTER);
-			}
-			
-			if ((this.laufzeit - this.letzteSeczeit) >= 1000000000.) {
-				this.letzteSeczeit += 1000000000.;
-				this.speed *= (1 + GameMode.getSpeedIncreaseSec() / 100.);
-			}
-
-		default:
-
+		// Zeitgesteuert Speed erhöhen
+		if ((this.laufzeitNano - this.letzteSeczeit) >= 1000000000.) {
+			this.letzteSeczeit += 1000000000.;
+			this.speed *= (1 + GameMode.getSpeedIncreaseSec() / 100.);
 		}
 		
 	}
@@ -223,28 +191,36 @@ public class Player {
 		for (int i = 0; i < entfernteReihen; i++) {
 			this.speed *= (1 + GameMode.getSpeedIncreaseRow() / 100.);
 		}
-		int draufwerfen = 0;
+		this.draufwerfen(entfernteReihen);
+		this.spielfeld.generateCheeseRows(this.wartendeReihen);
+		this.wartendeReihen = 0;
+		this.initialisiereNaechstenStein();
+	}
+	
+	private void draufwerfen(final int entfernteReihen) {
+		int wurfreihen = 0;
 		if (GameMode.getCombatType().equals(GameMode.COMBAT_CLASSIC)) {
 			switch (entfernteReihen) {
 			case 0:
 			case 1:
-				draufwerfen = 0;
+				wurfreihen = 0;
 				break;
 			case 2:
 			case 3:
-				draufwerfen = entfernteReihen - 1;
+				wurfreihen = entfernteReihen - 1;
 				break;
 			default:
-				draufwerfen = entfernteReihen;
+				wurfreihen = entfernteReihen;
 			}
 		}
 		if (GameMode.getCombatType().equals(GameMode.COMBAT_BADASS)) {
-			draufwerfen = entfernteReihen;
+			wurfreihen = entfernteReihen;
 		}
-		this.game.draufwerfen(this, draufwerfen);
-		this.spielfeld.generateCheeseRows(this.wartendeReihen);
-		this.wartendeReihen = 0;
-		this.initialisiereNaechstenStein();
+		
+		for (Player player : this.game.getPlayers()) {
+			if (player != this && player.hasStatus(PlayerStatus.ACTIVE))
+				player.wartendeReihen += wurfreihen;
+		}
 	}
 	
 	private void initialisiereNaechstenStein() {
@@ -253,32 +229,28 @@ public class Player {
 		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
 		for (Position position : this.stein.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
-				this.state = Player.UNDEF;
+				this.status = PlayerStatus.STUCK;
 				return;
 			}
 		}
 	}
 	
-	public void addRows(final int rows) {
-		this.wartendeReihen += rows;
-	}
-	
-	public void setState(final int state) {
-		this.state = state;
+	void setStatus(final PlayerStatus state) {
+		this.status = state;
 	}
 	
 	/**
 	 * Gibt den aktuellen Zustand dieses Spielers zurück.
 	 */
-	public int getState() {
-		return this.state;
+	public PlayerStatus getStatus() {
+		return this.status;
 	}
 	
 	/**
 	 * Gibt zurück, ob der State des Spielers dem angefragten Zustand entspricht.
 	 */
-	public boolean hasState(final int state) {
-		return this.state == state;
+	public boolean hasStatus(final PlayerStatus state) {
+		return this.status == state;
 	}
 
 	/**
@@ -313,14 +285,14 @@ public class Player {
 	 * Gibt die vergangene Zeit in Nanosekunden zurück.
 	 */
 	public long getLaufzeit() {
-		return this.laufzeit;
+		return this.laufzeitNano;
 	}
 	
 	/**
 	 * Gibt die vergangene Zeit in Sekunden zurück.
 	 */
 	public int getVergangeneZeitSec() {
-		return (int) (this.laufzeit / 1000000000.);
+		return (int) (this.laufzeitNano / 1000000000.);
 	}
 	
 	/**
