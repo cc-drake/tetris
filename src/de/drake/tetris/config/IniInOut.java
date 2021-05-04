@@ -55,6 +55,13 @@ public class IniInOut {
 		
 		String value;
 		
+		value = parameters.get("sounds");
+		try {
+			Config.sounds = value == null ? true : Boolean.parseBoolean(value);
+		} catch (Exception e) {
+			Config.sounds = true;
+		}
+		
 		value = parameters.get("stone_small");
 		try {
 			Config.stone_small = Integer.parseInt(value);
@@ -383,6 +390,10 @@ public class IniInOut {
 	public static void saveIni() throws IOException {
 		String ini = "";
 		ini += "// Parameter werden beim Start von Tetris eingelesen. Kommentare mit \"//\" einrücken.\r\n";
+		ini += "\r\n";
+		
+		ini += "// Sounds aktiviert.\r\n";
+		ini += "sounds = " + Config.sounds + "\r\n";
 		ini += "\r\n";
 		
 		ini += "// Häufigkeit kleiner Steine aus 3 oder weniger Teilen.\r\n";

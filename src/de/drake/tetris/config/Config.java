@@ -22,6 +22,11 @@ public class Config {
 	public final static Color COLOR_TEXTBACKGROUND = Color.darkGray;
 	
 	/**
+	 * Gibt an, ob Sounds aktiviert sein sollen.
+	 */
+	public static boolean sounds;
+	
+	/**
 	 * Gibt an, wie häufig kleine Steine (< 4 Blöcke) spawnen sollen.
 	 */
 	public static int stone_small;

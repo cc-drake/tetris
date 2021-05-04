@@ -1,4 +1,4 @@
-package de.drake.tetris.view.audio;
+package de.drake.tetris.assets.audio;
 
 import java.io.File;
 

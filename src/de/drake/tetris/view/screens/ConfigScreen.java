@@ -2,12 +2,14 @@ package de.drake.tetris.view.screens;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,6 +21,8 @@ import de.drake.tetris.view.screens.util.NumberSpinner;
 import de.drake.tetris.view.screens.util.OptionTable;
 
 public class ConfigScreen extends JScrollPane {
+	
+	private JCheckBox sounds;
 
 	private NumberSpinner stone_small, stone_regular, stone_large, stone_bomb, 
 			hoehe, breite, initialSpeed, keyRepeatDelay, keyRepeatSpeed;
@@ -50,6 +54,11 @@ public class ConfigScreen extends JScrollPane {
 				c.gridy = 1;
 				OptionTable table = new OptionTable();
 				topPanel.add(table, c);
+				
+					this.sounds = new JCheckBox();
+					this.sounds.setSelected(Config.sounds);
+					this.sounds.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+					table.addOption("Sounds aktiviert", this.sounds);
 					
 					this.stone_small = new NumberSpinner(Config.stone_small, 0, 100, 1);
 					table.addOption("Häufigkeit kleiner Steine (< 4 Teile)", this.stone_small);
@@ -98,6 +107,7 @@ public class ConfigScreen extends JScrollPane {
 				&& this.stone_bomb.getIntValue() == 0) {
 			return false;
 		}
+		Config.sounds = this.sounds.isSelected();
 		Config.stone_small = this.stone_small.getIntValue();
 		Config.stone_regular = this.stone_regular.getIntValue();
 		Config.stone_large = this.stone_large.getIntValue();

@@ -143,17 +143,15 @@ public class PlayerScreen extends JScrollPane implements ListSelectionListener {
 			return;
 		}
 		this.topPanel.setComponentZOrder(this.playerConfigTables.get(selectedPlayer), 0);
+		this.repaint();
 	}
-
+	
+	// Methode wird bei jedem Tick gerufen, um die Spielernamen zu aktualisieren
 	public void applyPlayerConfigs() {
 		PlayerConfig.playerConfigs = this.playerList.getPlayerConfigs();
 		for (PlayerConfigTable table : this.playerConfigTables.values()) {
 			table.applyPlayerConfig();
 		}
-	}
-	
-	public void tick() {
-		this.applyPlayerConfigs(); // Wird benötigt, um die Spielernamen in der PlayerList aktualisieren zu können (PlayerCellRenderer)
 	}
 	
 }

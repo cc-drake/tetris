@@ -1,4 +1,4 @@
-package de.drake.tetris.view.gfx;
+package de.drake.tetris.assets.gfx;
 
 import java.awt.image.BufferedImage;
 

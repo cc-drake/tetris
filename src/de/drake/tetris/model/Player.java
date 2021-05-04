@@ -2,6 +2,7 @@ package de.drake.tetris.model;
 
 import java.util.Random;
 
+import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.model.util.Action;
@@ -175,8 +176,10 @@ public class Player {
 			}
 		}
 		stein.verschiebe(x, y);
-		if (imUhrzeigersinn != null)
+		if (imUhrzeigersinn != null) {
 			stein.drehe(imUhrzeigersinn);
+			Asset.dreh.play();
+		}
 		return true;
 	}
 	
@@ -186,13 +189,24 @@ public class Player {
 	 */
 	private void setzeSteinAb() {
 		this.spielfeld.verarbeiteStein(this.stein);
+		Asset.drop.play();
 		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
 		this.fertigeReihen += entfernteReihen;
+		if        (entfernteReihen >= 4) {
+			Asset.tetris.play();
+		} else if (entfernteReihen > 0) {
+			Asset.row.play();
+		}
 		for (int i = 0; i < entfernteReihen; i++) {
 			this.speed *= (1 + GameMode.getSpeedIncreaseRow() / 100.);
 		}
 		this.draufwerfen(entfernteReihen);
 		this.spielfeld.generateCheeseRows(this.wartendeReihen);
+		if        (this.wartendeReihen >= 4) {
+			Asset.addFour.play();
+		} else if (this.wartendeReihen > 0) {
+			Asset.add.play();
+		}
 		this.wartendeReihen = 0;
 		this.initialisiereNaechstenStein();
 	}

@@ -26,7 +26,8 @@ public class PlayerState extends State implements ActionListener {
 	
 	@Override
 	public void tick() {
-		this.screen.tick();
+		this.screen.applyPlayerConfigs();
+		this.screen.repaint();
 	}
 
 	@Override
