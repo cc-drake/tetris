@@ -25,7 +25,7 @@ public class LogoPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		BufferedImage logo = Asset.logo;
+		BufferedImage logo = Asset.IMAGE_LOGO;
 		int logoWidth = this.getWidth() * 2 / 3;
 		int logoHeight = logoWidth * logo.getHeight() / logo.getWidth();
 		int positionX = this.getWidth() / 2 - logoWidth / 2;

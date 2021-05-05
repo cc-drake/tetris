@@ -2,9 +2,10 @@ package de.drake.tetris.model;
 
 import java.util.Random;
 
-import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
+import de.drake.tetris.model.stones.Stone;
+import de.drake.tetris.model.stones.StoneFactory;
 import de.drake.tetris.model.util.Action;
 import de.drake.tetris.model.util.PlayerStatus;
 import de.drake.tetris.model.util.Position;
@@ -94,7 +95,7 @@ public class Player {
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new StoneFactory(random.nextLong());
-		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
+		this.nächsterStein = this.steinFactory.erzeugeRandomStein(this.spielfeld);
 		this.initialisiereNaechstenStein();
 	}
 	
@@ -105,26 +106,29 @@ public class Player {
 
 		switch (action) {
 		case LINKS:
-			this.bewegeStein(-1, 0, null);
+			stein.bewege(-1, 0, null);
 			break;
 		case RECHTS:
-			this.bewegeStein(1, 0, null);
+			stein.bewege(1, 0, null);
 			break;
 		case RUNTER:
-			this.bewegeStein(0, 1, null);
+			if (stein.bewege(0, 1, null) == false) {
+				this.setzeSteinAb();
+			}
 			break;
 		case GANZ_RUNTER:
-			while(this.bewegeStein(0, 1, null));
+			while(stein.bewege(0, 1, null));
+			this.setzeSteinAb();
 			break;
 		case DREHUNG_UHRZEIGERSINN:
-			if (!this.bewegeStein(0, 0, true))
-				if (!this.bewegeStein(1, 0, true))
-					this.bewegeStein(-1, 0, true);
+			if (!stein.bewege(0, 0, true))
+				if (!stein.bewege(1, 0, true))
+					stein.bewege(-1, 0, true);
 			break;
 		case DREHUNG_ENTGEGEN_UHRZEIGERSINN:
-			if (!this.bewegeStein(0, 0, false))
-				if (!this.bewegeStein(-1, 0, false))
-					this.bewegeStein(1, 0, false);
+			if (!stein.bewege(0, 0, false))
+				if (!stein.bewege(-1, 0, false))
+					stein.bewege(1, 0, false);
 			break;
 		default:
 			break;
@@ -156,61 +160,25 @@ public class Player {
 	}
 	
 	/**
-	 * Bewegt den aktiven Stein in der angegebenen Richtung und Drehung, sofern möglich.
-	 * 
-	 * @param x Die Anzahl der Felder in horizontaler Richtung, um die der Stein verschoben werden soll.
-	 * 		Negative Werte stehen für eine Bewegung nach links, positive für eine Bewegung nach rechts.
-	 * @param y Die Anzahl der Felder in vertikaler Richtung, um die der Stein verschoben werden soll.
-	 * 		Negative Werte stehen für eine Bewegung nach oben, positive für eine Bewegung nach unten.
-	 * @param imUhrzeigersinn Drehrichtung der Drehung. null, wenn nicht gedreht werden soll.
-	 * 		true, wenn im Uhrzeigersinn gedreht werden soll.
-	 * 		false, wenn entgegen dem Uhrzeigersinn gedreht werden soll.
-	 * @return true, wenn das Bewegen funktioniert hat.
-	 */
-	private boolean bewegeStein(final int x, final int y, final Boolean imUhrzeigersinn) {
-		for (Position position : this.stein.getBewegtePositionen(x, y, imUhrzeigersinn)) {
-			if (this.spielfeld.isBlocked(position)) {
-				if (y > 0)
-					this.setzeSteinAb();
-				return false;
-			}
-		}
-		stein.verschiebe(x, y);
-		if (imUhrzeigersinn != null) {
-			stein.drehe(imUhrzeigersinn);
-			Asset.dreh.play();
-		}
-		return true;
-	}
-	
-	/**
-	 * Setzt einen Stein ab, d.h. der Stein verfestigt sich, fertige Reihen werden entfernt und und ein neuer Stein spawnt.
-	 * Ist der abzusetzende Stein eine Bombe, so detoniert diese.
+	 * Setzt einen Stein ab, d.h. der Stein detoniert, fertige Reihen werden entfernt,
+	 * wartende Reihen hinzugefügt und ein neuer Stein spawnt.
 	 */
 	private void setzeSteinAb() {
-		this.spielfeld.verarbeiteStein(this.stein);
-		Asset.drop.play();
+		this.stein.detonate();
 		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
 		this.fertigeReihen += entfernteReihen;
-		if        (entfernteReihen >= 4) {
-			Asset.tetris.play();
-		} else if (entfernteReihen > 0) {
-			Asset.row.play();
-		}
 		for (int i = 0; i < entfernteReihen; i++) {
 			this.speed *= (1 + GameMode.getSpeedIncreaseRow() / 100.);
 		}
 		this.draufwerfen(entfernteReihen);
 		this.spielfeld.generateCheeseRows(this.wartendeReihen);
-		if        (this.wartendeReihen >= 4) {
-			Asset.addFour.play();
-		} else if (this.wartendeReihen > 0) {
-			Asset.add.play();
-		}
 		this.wartendeReihen = 0;
 		this.initialisiereNaechstenStein();
 	}
 	
+	/**
+	 * Wirft den anderen Spielern einige Reihen drauf.
+	 */
 	private void draufwerfen(final int entfernteReihen) {
 		int wurfreihen = 0;
 		if (GameMode.getCombatType().equals(GameMode.COMBAT_CLASSIC)) {
@@ -240,7 +208,7 @@ public class Player {
 	private void initialisiereNaechstenStein() {
 		this.anzahlSteine++;
 		this.stein = this.nächsterStein;
-		this.nächsterStein = this.steinFactory.erzeugeRandomStein();
+		this.nächsterStein = this.steinFactory.erzeugeRandomStein(this.spielfeld);
 		for (Position position : this.stein.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
 				this.status = PlayerStatus.STUCK;

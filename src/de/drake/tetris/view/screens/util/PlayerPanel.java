@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
+import de.drake.tetris.model.Block;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.Spielfeld;
-import de.drake.tetris.model.Stone;
+import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
-import de.drake.tetris.model.util.StoneType;
 
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.
@@ -117,7 +117,7 @@ public class PlayerPanel extends JPanel {
 		//Höhe und Breite eines Tetrisfeldes auf Basis des zur Verfügung stehenden Platzes ermitteln
 		this.höhe_feld = (this.getHeight() - 4) / Config.hoehe;
 		this.breite_feld = (this.getWidth() - 5) / (Config.breite + this.previewfelder + 1);
-		double seitenverhaeltnis = ((double) Asset.SPRITE_BREITE) / ((double) Asset.SPRITE_HOEHE);
+		double seitenverhaeltnis = ((double) Asset.SPRITE_WIDTH) / ((double) Asset.SPRITE_HEIGHT);
 		if (((double) this.breite_feld) / this.höhe_feld < seitenverhaeltnis) {
 			this.höhe_feld = (int) (this.breite_feld / seitenverhaeltnis);
 		} else {
@@ -158,12 +158,12 @@ public class PlayerPanel extends JPanel {
 				Config.breite * this.breite_feld + 1, Config.hoehe * this.höhe_feld + 1);
 		
 		//Felder ausmalen
-		StoneType type;
+		Block block;
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
-				type = spielfeld.getStoneType(spalte, zeile);
-				if (type != null) {
-					g.drawImage(Asset.getImage(type, false),
+				block = spielfeld.getBlock(spalte, zeile);
+				if (block != null) {
+					g.drawImage(block.getTexture().getSpielfeldTexture(),
 							this.offsetX_sf + spalte * this.breite_feld,
 							this.offsetY_sf + zeile * this.höhe_feld,
 							this.breite_feld, this.höhe_feld, null);
@@ -184,7 +184,7 @@ public class PlayerPanel extends JPanel {
 			spalte = position.getX();
 			if (zeile < 0)
 				continue;
-			g.drawImage(Asset.getImage(stein.getType(), true),
+			g.drawImage(stein.getTexture(),
 					this.offsetX_sf + spalte * this.breite_feld,
 					this.offsetY_sf + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);
@@ -257,10 +257,10 @@ public class PlayerPanel extends JPanel {
 		//Preview-Stein einzeichnen
 		int zeile, spalte;
 		Stone stein = this.spieler.getNextStein();
-		for (Position position : stein.getRelativkoordinaten()) {
+		for (Position position : stein.getDefaultRelativePositions()) {
 			zeile = previewfelder / 2 + position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();
-			g.drawImage(Asset.getImage(stein.getType(), true),
+			g.drawImage(stein.getTexture(),
 					this.offsetX_p + spalte * this.breite_feld,
 					this.offsetY_p + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);
