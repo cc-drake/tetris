@@ -37,11 +37,6 @@ public class Spielfeld {
 		for (int i = 0; i < rows; i++) {
 			this.generateCheeseRow();
 		}
-		if (rows >= 4) {
-			Asset.SOUND_ADDFOUR.play();
-		} else if (rows > 0) {
-			Asset.SOUND_ADD.play();
-		}
 	}
 
 	private void generateCheeseRow() {
@@ -135,9 +130,11 @@ public class Spielfeld {
 		int result = 0;
 		int yMin = this.blocks.yMin();
 		int yMax = this.blocks.yMax();
+		Block block;
 		for (int zeile = yMin; zeile <= yMax; zeile ++) {
 			for (int spalte = 0; spalte < Config.breite; spalte++) {
-				if (this.blocks.get(spalte, zeile).isCheese()) {
+				block = this.blocks.get(spalte, zeile);
+				if (block != null && block.isCheese()) {
 					result++;
 					break;
 				}

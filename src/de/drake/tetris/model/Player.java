@@ -2,6 +2,7 @@ package de.drake.tetris.model;
 
 import java.util.Random;
 
+import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.model.stones.Stone;
@@ -172,6 +173,11 @@ public class Player {
 		}
 		this.draufwerfen(entfernteReihen);
 		this.spielfeld.generateCheeseRows(this.wartendeReihen);
+		if (this.wartendeReihen >= 4) {
+			Asset.SOUND_ADDFOUR.play();
+		} else if (this.wartendeReihen > 0) {
+			Asset.SOUND_ADD.play();
+		}
 		this.wartendeReihen = 0;
 		this.initialisiereNaechstenStein();
 	}
