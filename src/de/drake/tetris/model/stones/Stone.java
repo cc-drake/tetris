@@ -1,13 +1,12 @@
 package de.drake.tetris.model.stones;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.assets.gfx.BlockTexture;
 import de.drake.tetris.config.Config;
-import de.drake.tetris.model.Spielfeld;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.util.Position;
 
 /**
@@ -16,9 +15,9 @@ import de.drake.tetris.model.util.Position;
 public abstract class Stone implements Cloneable {
 	
 	/**
-	 * Das Spielfeld, in dem der Stein fällt.
+	 * Der Spieler, der den Stein kontrolliert.
 	 */
-	protected Spielfeld spielfeld;
+	protected Player player;
 	
 	/**
 	 * Der Typ des Steins.
@@ -54,10 +53,10 @@ public abstract class Stone implements Cloneable {
 	}
 	
 	/**
-	 * Platziert den Stein in ein Spielfeld.
+	 * Initialisiert das Player-Attribut.
 	 */
-	public void setSpielfeld(final Spielfeld spielfeld) {
-		this.spielfeld = spielfeld;
+	public void setPlayer(final Player player) {
+		this.player = player;
 	}
 	
 	/**
@@ -90,7 +89,7 @@ public abstract class Stone implements Cloneable {
 	 */
 	public boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
 		for (Position position : this.getBewegtePositionen(x, y, imUhrzeigersinn)) {
-			if (this.spielfeld.isBlocked(position)) {
+			if (this.player.getSpielfeld().isBlocked(position)) {
 				return false;
 			}
 		}
@@ -157,9 +156,9 @@ public abstract class Stone implements Cloneable {
 	}
 	
 	/**
-	 * Gibt die Feldtextur des Steins zurück.
+	 * Gibt die Blocktextur des Steins zurück.
 	 */
-	public BufferedImage getTexture() {
-		return this.texture.getStoneTexture();
+	public BlockTexture getTexture() {
+		return this.texture;
 	}
 }

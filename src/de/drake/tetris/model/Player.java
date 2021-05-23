@@ -2,9 +2,9 @@ package de.drake.tetris.model;
 
 import java.util.Random;
 
-import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
+import de.drake.tetris.model.processes.Process;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.stones.StoneFactory;
 import de.drake.tetris.model.util.Action;
@@ -39,12 +39,17 @@ public class Player {
 	/**
 	 * Der Stein, der aktuell im Spielfeld fällt.
 	 */
-	private Stone stein;
+	private Stone stone;
 	
 	/**
 	 * Der Stein, der als nächstes ins Spielfeld fallen wird.
 	 */
-	private Stone nächsterStein;
+	private Stone nextStone;
+	
+	/**
+	 * Der aktuell ausgeführte Prozess. Null, wenn kein Prozess ausgeführt wird.
+	 */
+	private Process currentProcess = null;
 	
 	/**
 	 * Anzahl der Fallvorgänge pro Sekunde.
@@ -69,17 +74,17 @@ public class Player {
 	/**
 	 * Die Anzahl der Reihen, die fertiggestellt wurden.
 	 */
-	private int fertigeReihen = 0;
+	private int clearedRows = 0;
 	
 	/**
 	 * Die Anzahl der Reihen, die dem Spieler "draufgeworfen" werden sollen
 	 */
-	private int wartendeReihen = 0;
+	private int pendingRows = 0;
 	
 	/**
 	 * Die Anzahl der Steine, die gespawnt sind.
 	 */
-	private int anzahlSteine = 0;
+	private int spawnedStones = 0;
 	
 	/**
 	 * Gibt den aktuellen Zustand des Spielers an.
@@ -96,40 +101,43 @@ public class Player {
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new StoneFactory(random.nextLong());
-		this.nächsterStein = this.steinFactory.erzeugeRandomStein(this.spielfeld);
-		this.initialisiereNaechstenStein();
+		this.nextStone = this.steinFactory.erzeugeRandomStein(this);
+		this.spawnStone();
 	}
 	
 	/**
-	 * Führt die angegebene Bewegungsaktion aus.
+	 * Führt die angegebene Bewegungsaktion aus, sofern der Spieler aktiv ist
 	 */
 	public void performMoveAction(final Action action) {
-
+		
+		if (!this.hasStatus(PlayerStatus.ACTIVE))
+			return;
+		
 		switch (action) {
 		case LINKS:
-			stein.bewege(-1, 0, null);
-			break;
+			this.stone.bewege(-1, 0, null);
+			return;
 		case RECHTS:
-			stein.bewege(1, 0, null);
-			break;
+			this.stone.bewege(1, 0, null);
+			return;
 		case RUNTER:
-			if (stein.bewege(0, 1, null) == false) {
-				this.setzeSteinAb();
+			if (this.stone.bewege(0, 1, null) == false) {
+				this.stone.detonate();
 			}
-			break;
+			return;
 		case GANZ_RUNTER:
-			while(stein.bewege(0, 1, null));
-			this.setzeSteinAb();
-			break;
+			while(this.stone.bewege(0, 1, null));
+			this.stone.detonate();
+			return;
 		case DREHUNG_UHRZEIGERSINN:
-			if (!stein.bewege(0, 0, true))
-				if (!stein.bewege(1, 0, true))
-					stein.bewege(-1, 0, true);
+			if (!this.stone.bewege(0, 0, true))
+				if (!this.stone.bewege(1, 0, true))
+					this.stone.bewege(-1, 0, true);
 			break;
 		case DREHUNG_ENTGEGEN_UHRZEIGERSINN:
-			if (!stein.bewege(0, 0, false))
-				if (!stein.bewege(-1, 0, false))
-					stein.bewege(1, 0, false);
+			if (!this.stone.bewege(0, 0, false))
+				if (!this.stone.bewege(-1, 0, false))
+					this.stone.bewege(1, 0, false);
 			break;
 		default:
 			break;
@@ -142,7 +150,11 @@ public class Player {
 	 */
 	public void tick() {
 		
-		// Laufzeit des Spielers aktualisieren, sofern dieser noch lebt
+		// Tote Spieler ticken nicht
+		if (this.isDead())
+			return;
+		
+		// Laufzeit des Spielers aktualisieren
 		this.laufzeitNano = game.getLaufzeitNano();
 		
 		// Zeitgesteuert "Runter" auslösen
@@ -158,69 +170,60 @@ public class Player {
 			this.speed *= (1 + GameMode.getSpeedIncreaseSec() / 100.);
 		}
 		
+		// Aktuellen Prozess aktualisieren
+		if (this.hasStatus(PlayerStatus.PROCESSING)) {
+			this.currentProcess.tick();
+		}
+		
 	}
 	
-	/**
-	 * Setzt einen Stein ab, d.h. der Stein detoniert, fertige Reihen werden entfernt,
-	 * wartende Reihen hinzugefügt und ein neuer Stein spawnt.
-	 */
-	private void setzeSteinAb() {
-		this.stein.detonate();
-		int entfernteReihen = this.spielfeld.entferneFertigeReihen();
-		this.fertigeReihen += entfernteReihen;
-		for (int i = 0; i < entfernteReihen; i++) {
+	public void rowsCompleted(final int amount) {
+		this.clearedRows += amount;
+		for (int i = 0; i < amount; i++) {
 			this.speed *= (1 + GameMode.getSpeedIncreaseRow() / 100.);
 		}
-		this.draufwerfen(entfernteReihen);
-		this.spielfeld.generateCheeseRows(this.wartendeReihen);
-		if (this.wartendeReihen >= 4) {
-			Asset.SOUND_ADDFOUR.play();
-		} else if (this.wartendeReihen > 0) {
-			Asset.SOUND_ADD.play();
-		}
-		this.wartendeReihen = 0;
-		this.initialisiereNaechstenStein();
-	}
-	
-	/**
-	 * Wirft den anderen Spielern einige Reihen drauf.
-	 */
-	private void draufwerfen(final int entfernteReihen) {
+		
 		int wurfreihen = 0;
 		if (GameMode.getCombatType().equals(GameMode.COMBAT_CLASSIC)) {
-			switch (entfernteReihen) {
+			switch (amount) {
 			case 0:
 			case 1:
 				wurfreihen = 0;
 				break;
 			case 2:
 			case 3:
-				wurfreihen = entfernteReihen - 1;
+				wurfreihen = amount - 1;
 				break;
 			default:
-				wurfreihen = entfernteReihen;
+				wurfreihen = amount;
 			}
 		}
 		if (GameMode.getCombatType().equals(GameMode.COMBAT_BADASS)) {
-			wurfreihen = entfernteReihen;
+			wurfreihen = amount;
 		}
 		
 		for (Player player : this.game.getPlayers()) {
-			if (player != this && player.hasStatus(PlayerStatus.ACTIVE))
-				player.wartendeReihen += wurfreihen;
+			if (player != this && (player.status == PlayerStatus.ACTIVE || player.status == PlayerStatus.PROCESSING))
+				player.pendingRows += wurfreihen;
 		}
 	}
 	
-	private void initialisiereNaechstenStein() {
-		this.anzahlSteine++;
-		this.stein = this.nächsterStein;
-		this.nächsterStein = this.steinFactory.erzeugeRandomStein(this.spielfeld);
-		for (Position position : this.stein.getPositionen()) {
+	public void spawnStone() {
+		this.spawnedStones++;
+		this.stone = this.nextStone;
+		this.nextStone = this.steinFactory.erzeugeRandomStein(this);
+		this.status = PlayerStatus.ACTIVE;
+		for (Position position : this.stone.getPositionen()) {
 			if (this.spielfeld.isBlocked(position)) {
 				this.status = PlayerStatus.STUCK;
-				return;
+				break;
 			}
 		}
+	}
+	
+	public void startProcess(final Process process) {
+		this.status = PlayerStatus.PROCESSING;
+		this.currentProcess = process;
 	}
 	
 	void setStatus(final PlayerStatus state) {
@@ -228,17 +231,24 @@ public class Player {
 	}
 	
 	/**
-	 * Gibt den aktuellen Zustand dieses Spielers zurück.
+	 * Gibt den aktuellen Status dieses Spielers zurück.
 	 */
 	public PlayerStatus getStatus() {
 		return this.status;
 	}
 	
 	/**
-	 * Gibt zurück, ob der State des Spielers dem angefragten Zustand entspricht.
+	 * Gibt zurück, ob der Status des Spielers dem angefragten Zustand entspricht.
 	 */
 	public boolean hasStatus(final PlayerStatus state) {
 		return this.status == state;
+	}
+	
+	/**
+	 * Gibt zurück, ob der Spieler gestorben ist.
+	 */
+	public boolean isDead() {
+		return this.status != PlayerStatus.ACTIVE && this.status != PlayerStatus.PROCESSING;
 	}
 
 	/**
@@ -248,18 +258,22 @@ public class Player {
 		return this.spielfeld;
 	}
 	
+	public void destroyStone() {
+		this.stone = null;
+	}
+	
 	/**
 	 * Gibt den aktuellen Stein zurück.
 	 */
-	public Stone getStein() {
-		return this.stein;
+	public Stone getStone() {
+		return this.stone;
 	}
 	
 	/**
 	 * Gibt den nächsten Stein zurück.
 	 */
 	public Stone getNextStein() {
-		return this.nächsterStein;
+		return this.nextStone;
 	}
 	
 	/**
@@ -293,33 +307,37 @@ public class Player {
 	/**
 	 * Gibt die Zahl der gespawnten Steine zurück.
 	 */
-	public int getAnzahlSteine() {
-		return this.anzahlSteine;
+	public int getSpawnedStones() {
+		return this.spawnedStones;
 	}
 	
 	/**
 	 * Gibt die fertigen Reihen zurück.
 	 */
-	public int getFertigeReihen() {
-		return this.fertigeReihen;
+	public int getClearedRows() {
+		return this.clearedRows;
 	}
 	
 	/**
-	 * Gibt die verbleibende Zahl zu eliminierender Reihen zurück.
+	 * Gibt die verbleibende Zahl zu eliminierender Race-Reihen zurück.
 	 */
-	public int getVerbleibendeReihen() {
-		return GameMode.getRaceRows() - this.fertigeReihen;
+	public int getRemainingRaceRows() {
+		return GameMode.getRaceRows() - this.clearedRows;
 	}
 	
 	/**
 	 * Gibt die verbleibende Zahl zu eliminierender Käse-Reihen zurück.
 	 */
-	public int getCheeseReihen() {
-		return this.spielfeld.getCheeseReihen();
+	public int getRemainingCheeseRows() {
+		return this.spielfeld.getRemainingCheeseRows();
+	}
+	
+	public void reducePendingRows(final int amount) {
+		this.pendingRows -= amount;
 	}
 
-	public int getWartendeReihen() {
-		return this.wartendeReihen;
+	public int getPendingRows() {
+		return this.pendingRows;
 	}
 	
 }

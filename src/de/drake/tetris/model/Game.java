@@ -48,10 +48,9 @@ public class Game {
 			this.letzteTickzeit = neueTickzeit;
 		}
 		
-		// Aktive Spieler ticken lassen
+		// Spieler ticken lassen
 		for (Player player : this.players) {
-			if (player.hasStatus(PlayerStatus.ACTIVE))
-				player.tick();
+			player.tick();
 		}
 		
 		// Auf Sieg oder Niederlage prüfen
@@ -78,16 +77,16 @@ public class Game {
 		for (Player player : this.players) {
 			if (player.hasStatus(PlayerStatus.STUCK) && !GameMode.getMode().equals(GameMode.SOLITAER))
 				player.setStatus(PlayerStatus.LOSER);
-			if (player.hasStatus(PlayerStatus.ACTIVE))
+			if (!player.isDead())
 				anzahlAktiveSpieler++;
-			if (player.getFertigeReihen() > maxReihen)
-				maxReihen = player.getFertigeReihen();
+			if (player.getClearedRows() > maxReihen)
+				maxReihen = player.getClearedRows();
 			if (player.getLaufzeit() > maxTime)
 				maxTime = player.getLaufzeit();
-			if (GameMode.getRaceRows() > 0 && player.hasStatus(PlayerStatus.ACTIVE) && player.getVerbleibendeReihen() < minRaceReihen)
-				minRaceReihen = player.getVerbleibendeReihen();
-			if (GameMode.getCheeseRows() > 0 && player.hasStatus(PlayerStatus.ACTIVE) && player.getCheeseReihen() < minCheeseReihen)
-				minCheeseReihen = player.getCheeseReihen();
+			if (GameMode.getRaceRows() > 0 && !player.isDead() && player.getRemainingRaceRows() < minRaceReihen)
+				minRaceReihen = player.getRemainingRaceRows();
+			if (GameMode.getCheeseRows() > 0 && !player.isDead() && player.getRemainingCheeseRows() < minCheeseReihen)
+				minCheeseReihen = player.getRemainingCheeseRows();
 		}
 		
 		switch (GameMode.getMode()) {
@@ -95,7 +94,7 @@ public class Game {
 		case GameMode.SOLITAER:
 			if (timeout || anzahlAktiveSpieler == 0) {
 				for (Player spieler : this.players) {
-					if (spieler.getFertigeReihen() == maxReihen) {
+					if (spieler.getClearedRows() == maxReihen) {
 						spieler.setStatus(PlayerStatus.WINNER);
 					} else {
 						spieler.setStatus(PlayerStatus.LOSER);
@@ -108,7 +107,7 @@ public class Game {
 		case GameMode.COMBAT:
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)) {
 				for (Player spieler : this.players) {
-					if (spieler.hasStatus(PlayerStatus.ACTIVE) || (anzahlAktiveSpieler == 0 && spieler.getLaufzeit() == maxTime)) {
+					if (!spieler.isDead() || (anzahlAktiveSpieler == 0 && spieler.getLaufzeit() == maxTime)) {
 						spieler.setStatus(PlayerStatus.WINNER);
 					}
 				}
@@ -120,8 +119,7 @@ public class Game {
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minRaceReihen == 0) {
 				for (Player spieler : this.players) {
-					if (spieler.hasStatus(PlayerStatus.ACTIVE)
-							&& spieler.getVerbleibendeReihen() == minRaceReihen) {
+					if (!spieler.isDead() && spieler.getRemainingRaceRows() == minRaceReihen) {
 						spieler.setStatus(PlayerStatus.WINNER);
 					} else {
 						spieler.setStatus(PlayerStatus.LOSER);
@@ -135,8 +133,7 @@ public class Game {
 			if (timeout || anzahlAktiveSpieler <= Math.min(1, anzahlSpieler - 1)
 			|| minCheeseReihen == 0) {
 				for (Player player : this.players) {
-					if (player.hasStatus(PlayerStatus.ACTIVE)
-							&& player.getCheeseReihen() == minCheeseReihen) {
+					if (!player.isDead() && player.getRemainingCheeseRows() == minCheeseReihen) {
 						player.setStatus(PlayerStatus.WINNER);
 					} else {
 						player.setStatus(PlayerStatus.LOSER);

@@ -11,7 +11,6 @@ import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.util.Action;
 import de.drake.tetris.model.util.GameStatus;
-import de.drake.tetris.model.util.PlayerStatus;
 import de.drake.tetris.view.screens.GameScreen;
 
 /**
@@ -66,8 +65,7 @@ public class GameState extends State {
 				this.togglePause();
 				continue;
 			}
-			if (currentGameStatus == GameStatus.RUNNING
-					&& player.hasStatus(PlayerStatus.ACTIVE)) {
+			if (currentGameStatus == GameStatus.RUNNING) {
 				player.performMoveAction(action);
 			}
 			

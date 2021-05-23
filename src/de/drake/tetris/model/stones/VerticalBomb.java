@@ -1,9 +1,10 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.processes.VerticalBombProcess;
 
 /**
- * Ein klassischer Tetrisstein ohne weitere Funktionen.
+ * Eine vertikale Bombe.
  */
 public class VerticalBomb extends OneBlockStone {
 	
@@ -13,8 +14,7 @@ public class VerticalBomb extends OneBlockStone {
 
 	@Override
 	public void detonate() {
-		this.spielfeld.entferneSpalte(this.mittelpunkt.getX());
-		Asset.SOUND_BOOM.play();
+		this.player.startProcess(new VerticalBombProcess(this.player, this.mittelpunkt.getX()));
 	}
 
 	@Override

@@ -5,7 +5,7 @@ package de.drake.tetris.model.util;
  * Der erste Wert x repräsentiert die horizontale Koordinate, wobei 0 am linken Spielfeldrand liegt.
  * Der zweite Wert y repräsentiert die vertikale Koordinate, wobei 0 am oberen Spielfeldrand liegt.
  */
-public class Position {
+public class Position implements Comparable<Position> {
 	
 	/**
 	 * Die X-Koordinate der Position.
@@ -63,6 +63,9 @@ public class Position {
 		return this.y;
 	}
 	
+	/**
+	 * Vergleicht zwei Positions auf identität (d.h. identische Angaben zu x und y).
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -90,5 +93,15 @@ public class Position {
 	@Override
 	public int hashCode() {
 		return this.x + 1013 * this.y;
+	}
+	
+	/**
+	 * Natürliche Sortierung: Erst nach y, dann nach x, d.h. Reihenfolge (0,0), (1,0), (0,1), (1,1).
+	 */
+	@Override
+	public int compareTo(Position otherPosition) {
+		if (this.y == otherPosition.y)
+			return ((Integer) this.x).compareTo(otherPosition.x);
+		return ((Integer) this.x).compareTo(otherPosition.x);
 	}
 }

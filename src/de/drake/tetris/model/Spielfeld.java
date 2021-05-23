@@ -1,27 +1,37 @@
 package de.drake.tetris.model;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.assets.gfx.BlockTexture;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.model.util.Position;
-import de.drake.tetris.model.util.PositionHashMap;
 
 /**
  * Das Spielfeld von Tetris, in dem der Stein fällt.
  */
 public class Spielfeld {
-	
-	private final Random random;
 
 	/**
 	 * Eine Liste der Blöcke im Spielfeld, strukturiert nach ihrer Position.
 	 */
-	private final PositionHashMap<Block> blocks = new PositionHashMap<Block>();
+	private final HashMap<Position, Block> blocks = new HashMap<Position, Block>();
 	
+	/**
+	 * Der Zufallsgenerator, der für die Erzeugung der Cheese-Rows zuständig ist
+	 */
+	private final Random random;
+	
+	/**
+	 * Speichert die zuletzt ausgegebene Zufallszahl zur Erzeugung von Cheesereihen.
+	 */
 	private int lastRand = Integer.MAX_VALUE;
 	
 	/**
@@ -33,7 +43,68 @@ public class Spielfeld {
 		this.generateCheeseRows(GameMode.getCheeseRows());
 	}
 	
-	void generateCheeseRows(final int rows) {
+	public void clearRow(final int row) {
+		Predicate<Position> filter = new Predicate<Position>() {
+
+			@Override
+			public boolean test(final Position position) {
+				return position.getY() == row;
+			}
+			
+		};
+		
+		this.blocks.keySet().removeIf(filter);
+	}
+	
+	public void clearColumn(final int column) {
+		Predicate<Position> filter = new Predicate<Position>() {
+
+			@Override
+			public boolean test(final Position position) {
+				return position.getX() == column;
+			}
+			
+		};
+		
+		this.blocks.keySet().removeIf(filter);
+	}
+	
+	/**
+	 * Leert ein 3x3-Feld im Spielfeld.
+	 * 
+	 * @param mittelpunkt
+	 * 		Der Mittelpunkt des zu entfernenden 3x3-Feldes.
+	 * 
+	 */
+	public void clear3x3(final Position mittelpunkt) {
+		Predicate<Position> filter = new Predicate<Position>() {
+
+			@Override
+			public boolean test(final Position position) {
+				return (Math.abs(position.getX() - mittelpunkt.getX()) <= 1)
+						&& (Math.abs(position.getY() - mittelpunkt.getY()) <= 1);
+			}
+			
+		};
+		
+		this.blocks.keySet().removeIf(filter);
+	}
+	
+	public void removeRow(final int row, final int xMin, final int xMax) {
+		Set<Entry<Position, Block>> blocksAbove = new HashSet<Entry<Position, Block>>();
+		
+		for (Entry<Position, Block> entry : this.blocks.entrySet()) {
+			if ((entry.getKey().getY() < row)
+					&& (entry.getKey().getX() >= xMin)
+					&& (entry.getKey().getX() <= xMax)) {
+				blocksAbove.add(entry);
+			}
+		}
+		
+		this.move(blocksAbove, 0, 1);
+	}
+	
+	public void generateCheeseRows(final int rows) {
 		for (int i = 0; i < rows; i++) {
 			this.generateCheeseRow();
 		}
@@ -41,112 +112,97 @@ public class Spielfeld {
 
 	private void generateCheeseRow() {
 		
-		this.blocks.insertRow(Config.hoehe - 1);
-		
-		for (int x = 0; x < Config.breite; x++) {
-			this.blocks.put(x, Config.hoehe - 1, new Block(Asset.TEXTURE_ORANGE, true));
-		}
+		this.move(this.blocks.entrySet(), 0, -1);
 		
 		int rand = this.lastRand;
-		while (rand == lastRand) {
+		while (rand == this.lastRand) {
 			rand = this.random.nextInt(Config.breite);
 		}
-		this.blocks.remove(rand, Config.hoehe - 1);
 		this.lastRand = rand;
+		
+		for (int x = 0; x < Config.breite; x++) {
+			if (x == this.lastRand)
+				continue;
+			this.blocks.put(new Position(x, Config.hoehe - 1), new Block(Asset.TEXTURE_ORANGE, true));
+		}
 		
 	}
 	
 	/**
-	 * Entfernt alle fertigen Reihen aus dem Spielfeld.
+	 * Verschiebt die ausgewählten Felder des Spielfelds in der angegebenen Richtung.
 	 * 
-	 * @return
-	 * 		Die Anzahl der fertigen Reihen, die entfernt wurden.
+	 * @param entries Die zu verschiebenden Blöcke
+	 * @param x Die horizontale Verschiebung (positiv = nach rechts, negativ = nach links)
+	 * @param y Die vertikale Verschiebung (positiv = nach unten, negativ = nach oben)
 	 */
-	int entferneFertigeReihen() {
-		int result = 0;
-		boolean zeileFertig;
-		int yMin = this.blocks.yMin();
-		int yMax = this.blocks.yMax();
-		for (int y = yMin; y <= yMax; y++) {
-			zeileFertig = true;
-			for (int x = 0; x < Config.breite; x++) {
-				if (!this.blocks.containsKey(new Position(x, y))) {
-					zeileFertig = false;
-					break;
-				}
-			}
-			if (zeileFertig) {
-				this.blocks.cutRow(y);
-				result++;
-			}
+	private void move(final Set<Entry<Position, Block>> entries, final int x, final int y) {
+		HashSet<Position> oldKeys = new HashSet<Position>();
+		HashMap<Position, Block> newMaps = new HashMap<Position, Block>();
+		
+		for (Entry <Position, Block> entry : entries) {
+			oldKeys.add(entry.getKey());
+			Position newKey = new Position(entry.getKey());
+			newKey.verschiebe(x, y);
+			newMaps.put(newKey, entry.getValue());
 		}
-		if (result >= 4) {
-			Asset.SOUND_TETRIS.play();
-		} else if (result > 0) {
-			Asset.SOUND_ROW.play();
-		}
-		return result;
+		
+		this.blocks.keySet().removeAll(oldKeys);
+		this.blocks.putAll(newMaps);
 	}
 	
-	public void addBlocks(final HashSet<Position> positions, final BlockTexture texture) {
+	public void addBlocks(final HashSet<Position> positions, final BlockTexture texture,
+			final boolean isCheese) {
 		for (Position position : positions) {
-			this.blocks.put(position, new Block(texture, false));
+			this.blocks.put(position, new Block(texture, isCheese));
 		}
 	}
 	
-	/**
-	 * Entfernt ein 3x3-Feld aus dem Spielfeld und lässt darüberliegende Felder nachrutschen.
-	 * 
-	 * @param mittelpunkt
-	 * 		Der Mittelpunkt des zu entfernenden 3x3-Feldes.
-	 * 
-	 */
-	public void entferne3x3(final Position mittelpunkt) {
-		for (int y = mittelpunkt.getY() - 1;
-				y <= Math.min(Config.hoehe - 1, mittelpunkt.getY() + 1); y++) {
-			for (int x = Math.max(0, mittelpunkt.getX() - 1);
-					x <= Math.min(Config.breite - 1, mittelpunkt.getX() + 1); x++) {
-				this.blocks.cut(x, y);
+	public boolean hasBlocksAbove(final HashSet<Integer> rows, final int xMin, final int xMax) {
+		for (Entry<Position, Block> entry : this.blocks.entrySet()) {
+			if ((entry.getKey().getY() < Collections.max(rows))
+					&& (!rows.contains(entry.getKey().getY()))
+					&& (entry.getKey().getX() >= xMin)
+					&& (entry.getKey().getX() <= xMax)) {
+				return true;
 			}
 		}
-	}
-	
-	public void entferneReihe(final int zeile) {
-		this.blocks.cutRow(zeile);
-	}
-	
-	public void entferneSpalte(final int spalte) {
-		this.blocks.cutColumn(spalte);
+		return false;
 	}
 	
 	/**
 	 * Gibt den Block an der angegebenen Position zurück, sofern vorhanden.
 	 */
 	public Block getBlock(final int spalte, final int zeile) {
-		return this.blocks.get(spalte, zeile);
+		return this.blocks.get(new Position(spalte, zeile));
 	}
 	
-	int getCheeseReihen() {
-		int result = 0;
-		int yMin = this.blocks.yMin();
-		int yMax = this.blocks.yMax();
-		Block block;
-		for (int zeile = yMin; zeile <= yMax; zeile ++) {
-			for (int spalte = 0; spalte < Config.breite; spalte++) {
-				block = this.blocks.get(spalte, zeile);
-				if (block != null && block.isCheese()) {
-					result++;
-					break;
-				}
+	int getRemainingCheeseRows() {
+		HashSet<Integer> cheeseRows = new HashSet<Integer>();
+		for (Entry <Position, Block> entry : this.blocks.entrySet()) {
+			if (entry.getValue().isCheese()) {
+				cheeseRows.add(entry.getKey().getY());
 			}
 		}
-		return result;
+		return cheeseRows.size();
 	}
 
 	public boolean isBlocked(Position position) {
-		if (position.getX() < 0 || position.getX() >= Config.breite || position.getY() >= Config.hoehe)
+		if (position.getX() < 0 || position.getX() >= Config.breite
+				|| position.getY() >= Config.hoehe)
 			return true;
 		return this.blocks.containsKey(position);
+	}
+	
+	public boolean rowIsComplete(final int row) {
+		int blocks = 0;
+		
+		for (Entry<Position, Block> entry : this.blocks.entrySet()) {
+			if (entry.getKey().getY() == row) {
+				blocks++;
+			}
+		}
+		
+		return blocks == Config.breite;
 	}
 	
 }

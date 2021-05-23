@@ -1,5 +1,5 @@
 package de.drake.tetris.model.util;
 
 public enum PlayerStatus {
-	ACTIVE, STUCK, LOSER, WINNER;
+	ACTIVE, PROCESSING, STUCK, LOSER, WINNER;
 }

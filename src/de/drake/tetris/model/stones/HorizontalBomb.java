@@ -1,9 +1,10 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.processes.HorizontalBombProcess;
 
 /**
- * Ein klassischer Tetrisstein ohne weitere Funktionen.
+ * Eine horizontale Bombe.
  */
 public class HorizontalBomb extends OneBlockStone {
 	
@@ -13,8 +14,7 @@ public class HorizontalBomb extends OneBlockStone {
 	
 	@Override
 	public void detonate() {
-		this.spielfeld.entferneReihe(this.mittelpunkt.getY());
-		Asset.SOUND_BOOM.play();
+		this.player.startProcess(new HorizontalBombProcess(this.player, this.mittelpunkt.getY()));
 	}
 	
 	@Override

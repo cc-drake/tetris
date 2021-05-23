@@ -1,9 +1,10 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.processes.SquareBombProcess;
 
 /**
- * Ein klassischer Tetrisstein ohne weitere Funktionen.
+ * Eine 3x3-Bombe.
  */
 public class SquareBomb extends OneBlockStone {
 	
@@ -13,8 +14,7 @@ public class SquareBomb extends OneBlockStone {
 
 	@Override
 	public void detonate() {
-		spielfeld.entferne3x3(this.mittelpunkt);
-		Asset.SOUND_BOOM.play();
+		this.player.startProcess(new SquareBombProcess(this.player, this.mittelpunkt));
 	}
 
 	@Override

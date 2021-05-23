@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.model.Spielfeld;
+import de.drake.tetris.model.Player;
 
 /**
  * Erzeugt zufällige Tetris-Steine
@@ -97,11 +97,11 @@ public class StoneFactory {
 	/**
 	 * Erzeugt einen zufälligen Stein.
 	 */
-	public Stone erzeugeRandomStein(final Spielfeld spielfeld) {
+	public Stone erzeugeRandomStein(final Player player) {
 		StoneGroup steinart = this.grundgesamtheit.get(this.random.nextInt(this.grundgesamtheit.size()));
 		ArrayList<Stone> gg = this.steinart2Steine.get(steinart);
 		Stone stone = gg.get(this.random.nextInt(gg.size())).clone();
-		stone.setSpielfeld(spielfeld);
+		stone.setPlayer(player);
 		return stone;
 	}
 	

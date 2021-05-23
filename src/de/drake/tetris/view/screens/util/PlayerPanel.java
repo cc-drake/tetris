@@ -178,16 +178,18 @@ public class PlayerPanel extends JPanel {
 		
 		//Aktuellen Stein einzeichnen
 		int zeile, spalte;
-		Stone stein = this.spieler.getStein();
-		for (Position position : stein.getPositionen()) {
-			zeile = position.getY();
-			spalte = position.getX();
-			if (zeile < 0)
-				continue;
-			g.drawImage(stein.getTexture(),
-					this.offsetX_sf + spalte * this.breite_feld,
-					this.offsetY_sf + zeile * this.höhe_feld,
-					this.breite_feld, this.höhe_feld, null);
+		Stone stein = this.spieler.getStone();
+		if (stein != null) {
+			for (Position position : stein.getPositionen()) {
+				zeile = position.getY();
+				spalte = position.getX();
+				if (zeile < 0)
+					continue;
+				g.drawImage(stein.getTexture().getStoneTexture(),
+						this.offsetX_sf + spalte * this.breite_feld,
+						this.offsetY_sf + zeile * this.höhe_feld,
+						this.breite_feld, this.höhe_feld, null);
+			}
 		}
 		
 		//Status schreiben
@@ -260,7 +262,7 @@ public class PlayerPanel extends JPanel {
 		for (Position position : stein.getDefaultRelativePositions()) {
 			zeile = previewfelder / 2 + position.getY() - 1;
 			spalte = previewfelder / 2 + position.getX();
-			g.drawImage(stein.getTexture(),
+			g.drawImage(stein.getTexture().getStoneTexture(),
 					this.offsetX_p + spalte * this.breite_feld,
 					this.offsetY_p + zeile * this.höhe_feld,
 					this.breite_feld, this.höhe_feld, null);
@@ -288,20 +290,20 @@ public class PlayerPanel extends JPanel {
 					this.offsetX_i, this.offsetY_i + 3 * fontsize);
 		}
 				
-		g.drawString("Steine: " + this.spieler.getAnzahlSteine(),
+		g.drawString("Steine: " + this.spieler.getSpawnedStones(),
 				this.offsetX_i, this.offsetY_i + 5 * fontsize);
 		if (GameMode.getRaceRows() > 0) {
-			g.drawString("Reihen: " + this.spieler.getVerbleibendeReihen(),
+			g.drawString("Reihen: " + this.spieler.getRemainingRaceRows(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		} else if (GameMode.getCheeseRows() > 0){
-			g.drawString("Reihen: " + this.spieler.getCheeseReihen(),
+			g.drawString("Reihen: " + this.spieler.getRemainingCheeseRows(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		} else {
-			g.drawString("Reihen: " + this.spieler.getFertigeReihen(),
+			g.drawString("Reihen: " + this.spieler.getClearedRows(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		}
-		if (this.spieler.getWartendeReihen() > 0) {
-			g.drawString("+" + this.spieler.getWartendeReihen(),
+		if (this.spieler.getPendingRows() > 0) {
+			g.drawString("+" + this.spieler.getPendingRows(),
 					this.offsetX_i, this.offsetY_i + 9 * fontsize);
 		}
 		
