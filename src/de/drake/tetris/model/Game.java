@@ -75,7 +75,7 @@ public class Game {
 		int minRaceReihen = Integer.MAX_VALUE;
 		int minCheeseReihen = Integer.MAX_VALUE;
 		for (Player player : this.players) {
-			if (player.hasStatus(PlayerStatus.STUCK) && !GameMode.getMode().equals(GameMode.SOLITAER))
+			if (player.hasStatus(PlayerStatus.STUCK) && !GameMode.is(GameMode.SOLITAER))
 				player.setStatus(PlayerStatus.LOSER);
 			if (!player.isDead())
 				anzahlAktiveSpieler++;
@@ -83,9 +83,9 @@ public class Game {
 				maxReihen = player.getClearedRows();
 			if (player.getLaufzeit() > maxTime)
 				maxTime = player.getLaufzeit();
-			if (GameMode.getRaceRows() > 0 && !player.isDead() && player.getRemainingRaceRows() < minRaceReihen)
+			if (GameMode.is(GameMode.RACE) && !player.isDead() && player.getRemainingRaceRows() < minRaceReihen)
 				minRaceReihen = player.getRemainingRaceRows();
-			if (GameMode.getCheeseRows() > 0 && !player.isDead() && player.getRemainingCheeseRows() < minCheeseReihen)
+			if (GameMode.is(GameMode.CHEESE) && !player.isDead() && player.getRemainingCheeseRows() < minCheeseReihen)
 				minCheeseReihen = player.getRemainingCheeseRows();
 		}
 		

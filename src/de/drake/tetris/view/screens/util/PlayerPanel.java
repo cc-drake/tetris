@@ -292,10 +292,10 @@ public class PlayerPanel extends JPanel {
 				
 		g.drawString("Steine: " + this.spieler.getSpawnedStones(),
 				this.offsetX_i, this.offsetY_i + 5 * fontsize);
-		if (GameMode.getRaceRows() > 0) {
+		if (GameMode.is(GameMode.RACE)) {
 			g.drawString("Reihen: " + this.spieler.getRemainingRaceRows(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
-		} else if (GameMode.getCheeseRows() > 0){
+		} else if (GameMode.is(GameMode.CHEESE)){
 			g.drawString("Reihen: " + this.spieler.getRemainingCheeseRows(),
 					this.offsetX_i, this.offsetY_i + 7 * fontsize);
 		} else {

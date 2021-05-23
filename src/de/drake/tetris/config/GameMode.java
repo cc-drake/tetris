@@ -94,6 +94,10 @@ public class GameMode {
 		return GameMode.instance.mode;
 	}
 	
+	public static boolean is(final String mode) {
+		return GameMode.instance.mode.equals(mode);
+	}
+	
 	public static int getTimeLimit() {
 		return GameMode.instance.timeLimit;
 	}
