@@ -157,16 +157,27 @@ public class Spielfeld {
 		}
 	}
 	
-	public boolean hasBlocksAbove(final HashSet<Integer> rows, final int xMin, final int xMax) {
+	/**
+	 * Gibt alle Blöcke zurück, welche sich über den übergebenen Rows befinden,
+	 * aber nicht in den übergebenen Rows liegen.
+	 * Ist Rows leer, so wird ein leeres HashSet zurückgegeben.
+	 * @param rows Die Rows, über denen die Blöcke liegen müssen
+	 * @param xMin Blöcke links von xMin werden ignoriert
+	 * @param xMax Blöcke rechts von xMax werden ignoriert
+	 */
+	public HashSet<Block> getBlocksAbove(final HashSet<Integer> rows, final int xMin, final int xMax) {
+		HashSet<Block> result = new HashSet<Block>();
+		if (rows.isEmpty())
+			return result;
 		for (Entry<Position, Block> entry : this.blocks.entrySet()) {
 			if ((entry.getKey().getY() < Collections.max(rows))
 					&& (!rows.contains(entry.getKey().getY()))
 					&& (entry.getKey().getX() >= xMin)
 					&& (entry.getKey().getX() <= xMax)) {
-				return true;
+				result.add(entry.getValue());
 			}
 		}
-		return false;
+		return result;
 	}
 	
 	/**

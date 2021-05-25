@@ -157,7 +157,19 @@ public class PlayerPanel extends JPanel {
 		g.drawRect(this.offsetX_sf - 1, this.offsetY_sf - 1,
 				Config.breite * this.breite_feld + 1, Config.hoehe * this.höhe_feld + 1);
 		
-		//Felder ausmalen
+		//Hintergrund ausmalen
+		for (int spalte = 0; spalte < Config.breite; spalte++) {
+			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
+				if ((spalte + zeile) % 2 == 0) {
+					g.fillRect(
+							this.offsetX_sf + spalte * this.breite_feld,
+							this.offsetY_sf + zeile * this.höhe_feld,
+							this.breite_feld, this.höhe_feld);
+				}
+			}
+		}
+		
+		//Blöcke einzeichnen
 		Block block;
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
@@ -165,13 +177,8 @@ public class PlayerPanel extends JPanel {
 				if (block != null) {
 					g.drawImage(block.getTexture().getSpielfeldTexture(),
 							this.offsetX_sf + spalte * this.breite_feld,
-							this.offsetY_sf + zeile * this.höhe_feld,
+							this.offsetY_sf + (int) ((zeile + block.getVerticalShift()) * this.höhe_feld),
 							this.breite_feld, this.höhe_feld, null);
-				} else if ((spalte + zeile) % 2 == 0) {
-					g.fillRect(
-							this.offsetX_sf + spalte * this.breite_feld,
-							this.offsetY_sf + zeile * this.höhe_feld,
-							this.breite_feld, this.höhe_feld);
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.Block;
 import de.drake.tetris.model.Player;
 
 public class FallingRowsProcess extends Process {
@@ -12,13 +13,12 @@ public class FallingRowsProcess extends Process {
 	
 	private final int xMin, xMax;
 	
-	private final boolean hasBlocksToFall;
+	private final HashSet<Block> fallingBlocks;
 	
 	public FallingRowsProcess(final Player player, final HashSet<Integer> rowsToRemove,
 			final int xMin, final int xMax) {
 		super(player);
-		this.hasBlocksToFall = !rowsToRemove.isEmpty()
-				&& player.getSpielfeld().hasBlocksAbove(rowsToRemove, xMin, xMax);
+		this.fallingBlocks = player.getSpielfeld().getBlocksAbove(rowsToRemove, xMin, xMax);
 		this.rowsToRemove = rowsToRemove;
 		this.xMin = xMin;
 		this.xMax = xMax;
@@ -26,18 +26,25 @@ public class FallingRowsProcess extends Process {
 	
 	@Override
 	protected long getDuration() {
-		return this.hasBlocksToFall ? 1000000000l : 0l;
+		return this.fallingBlocks.isEmpty() ? 0l : 100000000l;
 	}
 	
 	@Override
 	protected void update() {
+		for (Block block : this.fallingBlocks) {
+			block.setVerticalShift(this.progress);
+		}
 	}
 	
 	@Override
 	protected void processCompleted() {
-		if (!this.hasBlocksToFall) {
+		if (this.fallingBlocks.isEmpty()) {
 			this.player.startProcess(new AddRowsProcess(this.player));
 			return;
+		}
+		
+		for (Block block : this.fallingBlocks) {
+			block.setVerticalShift(0.);
 		}
 		
 		Integer highestRow = Collections.max(this.rowsToRemove);

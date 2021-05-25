@@ -8,7 +8,7 @@ public abstract class Process {
 	
 	private final long startTime;
 	
-	private double progress;
+	protected double progress;
 	
 	protected Process(final Player player) {
 		this.player = player;
@@ -26,13 +26,14 @@ public abstract class Process {
 		
 		// Fortschritt aktualisieren
 		this.progress = this.getDuration() == 0 ?
-				1. : (double) (this.player.getLaufzeit() - this.startTime)
-				/ ((double) this.getDuration());
+				1. : Math.min((double) (this.player.getLaufzeit() - this.startTime)
+				/ ((double) this.getDuration()), 1.);
 		
-		// Prozess aktualisieren bzw. beenden, wenn er abgeschlossen ist.
-		if (this.progress < 1.) {
-			this.update();
-		} else {
+		// Prozess aktualisieren
+		this.update();
+		
+		// Prozess beenden, wenn er abgeschlossen ist.
+		if (this.progress >= 1.) {
 			this.processCompleted();
 		}
 		
