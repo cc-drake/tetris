@@ -5,11 +5,11 @@ import java.util.Random;
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.model.processes.Process;
+import de.drake.tetris.model.spielfeld.Spielfeld;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.stones.StoneFactory;
 import de.drake.tetris.model.util.Action;
 import de.drake.tetris.model.util.PlayerStatus;
-import de.drake.tetris.model.util.Position;
 
 /**
  * Der Player verwaltet das Spielfeld eines Spielers und führt Bewegungseingaben ("Links", "Rechts", "Drehen") aus.
@@ -213,11 +213,8 @@ public class Player {
 		this.stone = this.nextStone;
 		this.nextStone = this.steinFactory.erzeugeRandomStein(this);
 		this.status = PlayerStatus.ACTIVE;
-		for (Position position : this.stone.getPositionen()) {
-			if (this.spielfeld.isBlocked(position)) {
-				this.status = PlayerStatus.STUCK;
-				break;
-			}
+		if (this.spielfeld.isBlocked(this.stone.getPositionen())) {
+			this.status = PlayerStatus.STUCK;
 		}
 	}
 	

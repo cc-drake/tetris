@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.model.Spielfeld;
+import de.drake.tetris.model.spielfeld.Spielfeld;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
 

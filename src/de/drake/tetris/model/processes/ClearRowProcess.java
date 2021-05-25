@@ -5,7 +5,7 @@ import java.util.HashSet;
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.model.Spielfeld;
+import de.drake.tetris.model.spielfeld.Spielfeld;
 
 public class ClearRowProcess extends Process {
 	

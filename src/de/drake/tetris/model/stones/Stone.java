@@ -88,10 +88,8 @@ public abstract class Stone implements Cloneable {
 	 * @return true, wenn das Bewegen funktioniert hat.
 	 */
 	public boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
-		for (Position position : this.getBewegtePositionen(x, y, imUhrzeigersinn)) {
-			if (this.player.getSpielfeld().isBlocked(position)) {
-				return false;
-			}
+		if (this.player.getSpielfeld().isBlocked(this.getBewegtePositionen(x, y, imUhrzeigersinn))) {
+			return false;
 		}
 		this.mittelpunkt.verschiebe(x, y);
 		if (imUhrzeigersinn != null) {

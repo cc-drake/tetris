@@ -4,54 +4,50 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
-import de.drake.tetris.model.Block;
 import de.drake.tetris.model.Player;
 
 public class FallingRowsProcess extends Process {
 	
-	private final HashSet<Integer> rowsToRemove;
+	private final HashSet<Integer> clearedRows;
 	
 	private final int xMin, xMax;
 	
-	private final HashSet<Block> fallingBlocks;
+	private final boolean hasBlocksToFall;
 	
-	public FallingRowsProcess(final Player player, final HashSet<Integer> rowsToRemove,
+	public FallingRowsProcess(final Player player, final HashSet<Integer> clearedRows,
 			final int xMin, final int xMax) {
 		super(player);
-		this.fallingBlocks = player.getSpielfeld().getBlocksAbove(rowsToRemove, xMin, xMax);
-		this.rowsToRemove = rowsToRemove;
+		this.clearedRows = clearedRows;
 		this.xMin = xMin;
 		this.xMax = xMax;
+		this.hasBlocksToFall = this.clearedRows.isEmpty() ? false : this.player.getSpielfeld()
+				.setMovingBlocks(Collections.max(this.clearedRows), xMin, xMax);
 	}
 	
 	@Override
 	protected long getDuration() {
-		return this.fallingBlocks.isEmpty() ? 0l : 100000000l;
+		return this.hasBlocksToFall ? 100000000l : 0l;
 	}
 	
 	@Override
 	protected void update() {
-		for (Block block : this.fallingBlocks) {
-			block.setVerticalShift(this.progress);
+		if (this.hasBlocksToFall) {
+			this.player.getSpielfeld().moveBlocks(0, this.progress);	
 		}
 	}
 	
 	@Override
 	protected void processCompleted() {
-		if (this.fallingBlocks.isEmpty()) {
+		if (!this.hasBlocksToFall) {
 			this.player.startProcess(new AddRowsProcess(this.player));
 			return;
 		}
 		
-		for (Block block : this.fallingBlocks) {
-			block.setVerticalShift(0.);
-		}
-		
-		Integer highestRow = Collections.max(this.rowsToRemove);
-		this.player.getSpielfeld().removeRow(highestRow, this.xMin, this.xMax);
-		this.rowsToRemove.remove(highestRow);
+		Integer highestRow = Collections.max(this.clearedRows);
+		this.player.getSpielfeld().moveBlocks(1, 0.);
+		this.clearedRows.remove(highestRow);
 		HashSet<Integer> remainingRows = new HashSet<Integer>();
-		for (int row : this.rowsToRemove) {
+		for (int row : this.clearedRows) {
 			remainingRows.add(row + 1);
 		}
 		

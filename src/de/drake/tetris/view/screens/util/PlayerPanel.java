@@ -3,17 +3,16 @@ package de.drake.tetris.view.screens.util;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.config.GameMode;
-import de.drake.tetris.model.Block;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.model.Spielfeld;
+import de.drake.tetris.model.spielfeld.BlockPaintObject;
+import de.drake.tetris.model.spielfeld.Spielfeld;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
 
@@ -171,16 +170,12 @@ public class PlayerPanel extends JPanel {
 		}
 		
 		//Blöcke einzeichnen
-		Position position;
-		Block block;
-		for (Entry<Position, Block> entry : spielfeld.getBlocks().entrySet()) {
-			if (entry.getKey().getY() < 0)
+		for (BlockPaintObject block : spielfeld.getBlocks()) {
+			if (block.getDoubleY() < 0)
 				continue;
-			position = entry.getKey();
-			block = entry.getValue();
 			g.drawImage(block.getTexture().getSpielfeldTexture(),
-					this.offsetX_sf + position.getX() * this.breite_feld,
-					this.offsetY_sf + (int) ((position.getY() + block.getVerticalShift()) * this.höhe_feld),
+					(int) (this.offsetX_sf + block.getDoubleX() * this.breite_feld),
+					(int) (this.offsetY_sf + block.getDoubleY() * this.höhe_feld),
 					this.breite_feld, this.höhe_feld, null);
 		}
 		
@@ -188,9 +183,9 @@ public class PlayerPanel extends JPanel {
 		int zeile, spalte;
 		Stone stein = this.spieler.getStone();
 		if (stein != null) {
-			for (Position pos : stein.getPositionen()) {
-				zeile = pos.getY();
-				spalte = pos.getX();
+			for (Position position : stein.getPositionen()) {
+				zeile = position.getY();
+				spalte = position.getX();
 				if (zeile < 0)
 					continue;
 				g.drawImage(stein.getTexture().getStoneTexture(),
