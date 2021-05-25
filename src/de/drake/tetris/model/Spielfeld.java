@@ -181,10 +181,10 @@ public class Spielfeld {
 	}
 	
 	/**
-	 * Gibt den Block an der angegebenen Position zurück, sofern vorhanden.
+	 * Gibt die Blöcke des Spielfelds zurück.
 	 */
-	public Block getBlock(final int spalte, final int zeile) {
-		return this.blocks.get(new Position(spalte, zeile));
+	public HashMap<Position, Block> getBlocks() {
+		return this.blocks;
 	}
 	
 	int getRemainingCheeseRows() {
