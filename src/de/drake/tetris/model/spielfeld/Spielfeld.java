@@ -46,7 +46,7 @@ public class Spielfeld {
 	 */
 	public Spielfeld(final long seed) {
 		this.random = new Random(seed);
-		this.generateCheeseRows(GameMode.getCheeseRows());
+		this.generateCheeseRows(GameMode.getCheeseRows(), false);
 	}
 	
 	public void clearRow(final int row) {
@@ -130,31 +130,26 @@ public class Spielfeld {
 		this.updateRemainingCheeseRows();
 	}
 	
-	public void generateCheeseRows(final int rows) {
-		for (int i = 0; i < rows; i++) {
-			this.generateCheeseRow();
-		}
-		this.remainingCheeseRows += rows;
-	}
-
-	private void generateCheeseRow() {
+	public void generateCheeseRows(final int amount, final boolean delayByVerticalShift) {
 		
 		for (Block block : this.blocks) {
-			block.move(-1, 0.);
+			block.move(-amount, delayByVerticalShift ? -amount : 0.);
 		}
 		
-		int rand = this.lastRand;
-		while (rand == this.lastRand) {
-			rand = this.random.nextInt(Config.breite);
+		for (int y = Config.hoehe - 1; y >= Config.hoehe - amount; y--) {
+			int rand = this.lastRand;
+			while (rand == this.lastRand) {
+				rand = this.random.nextInt(Config.breite);
+			}
+			this.lastRand = rand;
+			
+			for (int x = 0; x < Config.breite; x++) {
+				if (x == this.lastRand)
+					continue;
+				this.blocks.add(new Block(x, y, Asset.TEXTURE_ORANGE, true));
+			}
 		}
-		this.lastRand = rand;
-		
-		for (int x = 0; x < Config.breite; x++) {
-			if (x == this.lastRand)
-				continue;
-			this.blocks.add(new Block(x, Config.hoehe - 1, Asset.TEXTURE_ORANGE, true));
-		}
-		
+		this.remainingCheeseRows += amount;
 	}
 	
 	private void updateRemainingCheeseRows() {
@@ -178,8 +173,8 @@ public class Spielfeld {
 	/**
 	 * Gibt die Blöcke des Spielfelds zurück.
 	 */
-	public HashSet<Block> getBlocks() {
-		return this.blocks;
+	public HashSet<BlockPaintObject> getBlocks() {
+		return new HashSet<BlockPaintObject>(this.blocks);
 	}
 	
 	public int getRemainingCheeseRows() {
