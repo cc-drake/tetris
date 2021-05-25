@@ -123,6 +123,8 @@ public class Spielfeld {
 	}
 	
 	public void moveBlocks(final int y, final double newVerticalShift) {
+		if (this.movingBlocks == null)
+			return;
 		for (Block block : this.movingBlocks) {
 			block.move(y, newVerticalShift);
 		}
