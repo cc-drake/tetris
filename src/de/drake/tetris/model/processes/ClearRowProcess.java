@@ -5,7 +5,6 @@ import java.util.HashSet;
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.model.spielfeld.Spielfeld;
 
 public class ClearRowProcess extends Process {
 	
@@ -33,15 +32,14 @@ public class ClearRowProcess extends Process {
 	
 	@Override
 	protected void processCompleted() {
-		Spielfeld spielfeld = this.player.getSpielfeld();
+		Player player = super.getPlayer();
 		
 		for (int row : this.rowsToClear) {
-			spielfeld.clearRow(row);
+			player.getSpielfeld().clearRow(row);
 		}
 		
-		this.player.rowsCompleted(rowsToClear.size());
-		this.player.startProcess(new FallingRowsProcess(
-				this.player, this.rowsToClear, 0, Config.breite - 1));
+		player.rowsCompleted(rowsToClear.size());
+		player.startProcess(new FallingRowsProcess(player, this.rowsToClear, 0, Config.breite - 1));
 	}
 	
 }

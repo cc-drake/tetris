@@ -1,6 +1,7 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.gfx.BlockTexture;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.processes.DropStoneProcess;
 
 /**
@@ -13,8 +14,9 @@ abstract class DumbStone extends Stone {
 	}
 	
 	@Override
-	public void detonate() {
-		this.player.startProcess(new DropStoneProcess(this.player));
+	public final void detonate() {
+		Player player = super.getPlayer();
+		player.startProcess(new DropStoneProcess(player));
 	}
 	
 }

@@ -9,7 +9,7 @@ public class AddRowsProcess extends Process {
 	
 	public AddRowsProcess(final Player player) {
 		super(player);
-		this.rowsToAdd = this.player.getPendingRows();
+		this.rowsToAdd = player.getPendingRows();
 		
 		if (this.rowsToAdd >= 4) {
 			Asset.SOUND_ADDFOUR.play();
@@ -29,9 +29,10 @@ public class AddRowsProcess extends Process {
 	
 	@Override
 	protected void processCompleted() {
-		this.player.getSpielfeld().generateCheeseRows(this.rowsToAdd);
-		this.player.reducePendingRows(this.rowsToAdd);
-		this.player.spawnStone();
+		Player player = super.getPlayer();
+		player.getSpielfeld().generateCheeseRows(this.rowsToAdd);
+		player.reducePendingRows(this.rowsToAdd);
+		player.spawnStone();
 	}
 	
 }

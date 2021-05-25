@@ -1,6 +1,7 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.processes.HorizontalBombProcess;
 
 /**
@@ -14,7 +15,8 @@ public class HorizontalBomb extends OneBlockStone {
 	
 	@Override
 	public void detonate() {
-		this.player.startProcess(new HorizontalBombProcess(this.player, this.mittelpunkt.getY()));
+		Player player = super.getPlayer();
+		player.startProcess(new HorizontalBombProcess(player, this.getPosition().getY()));
 	}
 	
 	@Override

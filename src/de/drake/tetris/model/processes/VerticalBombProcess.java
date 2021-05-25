@@ -11,7 +11,7 @@ public class VerticalBombProcess extends Process {
 		super(player);
 		this.column = column;
 		
-		this.player.destroyStone();
+		player.destroyStone();
 		Asset.SOUND_BOOM.play();
 	}
 	
@@ -26,9 +26,9 @@ public class VerticalBombProcess extends Process {
 
 	@Override
 	protected void processCompleted() {
-		this.player.getSpielfeld().clearColumn(this.column);
-		
-		this.player.startProcess(new AddRowsProcess(this.player));
+		Player player = super.getPlayer();
+		player.getSpielfeld().clearColumn(this.column);
+		player.startProcess(new AddRowsProcess(player));
 	}
 	
 }

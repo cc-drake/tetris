@@ -14,7 +14,7 @@ public class HorizontalBombProcess extends Process {
 		super(player);
 		this.row = row;
 		
-		this.player.destroyStone();
+		player.destroyStone();
 		Asset.SOUND_BOOM.play();
 	}
 	
@@ -29,12 +29,13 @@ public class HorizontalBombProcess extends Process {
 
 	@Override
 	protected void processCompleted() {
-		this.player.getSpielfeld().clearRow(this.row);
+		Player player = super.getPlayer();
+		player.getSpielfeld().clearRow(this.row);
 		
 		HashSet<Integer> rowsToRemove = new HashSet<Integer>();
 		rowsToRemove.add(this.row);
-		this.player.startProcess(new FallingRowsProcess(
-				this.player, rowsToRemove, 0, Config.breite - 1));
+		player.startProcess(new FallingRowsProcess(
+				player, rowsToRemove, 0, Config.breite - 1));
 	}
 	
 }

@@ -4,11 +4,11 @@ import de.drake.tetris.model.Player;
 
 public abstract class Process {
 	
-	protected final Player player;
+	private final Player player;
 	
 	private final long startTime;
 	
-	protected double progress;
+	private double progress;
 	
 	protected Process(final Player player) {
 		this.player = player;
@@ -37,6 +37,14 @@ public abstract class Process {
 			this.processCompleted();
 		}
 		
+	}
+	
+	protected final Player getPlayer() {
+		return this.player;
+	}
+	
+	protected final double getProgress() {
+		return this.progress;
 	}
 	
 }

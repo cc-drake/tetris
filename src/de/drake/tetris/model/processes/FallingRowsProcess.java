@@ -20,7 +20,7 @@ public class FallingRowsProcess extends Process {
 		this.clearedRows = clearedRows;
 		this.xMin = xMin;
 		this.xMax = xMax;
-		this.hasBlocksToFall = this.clearedRows.isEmpty() ? false : this.player.getSpielfeld()
+		this.hasBlocksToFall = this.clearedRows.isEmpty() ? false : player.getSpielfeld()
 				.setMovingBlocks(Collections.max(this.clearedRows), xMin, xMax);
 	}
 	
@@ -32,19 +32,20 @@ public class FallingRowsProcess extends Process {
 	@Override
 	protected void update() {
 		if (this.hasBlocksToFall) {
-			this.player.getSpielfeld().moveBlocks(0, this.progress);	
+			super.getPlayer().getSpielfeld().moveBlocks(0, super.getProgress());	
 		}
 	}
 	
 	@Override
 	protected void processCompleted() {
+		Player player = super.getPlayer();
 		if (!this.hasBlocksToFall) {
-			this.player.startProcess(new AddRowsProcess(this.player));
+			player.startProcess(new AddRowsProcess(player));
 			return;
 		}
 		
 		Integer highestRow = Collections.max(this.clearedRows);
-		this.player.getSpielfeld().moveBlocks(1, 0.);
+		player.getSpielfeld().moveBlocks(1, 0.);
 		this.clearedRows.remove(highestRow);
 		HashSet<Integer> remainingRows = new HashSet<Integer>();
 		for (int row : this.clearedRows) {
@@ -53,10 +54,10 @@ public class FallingRowsProcess extends Process {
 		
 		if (remainingRows.size() == 0) {
 			Asset.SOUND_FALL.play();
-			this.player.startProcess(new AddRowsProcess(this.player));
+			player.startProcess(new AddRowsProcess(player));
 		} else {
-			this.player.startProcess(new FallingRowsProcess(
-					this.player, remainingRows, this.xMin, this.xMax));
+			player.startProcess(new FallingRowsProcess(
+					player, remainingRows, this.xMin, this.xMax));
 		}
 		
 	}

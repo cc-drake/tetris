@@ -1,6 +1,7 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.processes.VerticalBombProcess;
 
 /**
@@ -14,7 +15,8 @@ public class VerticalBomb extends OneBlockStone {
 
 	@Override
 	public void detonate() {
-		this.player.startProcess(new VerticalBombProcess(this.player, this.mittelpunkt.getX()));
+		Player player = super.getPlayer();
+		player.startProcess(new VerticalBombProcess(player, this.getPosition().getX()));
 	}
 
 	@Override

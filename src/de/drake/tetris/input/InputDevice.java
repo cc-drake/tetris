@@ -36,17 +36,17 @@ public abstract class InputDevice implements FocusListener {
 	
 	private final HashSet<KeyListener> listeners = new HashSet<KeyListener>();
 	
-	public void addKeyListener(final KeyListener listener) {
+	public final void addKeyListener(final KeyListener listener) {
 		this.listeners.add(listener);
 	}
 	
-	protected void keyPressed(final Key key) {
+	protected final void keyPressed(final Key key) {
 		for (KeyListener listener : this.listeners) {
 			listener.keyPressed(key);
 		}
 	}
 	
-	protected void keyReleased(final Key key) {
+	protected final void keyReleased(final Key key) {
 		for (KeyListener listener : this.listeners) {
 			listener.keyReleased(key);
 		}
@@ -91,7 +91,7 @@ public abstract class InputDevice implements FocusListener {
 	
 	public abstract String toString();
 
-	public int getType() {
+	public final int getType() {
 		return this.type;
 	}
 	

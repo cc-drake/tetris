@@ -24,4 +24,8 @@ abstract class OneBlockStone extends Stone {
 		return map;
 	}
 	
+	protected final Position getPosition() {
+		return this.getPositionen().iterator().next();
+	}
+	
 }

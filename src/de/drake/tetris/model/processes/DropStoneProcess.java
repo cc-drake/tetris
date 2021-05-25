@@ -27,12 +27,13 @@ public class DropStoneProcess extends Process {
 	
 	@Override
 	protected void processCompleted() {
-		Spielfeld spielfeld = this.player.getSpielfeld();
-		Stone stone = this.player.getStone();
+		Player player = super.getPlayer();
+		Spielfeld spielfeld = player.getSpielfeld();
+		Stone stone = super.getPlayer().getStone();
 		
 		// Stein in Blöcke verwandeln
 		spielfeld.addBlocks(stone.getPositionen(), stone.getTexture(), false);
-		this.player.destroyStone();
+		player.destroyStone();
 		
 		// Liste potentiell fertiger Reihen erstellen
 		HashSet<Integer> stoneRows = new HashSet<Integer>();
@@ -49,7 +50,7 @@ public class DropStoneProcess extends Process {
 		}
 		
 		// Prozess zum Entfernen der vollen Reihen starten
-		this.player.startProcess(new ClearRowProcess(this.player, fullRows));
+		player.startProcess(new ClearRowProcess(player, fullRows));
 	}
 	
 }

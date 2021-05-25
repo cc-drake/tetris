@@ -15,7 +15,7 @@ public class SquareBombProcess extends Process {
 		super(player);
 		this.mittelpunkt = mittelpunkt;
 		
-		this.player.destroyStone();
+		player.destroyStone();
 		Asset.SOUND_BOOM.play();
 	}
 	
@@ -30,15 +30,16 @@ public class SquareBombProcess extends Process {
 
 	@Override
 	protected void processCompleted() {
-		this.player.getSpielfeld().clear3x3(this.mittelpunkt);
+		Player player = super.getPlayer();
+		player.getSpielfeld().clear3x3(this.mittelpunkt);
 		
 		HashSet<Integer> rowsToRemove = new HashSet<Integer>();
 		rowsToRemove.add(this.mittelpunkt.getY() - 1);
 		rowsToRemove.add(this.mittelpunkt.getY());
 		if (this.mittelpunkt.getY() < Config.hoehe - 1)
 			rowsToRemove.add(this.mittelpunkt.getY() + 1);
-		this.player.startProcess(new FallingRowsProcess(
-				this.player, rowsToRemove, this.mittelpunkt.getX() - 1, this.mittelpunkt.getX() + 1));
+		player.startProcess(new FallingRowsProcess(
+				player, rowsToRemove, this.mittelpunkt.getX() - 1, this.mittelpunkt.getX() + 1));
 	}
 	
 }

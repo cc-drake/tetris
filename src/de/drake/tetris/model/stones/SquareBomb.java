@@ -1,6 +1,7 @@
 package de.drake.tetris.model.stones;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.model.Player;
 import de.drake.tetris.model.processes.SquareBombProcess;
 
 /**
@@ -14,7 +15,8 @@ public class SquareBomb extends OneBlockStone {
 
 	@Override
 	public void detonate() {
-		this.player.startProcess(new SquareBombProcess(this.player, this.mittelpunkt));
+		Player player = super.getPlayer();
+		player.startProcess(new SquareBombProcess(player, this.getPosition()));
 	}
 
 	@Override

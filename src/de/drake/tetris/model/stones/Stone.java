@@ -17,22 +17,22 @@ public abstract class Stone implements Cloneable {
 	/**
 	 * Der Spieler, der den Stein kontrolliert.
 	 */
-	protected Player player;
+	private Player player;
 	
 	/**
 	 * Der Typ des Steins.
 	 */
-	protected final BlockTexture texture;
+	private final BlockTexture texture;
 	
 	/**
 	 * Die aktuelle Position des Mittelpunkt des Steins.
 	 */
-	protected final Position mittelpunkt;
+	private final Position mittelpunkt;
 	
 	/**
 	 * Die aktuelle Drehung des Steins.
 	 */
-	protected int drehung;
+	private int drehung;
 	
 	/**
 	 * Enthält für jeden Drehzustand eine Liste der zugehörigen relativen Koordinaten aller Steinfelder.
@@ -40,7 +40,7 @@ public abstract class Stone implements Cloneable {
 	 * mittig (bei gerader Spielfeldbreite rechts der Mitte) in der obersten sichtbaren Zeile
 	 * des Spielfelds platziert wird.
 	 */
-	protected final HashMap<Integer, HashSet<Position>> relativkoordinaten;
+	private final HashMap<Integer, HashSet<Position>> relativkoordinaten;
 	
 	/**
 	 * Erzeugt einen neuen Stein.
@@ -55,7 +55,7 @@ public abstract class Stone implements Cloneable {
 	/**
 	 * Initialisiert das Player-Attribut.
 	 */
-	public void setPlayer(final Player player) {
+	public final void setPlayer(final Player player) {
 		this.player = player;
 	}
 	
@@ -87,7 +87,7 @@ public abstract class Stone implements Cloneable {
 	 * 		false, wenn entgegen dem Uhrzeigersinn gedreht werden soll.
 	 * @return true, wenn das Bewegen funktioniert hat.
 	 */
-	public boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
+	public final boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
 		if (this.player.getSpielfeld().isBlocked(this.getBewegtePositionen(x, y, imUhrzeigersinn))) {
 			return false;
 		}
@@ -110,7 +110,7 @@ public abstract class Stone implements Cloneable {
 	 * 		true, wenn im Uhrzeigersinn gedreht werden soll.
 	 * 		false, wenn entgegen dem Uhrzeigersinn gedreht werden soll.
 	 */
-	private HashSet<Position> getBewegtePositionen(final int x, final int y, final Boolean imUhrzeigersinn) {
+	private final HashSet<Position> getBewegtePositionen(final int x, final int y, final Boolean imUhrzeigersinn) {
 		int drehungNeu;
 		if (imUhrzeigersinn == null) {
 			drehungNeu = this.drehung;
@@ -132,7 +132,7 @@ public abstract class Stone implements Cloneable {
 	 * @param drehung der alte Drehzustand
 	 * @param imUhrzeigersinn Gibt die Richtung der Drehung an.
 	 */
-	private int getNewDrehung(final int drehung, final boolean imUhrzeigersinn) {
+	private final int getNewDrehung(final int drehung, final boolean imUhrzeigersinn) {
 		int anzahlDrehungen = this.relativkoordinaten.keySet().size();
 		int result = (imUhrzeigersinn ? drehung + 1 : drehung - 1);
 		result = (result + anzahlDrehungen) % anzahlDrehungen;
@@ -142,21 +142,25 @@ public abstract class Stone implements Cloneable {
 	/**
 	 * Erzeugt eine Liste aller aktuellen Feldpositionen des Steins.
 	 */
-	public HashSet<Position> getPositionen() {
+	public final HashSet<Position> getPositionen() {
 		return this.getBewegtePositionen(0, 0, null);
 	}
 	
 	/**
 	 * Gibt die Relativkoordinaten des Steins in der Default-Drehung zurück.
 	 */
-	public HashSet<Position> getDefaultRelativePositions() {
+	public final HashSet<Position> getDefaultRelativePositions() {
 		return this.relativkoordinaten.get(0);
 	}
 	
 	/**
 	 * Gibt die Blocktextur des Steins zurück.
 	 */
-	public BlockTexture getTexture() {
+	public final BlockTexture getTexture() {
 		return this.texture;
+	}
+	
+	protected final Player getPlayer() {
+		return this.player;
 	}
 }
