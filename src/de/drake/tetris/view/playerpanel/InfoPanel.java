@@ -13,7 +13,7 @@ import de.drake.tetris.model.Player;
 /**
  * Ein Panel, welches Textinformationen zu einem Spieler anzeigt.
  */
-public class InfoPanel extends JPanel {
+class InfoPanel extends JPanel {
 	
 	/**
 	 * Die default serialVersionUID
@@ -22,7 +22,7 @@ public class InfoPanel extends JPanel {
 	
 	private final Player player;
 	
-	public InfoPanel(final Player player) {
+	InfoPanel(final Player player) {
 		this.player = player;
 		this.setBackground(Color.black);
 		this.setFocusable(false);

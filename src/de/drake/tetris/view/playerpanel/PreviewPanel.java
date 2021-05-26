@@ -13,7 +13,7 @@ import de.drake.tetris.model.util.Position;
 /**
  * Ein Panel, welches das Previewfeld eines Spielers anzeigt.
  */
-public class PreviewPanel extends JPanel {
+class PreviewPanel extends JPanel {
 	
 	/**
 	 * Die default serialVersionUID
@@ -29,7 +29,7 @@ public class PreviewPanel extends JPanel {
 	
 	private int block_width, block_height;
 	
-	public PreviewPanel(final Player player) {
+	PreviewPanel(final Player player) {
 		this.player = player;
 		this.setBackground(Color.black);
 		this.setFocusable(false);
