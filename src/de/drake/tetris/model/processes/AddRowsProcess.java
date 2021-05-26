@@ -23,7 +23,7 @@ public class AddRowsProcess extends Process {
 	
 	@Override
 	protected long getDuration() {
-		return this.rowsToAdd == 0 ? 0l : 100000000l;
+		return this.rowsToAdd * 50000000l;
 	}
 	
 	@Override

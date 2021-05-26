@@ -26,7 +26,7 @@ public class FallingRowsProcess extends Process {
 	
 	@Override
 	protected long getDuration() {
-		return this.hasBlocksToFall ? 100000000l : 0l;
+		return this.hasBlocksToFall ? 50000000l : 0l;
 	}
 	
 	@Override
