@@ -2,7 +2,9 @@ package de.drake.tetris.view.playerpanel;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
@@ -96,33 +98,39 @@ class SpielfeldPanel extends JPanel {
 	}
 
 	private void paintStatus(final Graphics g) {
-		g.setColor(GameScreen.FRONTCOLOR);
-		int fontsize = (int) (0.16 * this.getWidth());
-		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
-		int height = (int) Math.max(.5 * this.getHeight(), .8 * fontsize);
-		
 		switch (this.game.getStatus()) {
 		case PREPARED:
-			g.drawString("READY?", (int) (this.getWidth() * .18), height);
+			this.printCenteredString("READY?", g);
 			break;
 		case QUIT:
-			g.drawString("BEENDEN?", (int) (this.getWidth() * .08), height);
+			this.printCenteredString("BEENDEN?", g);
 			break;
 		case PAUSED:
-			g.drawString("PAUSE", (int) (this.getWidth() * .24), height);
+			this.printCenteredString("PAUSE", g);
 			break;
 		default:
 			switch (this.player.getStatus()) {
 			case WINNER:
-				g.drawString("WINNER", (int) (this.getWidth() * .16), height);
+				this.printCenteredString("WINNER", g);
 				break;
 			case LOSER:
-				g.drawString("LOSER", (int) (this.getWidth() * .23), height);
+				this.printCenteredString("LOSER", g);
 				break;
 			default:
 				break;
 			}
 		}
+	}
+	
+	private void printCenteredString(final String text, final Graphics g) {
+		g.setColor(GameScreen.FRONTCOLOR);
+		int fontsize = (int) Math.min(0.16 * this.getWidth(), .5 * this.getHeight());
+		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
+		FontMetrics metric = g.getFontMetrics();
+		Rectangle2D bounds = metric.getStringBounds(text, g);
+		int x = (int) ((this.getWidth() - bounds.getWidth()) / 2.);
+		int y = (int) ((this.getHeight() - bounds.getHeight()) / 2.) + metric.getAscent();
+		g.drawString(text, x, y);
 	}
 
 	private void paintBorderline(final Graphics g) {

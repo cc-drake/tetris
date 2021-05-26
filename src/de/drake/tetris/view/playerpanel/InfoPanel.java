@@ -1,6 +1,7 @@
 package de.drake.tetris.view.playerpanel;
 
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -33,10 +34,12 @@ class InfoPanel extends JPanel {
 		g.setColor(GameScreen.FRONTCOLOR);
 		int fontsize = Math.min(this.getWidth() / 8, this.getHeight() / 8);
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
+		FontMetrics metric = g.getFontMetrics();
 		
 		ArrayList<String> text = this.getInfoText();
 		for (int zeile = 0; zeile < text.size(); zeile++) {
-			g.drawString(text.get(zeile), 0, (int)((1 + 1.5 * zeile) * fontsize));
+			g.drawString(text.get(zeile), 0,
+					metric.getAscent() + (int)(zeile * metric.getHeight() * 1.1));
 		}
 		
 		g.dispose();
