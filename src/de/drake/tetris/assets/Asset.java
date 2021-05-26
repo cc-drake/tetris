@@ -15,7 +15,7 @@ public class Asset {
 			TEXTURE_ORANGE, TEXTURE_SQUAREBOMB, TEXTURE_HORIZONTALBOMB, TEXTURE_VERTICALBOMB;
 	
 	public static SoundClip SOUND_ADD, SOUND_ADDFOUR, SOUND_BOOM, SOUND_DREH, SOUND_DROP,
-			SOUND_FALL, SOUND_ROW, SOUND_TETRIS;
+			SOUND_EMPTY, SOUND_FALL, SOUND_ROW, SOUND_TETRIS;
 	
 	public final static int SPRITE_WIDTH = 60;
 	
@@ -43,9 +43,14 @@ public class Asset {
 		Asset.SOUND_BOOM = new SoundClip("/sounds/boom.wav");
 		Asset.SOUND_DREH = new SoundClip("/sounds/dreh.wav");
 		Asset.SOUND_DROP = new SoundClip("/sounds/drop.wav");
+		Asset.SOUND_EMPTY = new SoundClip("/sounds/empty.wav");
 		Asset.SOUND_FALL = new SoundClip("/sounds/fall.wav");
 		Asset.SOUND_ROW = new SoundClip("/sounds/row.wav");
 		Asset.SOUND_TETRIS = new SoundClip("/sounds/tetris.wav");
+		
+		// Der erste Sound im Spiel führt zu einem Lag,
+		// daher wird bei der Initialisierung bereits ein Sound abgespielt.
+		Asset.SOUND_EMPTY.play();
 	}
 	
 }
