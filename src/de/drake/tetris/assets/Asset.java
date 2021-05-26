@@ -49,7 +49,7 @@ public class Asset {
 		Asset.SOUND_TETRIS = new SoundClip("/sounds/tetris.wav");
 		
 		// Der erste Sound im Spiel führt zu einem Lag,
-		// daher wird bei der Initialisierung bereits ein Sound abgespielt.
+		// daher wird bei der Initialisierung bereits ein stiller Sound abgespielt.
 		Asset.SOUND_EMPTY.play();
 	}
 	
