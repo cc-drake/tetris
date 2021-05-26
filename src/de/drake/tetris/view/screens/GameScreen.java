@@ -18,7 +18,7 @@ public class GameScreen extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public GameScreen(final Game game) {
-		this.setBackground(Color.white);
+		this.setBackground(PlayerPanel.TEXTCOLOR);
 		InputDevice.registerInputDevices(this);
 		
 		switch (game.getPlayers().size()) {

@@ -26,9 +26,9 @@ public class PlayerPanel extends JPanel implements ComponentListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	static final Color BGCOLOR = Color.getHSBColor(0f, 0f, 0.1f);
+	public static final Color BGCOLOR = Color.getHSBColor(0f, 0f, 0.1f);
 	
-	static final Color TEXTCOLOR = Color.lightGray;
+	public static final Color TEXTCOLOR = Color.lightGray;
 	
 	private final SpielfeldPanel spielfeld;
 	
