@@ -95,36 +95,27 @@ class SpielfeldPanel extends JPanel {
 
 	private void paintStatus(final Graphics g) {
 		g.setColor(PlayerPanel.TEXTCOLOR);
-		int fontsize = 3 * this.block_height;
+		int fontsize = (int) (0.16 * this.getWidth());
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
+		int height = (int) (this.getHeight() * .5);
 		
 		switch (this.game.getStatus()) {
 		case PREPARED:
-			g.drawString("READY?", 
-					1 + this.block_width * (Config.breite / 2 - 4),
-					1 + this.block_height * (Config.hoehe / 2));
+			g.drawString("READY?", (int) (this.getWidth() * .18), height);
 			break;
 		case QUIT:
-			g.drawString("BEENDEN?", 
-					1 + this.block_width * (Config.breite / 2 - 5),
-					1 + this.block_height * (Config.hoehe / 2));
+			g.drawString("BEENDEN?", (int) (this.getWidth() * .08), height);
 			break;
 		case PAUSED:
-			g.drawString("PAUSE", 
-					1 + this.block_width * (Config.breite / 2 - 3),
-					1 + this.block_height * (Config.hoehe / 2));
+			g.drawString("PAUSE", (int) (this.getWidth() * .24), height);
 			break;
 		default:
 			switch (this.player.getStatus()) {
 			case WINNER:
-				g.drawString("WINNER", 
-						1 + this.block_width * (Config.breite / 2 - 4),
-						1 + this.block_height * (Config.hoehe / 2));
+				g.drawString("WINNER", (int) (this.getWidth() * .16), height);
 				break;
 			case LOSER:
-				g.drawString("LOSER", 
-						1 + this.block_width * (Config.breite / 2 - 3),
-						1 + this.block_height * (Config.hoehe / 2));
+				g.drawString("LOSER", (int) (this.getWidth() * .23), height);
 				break;
 			default:
 				break;
