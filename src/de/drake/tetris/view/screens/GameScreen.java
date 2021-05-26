@@ -16,9 +16,15 @@ public class GameScreen extends JPanel {
 	 * Die Default Serial ID
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final Color BGCOLOR = Color.black;
+	
+	public static final Color BGCOLOR2 = Color.getHSBColor(0f, 0f, 0.1f);
+	
+	public static final Color FRONTCOLOR = Color.lightGray;
 
 	public GameScreen(final Game game) {
-		this.setBackground(PlayerPanel.TEXTCOLOR);
+		this.setBackground(GameScreen.FRONTCOLOR);
 		InputDevice.registerInputDevices(this);
 		
 		switch (game.getPlayers().size()) {

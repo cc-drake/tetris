@@ -1,6 +1,5 @@
 package de.drake.tetris.view.playerpanel;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,6 +14,7 @@ import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
+import de.drake.tetris.view.screens.GameScreen;
 
 /**
  * Ein Panel, welches alle Informationen zu einem Spieler anzeigt.
@@ -25,10 +25,6 @@ public class PlayerPanel extends JPanel implements ComponentListener {
 	 * Die default serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	public static final Color BGCOLOR = Color.getHSBColor(0f, 0f, 0.1f);
-	
-	public static final Color TEXTCOLOR = Color.lightGray;
 	
 	private final SpielfeldPanel spielfeld;
 	
@@ -44,7 +40,7 @@ public class PlayerPanel extends JPanel implements ComponentListener {
 		this.info = new InfoPanel(player);
 		this.rigidArea = Box.createRigidArea(new Dimension(0, 0));
 		
-		this.setBackground(Color.black);
+		this.setBackground(GameScreen.BGCOLOR);
 		this.setFocusable(false);
 		this.addComponentListener(this);
 		this.setLayout(new GridBagLayout());

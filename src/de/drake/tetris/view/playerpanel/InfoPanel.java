@@ -1,6 +1,5 @@
 package de.drake.tetris.view.playerpanel;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import javax.swing.JPanel;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.model.Player;
+import de.drake.tetris.view.screens.GameScreen;
 
 /**
  * Ein Panel, welches Textinformationen zu einem Spieler anzeigt.
@@ -24,13 +24,13 @@ class InfoPanel extends JPanel {
 	
 	InfoPanel(final Player player) {
 		this.player = player;
-		this.setBackground(Color.black);
+		this.setBackground(GameScreen.BGCOLOR);
 		this.setFocusable(false);
 	}
 	
 	@Override
 	public void paintComponent(final Graphics g) {
-		g.setColor(PlayerPanel.TEXTCOLOR);//Magenta //TODO
+		g.setColor(GameScreen.FRONTCOLOR);
 		int fontsize = Math.min(this.getWidth() / 8, this.getHeight() / 8);
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		

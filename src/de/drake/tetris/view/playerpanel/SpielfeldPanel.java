@@ -1,6 +1,5 @@
 package de.drake.tetris.view.playerpanel;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -12,6 +11,7 @@ import de.drake.tetris.model.Player;
 import de.drake.tetris.model.spielfeld.BlockPaintObject;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
+import de.drake.tetris.view.screens.GameScreen;
 
 /**
  * Ein Panel, welches das Spielfeld eines Spielers anzeigt.
@@ -32,7 +32,6 @@ class SpielfeldPanel extends JPanel {
 	SpielfeldPanel(final Game game, final Player player) {
 		this.game = game;
 		this.player = player;
-		this.setBackground(Color.black);
 		this.setFocusable(false);
 	}
 	
@@ -52,15 +51,17 @@ class SpielfeldPanel extends JPanel {
 	}
 	
 	private void paintBackground(final Graphics g) {
-		g.setColor(PlayerPanel.BGCOLOR);
 		for (int spalte = 0; spalte < Config.breite; spalte++) {
 			for (int zeile = 0; zeile < Config.hoehe; zeile++) {
 				if ((spalte + zeile) % 2 == 0) {
-					g.fillRect(
-							1 + spalte * this.block_width,
-							1 + zeile * this.block_height,
-							this.block_width, this.block_height);
+					g.setColor(GameScreen.BGCOLOR2);
+				} else {
+					g.setColor(GameScreen.BGCOLOR);
 				}
+				g.fillRect(
+						1 + spalte * this.block_width,
+						1 + zeile * this.block_height,
+						this.block_width, this.block_height);
 			}
 		}
 	}
@@ -94,7 +95,7 @@ class SpielfeldPanel extends JPanel {
 	}
 
 	private void paintStatus(final Graphics g) {
-		g.setColor(PlayerPanel.TEXTCOLOR);
+		g.setColor(GameScreen.FRONTCOLOR);
 		int fontsize = (int) (0.16 * this.getWidth());
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
 		int height = (int) (this.getHeight() * .5);
@@ -124,7 +125,7 @@ class SpielfeldPanel extends JPanel {
 	}
 
 	private void paintBorderline(final Graphics g) {
-		g.setColor(PlayerPanel.BGCOLOR);
+		g.setColor(GameScreen.BGCOLOR2);
 		g.drawRect(0, 0, Config.breite * this.block_width + 1, Config.hoehe * this.block_height + 1);
 	}
 	
