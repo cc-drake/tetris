@@ -1,5 +1,6 @@
 package de.drake.tetris.view.playerpanel;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -35,9 +36,9 @@ class SpielfeldPanel extends JPanel {
 		this.setFocusable(false);
 	}
 	
-	void setBlockDimension(int block_width, int block_height) {
-		this.block_width = block_width;
-		this.block_height = block_height;
+	void setBlockSize(final Dimension blockSize) {
+		this.block_width = blockSize.width;
+		this.block_height = blockSize.height;
 	}
 	
 	@Override
@@ -98,7 +99,7 @@ class SpielfeldPanel extends JPanel {
 		g.setColor(GameScreen.FRONTCOLOR);
 		int fontsize = (int) (0.16 * this.getWidth());
 		g.setFont(new Font(Font.SERIF, Font.BOLD, fontsize));
-		int height = (int) (this.getHeight() * .5);
+		int height = (int) Math.max(.5 * this.getHeight(), .8 * fontsize);
 		
 		switch (this.game.getStatus()) {
 		case PREPARED:

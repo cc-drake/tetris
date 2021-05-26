@@ -80,31 +80,49 @@ public class PlayerPanel extends JPanel implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent e) {
-		int block_height, block_width;
-		int previewsize = this.preview.getPreviewfelder();
+		Dimension blockSize = PlayerPanel.getBlockSize(this.getWidth(), this.getHeight());
 		
-		//Höhe und Breite eines Tetrisfeldes auf Basis des zur Verfügung stehenden Platzes ermitteln
-		block_height = (this.getHeight() - 2) / Config.hoehe;
-		block_width = (this.getWidth() - 4) / (Config.breite + previewsize + 1);
-		double seitenverhaeltnis = ((double) Asset.SPRITE_WIDTH) / ((double) Asset.SPRITE_HEIGHT);
-		if (((double) block_width) / block_height < seitenverhaeltnis) {
-			block_height = (int) (block_width / seitenverhaeltnis);
-		} else {
-			block_width = (int) (block_height * seitenverhaeltnis);
-		}
+		this.spielfeld.setBlockSize(blockSize);
+		this.preview.setBlockSize(blockSize);
 		
-		//PreferredSize der jeweiligen Komponenten einstellen
-		this.spielfeld.setPreferredSize(new Dimension(
-				2 + Config.breite * block_width, 2 + Config.hoehe * block_height));
-		this.spielfeld.setBlockDimension(block_width, block_height);
-		this.preview.setPreferredSize(new Dimension(
-				2 + previewsize * block_width, 2 + previewsize * block_height));
-		this.preview.setBlockDimension(block_width, block_height);
-		this.rigidArea.setPreferredSize(new Dimension(
-				block_width, block_height));
+		this.spielfeld.setPreferredSize(PlayerPanel.getSpielfeldSize(blockSize));
+		this.preview.setPreferredSize(PlayerPanel.getPreviewSize(blockSize));
+		this.rigidArea.setPreferredSize(blockSize);
 		
-		//Die Änderungen übernehmen
 		this.revalidate();
+	}
+	
+	private static Dimension getBlockSize(final int width, final int height) {
+		int block_width = (width - 4) / (Config.breite + Config.getPreviewSize() + 1);
+		int block_height = (height - 2) / Config.hoehe;
+		double ratio = ((double) Asset.SPRITE_WIDTH) / ((double) Asset.SPRITE_HEIGHT);
+		if (((double) block_width) / block_height < ratio) {
+			block_height = (int) (block_width / ratio);
+		} else {
+			block_width = (int) (block_height * ratio);
+		}
+		return new Dimension(block_width, block_height);
+	}
+	
+	private static Dimension getSpielfeldSize(final Dimension blockSize) {
+		int spielfeld_width = 2 + Config.breite * blockSize.width;
+		int spielfeld_height = 2 + Config.hoehe * blockSize.height;
+		return new Dimension(spielfeld_width, spielfeld_height);
+	}
+	
+	private static Dimension getPreviewSize(final Dimension blockSize) {
+		int preview_width = 2 + Config.getPreviewSize() * blockSize.width;
+		int preview_height = 2 + Config.getPreviewSize() * blockSize.height;
+		return new Dimension(preview_width, preview_height);
+	}
+	
+	public static Dimension getPlayerPanelSize(final int width, final int height) {
+		Dimension blockSize = PlayerPanel.getBlockSize(width, height);
+		Dimension spielfeldSize = PlayerPanel.getSpielfeldSize(blockSize);
+		Dimension previewSize = PlayerPanel.getPreviewSize(blockSize);
+		int panel_width = spielfeldSize.width + blockSize.width + previewSize.width;
+		int panel_height = spielfeldSize.height;
+		return new Dimension(panel_width, panel_height);
 	}
 
 	@Override

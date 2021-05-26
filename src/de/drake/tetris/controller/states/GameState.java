@@ -101,7 +101,6 @@ public class GameState extends State {
 	private void togglePause() {
 		switch (this.game.getStatus()) {
 		case QUIT:
-			this.game.setStatus(GameStatus.ENDED);
 			StateManager.setCurrentState(new StartState());
 			break;
 		case ENDED:

@@ -62,6 +62,13 @@ public class Config {
 	}
 	
 	/**
+	 * Gibt die Anzahl der vertikalen bzw. horizontalen Blöcke des Preview-Bereichs an
+	 */
+	public static int getPreviewSize() {
+		return Config.getMaxSteinSize() + 2;
+	}
+	
+	/**
 	 * Die Breite des Spielfeldes (Anzahl der Spalten)
 	 */
 	public static int breite;

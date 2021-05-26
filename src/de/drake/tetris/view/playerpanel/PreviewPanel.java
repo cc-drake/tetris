@@ -1,5 +1,6 @@
 package de.drake.tetris.view.playerpanel;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -20,11 +21,6 @@ class PreviewPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * Anzahl der Preview-Zeilen bzw. Spalten
-	 */
-	private final int previewfelder = Config.getMaxSteinSize() + 2;
-	
 	private final Player player;
 	
 	private int block_width, block_height;
@@ -34,13 +30,9 @@ class PreviewPanel extends JPanel {
 		this.setFocusable(false);
 	}
 	
-	void setBlockDimension(int block_width, int block_height) {
-		this.block_width = block_width;
-		this.block_height = block_height;
-	}
-	
-	int getPreviewfelder() {
-		return this.previewfelder;
+	void setBlockSize(final Dimension blockSize) {
+		this.block_width = blockSize.width;
+		this.block_height = blockSize.height;
 	}
 	
 	@Override
@@ -52,8 +44,8 @@ class PreviewPanel extends JPanel {
 	}
 	
 	private void paintBackground(final Graphics g) {
-		for (int spalte = 0; spalte < this.previewfelder; spalte++) {
-			for (int zeile = 0; zeile < this.previewfelder; zeile++) {
+		for (int spalte = 0; spalte < Config.getPreviewSize(); spalte++) {
+			for (int zeile = 0; zeile < Config.getPreviewSize(); zeile++) {
 				if ((spalte + zeile) % 2 == 0) {
 					g.setColor(GameScreen.BGCOLOR2);
 				} else {
@@ -71,8 +63,8 @@ class PreviewPanel extends JPanel {
 		int zeile, spalte;
 		Stone stone = this.player.getNextStein();
 		for (Position position : stone.getDefaultRelativePositions()) {
-			zeile = this.previewfelder / 2 + position.getY() - 1;
-			spalte = this.previewfelder / 2 + position.getX();
+			zeile = Config.getPreviewSize() / 2 + position.getY() - 1;
+			spalte = Config.getPreviewSize() / 2 + position.getX();
 			g.drawImage(stone.getTexture().getStoneTexture(),
 					1 + spalte * this.block_width,
 					1 + zeile * this.block_height,
@@ -82,8 +74,8 @@ class PreviewPanel extends JPanel {
 	
 	private void paintBorderline(final Graphics g) {
 		g.setColor(GameScreen.BGCOLOR2);
-		g.drawRect(0, 0, this.previewfelder * this.block_width + 1,
-				this.previewfelder * this.block_height + 1);
+		g.drawRect(0, 0, Config.getPreviewSize() * this.block_width + 1,
+				Config.getPreviewSize() * this.block_height + 1);
 	}
 	
 }
