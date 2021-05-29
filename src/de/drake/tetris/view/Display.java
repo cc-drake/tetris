@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  * Das Display, in dem die GameStates angezeigt werden.
@@ -25,7 +26,7 @@ public class Display extends JFrame {
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 

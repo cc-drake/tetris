@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -12,25 +11,16 @@ import de.drake.tetris.input.util.Key;
 
 public class IniInOut {
 	
-	public static void initConfig() {
-		
-		HashMap<String, String> parameters = null;
-		
+	public static void initConfig() throws Exception {
 		try {
-			parameters = IniInOut.readIni();
-		} catch (IOException e) {
+			HashMap<String, String> parameters = IniInOut.readIni();
+			IniInOut.setConfig(parameters);
+		} catch (Exception e) {
 		}
-		
-		IniInOut.setConfig(parameters);
-		
-		try {
-			IniInOut.saveIni();
-		} catch (IOException e) {
-		}
-		
+		IniInOut.saveIni();
 	}
 	
-	private static HashMap<String, String> readIni() throws IOException {
+	private static HashMap<String, String> readIni() throws Exception {
 		HashMap<String, String> result = new HashMap<String, String>();
 		FileReader filereader = new FileReader("Tetris.ini");
 		Scanner scanner = new Scanner(filereader);
@@ -387,7 +377,7 @@ public class IniInOut {
 		
 	}
 	
-	public static void saveIni() throws IOException {
+	public static void saveIni() throws Exception {
 		String ini = "";
 		ini += "// Parameter werden beim Start von Tetris eingelesen. Kommentare mit \"//\" einrücken.\r\n";
 		ini += "\r\n";

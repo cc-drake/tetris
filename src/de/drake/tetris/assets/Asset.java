@@ -21,7 +21,7 @@ public class Asset {
 	
 	public final static int SPRITE_HEIGHT = 40;
 	
-	public static void init() {
+	public static void init() throws Exception {
 		
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/spritesheet.png"),
 				Asset.SPRITE_WIDTH, Asset.SPRITE_HEIGHT);

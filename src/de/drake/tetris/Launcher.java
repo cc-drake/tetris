@@ -6,6 +6,7 @@ import de.drake.tetris.controller.GameLoop;
 import de.drake.tetris.controller.states.StateManager;
 import de.drake.tetris.input.InputDevice;
 import de.drake.tetris.view.Display;
+import de.drake.tetris.view.ErrorWindow;
 
 /**
  * Startet das Tetris-Programm.
@@ -19,12 +20,16 @@ class Launcher {
 	 * 		wird ignoriert
 	 */
 	public static void main(String[] args) {
-		IniInOut.initConfig();
-		Asset.init();
-		InputDevice.init();
-		StateManager.init(new Display());
-		Thread gameLoop = new Thread(new GameLoop());
-		gameLoop.start();
+		try {
+			IniInOut.initConfig();
+			Asset.init();
+			InputDevice.init();
+			StateManager.init(new Display());
+			Thread gameLoop = new Thread(new GameLoop());
+			gameLoop.start();
+		} catch (Throwable e) {
+			new ErrorWindow(e);
+		}
 	}
 	
 }

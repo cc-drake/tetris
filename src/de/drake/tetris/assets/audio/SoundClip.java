@@ -1,6 +1,7 @@
 package de.drake.tetris.assets.audio;
 
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -8,34 +9,33 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 
 import de.drake.tetris.config.Config;
+import de.drake.tetris.view.ErrorWindow;
 
 public class SoundClip {
 	
-	private File file;
+	private String path;
 	
-	public SoundClip(final String path) {
-		try {
-			this.file = new File(SoundClip.class.getResource(path).toURI());
-		} catch (Exception e) {
-			throw new Error(e);
-		}
+	public SoundClip(final String path) throws Exception {
+			this.path = path;
 	}
 	
 	public void play() {
 		if (Config.sounds == false)
 			return;
 		try {
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+			InputStream is = SoundClip.class.getResourceAsStream(this.path);
+			BufferedInputStream bis = new BufferedInputStream(is);
+			AudioInputStream ais = AudioSystem.getAudioInputStream(bis);
 			Clip clip = AudioSystem.getClip();
 			clip.addLineListener(event -> {
 				if (event.getType() == LineEvent.Type.STOP) {
 					clip.close();
 				}
 			});
-			clip.open(audioStream);
+			clip.open(ais);
 			clip.start();
 		} catch (Exception e) {
-			throw new Error(e);
+			new ErrorWindow(e);
 		}
 	}
 	

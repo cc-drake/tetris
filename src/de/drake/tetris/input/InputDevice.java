@@ -6,11 +6,12 @@ import java.util.HashSet;
 
 import javax.swing.JComponent;
 
+import de.drake.tetris.input.util.JInputLoader;
 import de.drake.tetris.input.util.Key;
 import de.drake.tetris.input.util.KeyListener;
 import net.java.games.input.Controller;
-import net.java.games.input.ControllerEnvironment;
 import net.java.games.input.Controller.Type;
+import net.java.games.input.ControllerEnvironment;
 
 public abstract class InputDevice implements FocusListener {
 	
@@ -66,14 +67,20 @@ public abstract class InputDevice implements FocusListener {
 	public static void init() {
 		InputDevice.allInputdevices.add(InputDevice.keyboard);
 		InputDevice.allInputdevices.add(InputDevice.mouse);
-		int lfdNr = 0;
-		for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
-			if (controller.getType().equals(Type.GAMEPAD)) {
-				Gamepad gamepad = new Gamepad(controller, lfdNr);
-				InputDevice.gamepads.add(gamepad);
-				InputDevice.allInputdevices.add(gamepad);
-				lfdNr++;
+		// Die Initialisierung des GamePadmoduls JInput ist nur bei Verwendung einer 64 Bit JRE
+		// möglich. Andernfalls kommt es beim Laden der DLLs zu einem Error.
+		try {
+			JInputLoader.loadDLLs();
+			int lfdNr = 0;
+			for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
+				if (controller.getType().equals(Type.GAMEPAD)) {
+					Gamepad gamepad = new Gamepad(controller, lfdNr);
+					InputDevice.gamepads.add(gamepad);
+					InputDevice.allInputdevices.add(gamepad);
+					lfdNr++;
+				}
 			}
+		} catch (Throwable e) {
 		}
 	}
 	
