@@ -87,7 +87,7 @@ public abstract class Stone implements Cloneable {
 	 * 		false, wenn entgegen dem Uhrzeigersinn gedreht werden soll.
 	 * @return true, wenn das Bewegen funktioniert hat.
 	 */
-	public final boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
+	public boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
 		if (this.player.getSpielfeld().isBlocked(this.getBewegtePositionen(x, y, imUhrzeigersinn))) {
 			return false;
 		}

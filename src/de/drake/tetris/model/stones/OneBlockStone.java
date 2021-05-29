@@ -24,6 +24,14 @@ abstract class OneBlockStone extends Stone {
 		return map;
 	}
 	
+	@Override
+	public boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
+		if (imUhrzeigersinn == null) {
+			return super.bewege(x, y, null);
+		}
+		return true;
+	}
+	
 	protected final Position getPosition() {
 		return this.getPositionen().iterator().next();
 	}
