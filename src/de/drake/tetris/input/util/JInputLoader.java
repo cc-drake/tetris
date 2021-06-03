@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import de.drake.tetris.log.Logger;
+import net.java.games.input.ControllerEnvironment;
+
 public class JInputLoader {
 	
 	public static void load() throws Exception {
@@ -18,6 +21,12 @@ public class JInputLoader {
 		JInputLoader.extract("jinput-wintab.dll", pathname);
 		
 		System.setProperty("net.java.games.input.librarypath", libfolder.getAbsolutePath());
+		
+		if (ControllerEnvironment.getDefaultEnvironment().getControllers().length == 0) {
+			Logger.write("Warnung: Beim Start des Moduls JInput ist ein Fehler aufgetreten.");
+			Logger.write("Bitte installieren Sie die aktuelle 64-Bit-Version von Java.");
+			Logger.write("Ohne das JInput-Modul ist die Nutzung von Gamepads nicht möglich.");
+		}
 	}
 	
 	private static File extract(final String filename, final String pathname) throws Exception {
