@@ -64,23 +64,19 @@ public abstract class InputDevice implements FocusListener {
 		}
 	}
 	
-	public static void init() {
+	public static void init() throws Exception {
 		InputDevice.allInputdevices.add(InputDevice.keyboard);
 		InputDevice.allInputdevices.add(InputDevice.mouse);
-		// Die Initialisierung des GamePadmoduls JInput ist nur bei Verwendung einer 64 Bit JRE
-		// möglich. Andernfalls kommt es beim Laden der DLLs zu einem Error.
-		try {
-			JInputLoader.loadDLLs();
-			int lfdNr = 0;
-			for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
-				if (controller.getType().equals(Type.GAMEPAD)) {
-					Gamepad gamepad = new Gamepad(controller, lfdNr);
-					InputDevice.gamepads.add(gamepad);
-					InputDevice.allInputdevices.add(gamepad);
-					lfdNr++;
-				}
+		
+		JInputLoader.load();
+		int lfdNr = 0;
+		for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
+			if (controller.getType().equals(Type.GAMEPAD)) {
+				Gamepad gamepad = new Gamepad(controller, lfdNr);
+				InputDevice.gamepads.add(gamepad);
+				InputDevice.allInputdevices.add(gamepad);
+				lfdNr++;
 			}
-		} catch (Throwable e) {
 		}
 	}
 	

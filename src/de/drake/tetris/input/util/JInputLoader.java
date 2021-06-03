@@ -6,15 +6,26 @@ import java.io.InputStream;
 
 public class JInputLoader {
 	
-	public static void loadDLLs() throws Exception {
-		JInputLoader.load("jinput-dx8_64.dll");
-		JInputLoader.load("jinput-raw_64.dll");
-		JInputLoader.load("jinput-wintab.dll");
+	public static void load() throws Exception {
+		String pathname = "lib";
+		File libfolder = new File(pathname);
+		if (!libfolder.exists()) {
+			libfolder.mkdir();
+		}
+		
+		JInputLoader.extract("jinput-dx8_64.dll", pathname);
+		JInputLoader.extract("jinput-raw_64.dll", pathname);
+		JInputLoader.extract("jinput-wintab.dll", pathname);
+		
+		System.setProperty("net.java.games.input.librarypath", libfolder.getAbsolutePath());
 	}
 	
-	private static void load(final String filename) throws Exception {
+	private static File extract(final String filename, final String pathname) throws Exception {
 		InputStream is = JInputLoader.class.getClassLoader().getResourceAsStream(filename);
-		File file = File.createTempFile(filename, "");
+		File file = new File(pathname + "/" + filename);
+		if (file.exists()) {
+			return file;
+		}
 		FileOutputStream os = new FileOutputStream(file);
 		
 		byte[] buffer = new byte[1024];
@@ -25,8 +36,7 @@ public class JInputLoader {
 		
 		os.close();
 		is.close();
-		
-		System.load(file.getAbsolutePath());
+		return file;
 	}
 	
 }
