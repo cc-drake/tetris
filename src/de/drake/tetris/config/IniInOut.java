@@ -12,11 +12,13 @@ import de.drake.tetris.input.util.Key;
 public class IniInOut {
 	
 	public static void initConfig() throws Exception {
+		HashMap<String, String> parameters;
 		try {
-			HashMap<String, String> parameters = IniInOut.readIni();
-			IniInOut.setConfig(parameters);
+			parameters = IniInOut.readIni();
 		} catch (Exception e) {
+			parameters = null;
 		}
+		IniInOut.setConfig(parameters);
 		IniInOut.saveIni();
 	}
 	
