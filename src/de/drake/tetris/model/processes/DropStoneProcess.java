@@ -13,7 +13,7 @@ public class DropStoneProcess extends Process {
 	public DropStoneProcess(final Player player) {
 		super(player);
 
-		Asset.SOUND_DROP.play();		
+		Asset.SOUND_DROP.play();
 	}
 	
 	@Override

@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 
 import de.drake.tetris.config.Config;
-import de.drake.tetris.view.ErrorWindow;
+import de.drake.tetris.log.Logger;
 
 public class SoundClip {
 	
@@ -35,7 +35,8 @@ public class SoundClip {
 			clip.open(ais);
 			clip.start();
 		} catch (Exception e) {
-			new ErrorWindow(e);
+			Logger.writeThrowable(e);
+			System.exit(-1);
 		}
 	}
 	
