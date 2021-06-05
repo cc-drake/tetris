@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import de.drake.tetris.assets.audio.SoundClip;
 import de.drake.tetris.assets.gfx.BlockTexture;
-import de.drake.tetris.assets.gfx.ImageLoader;
+import de.drake.tetris.assets.gfx.ImageTools;
 import de.drake.tetris.assets.gfx.SpriteSheet;
 
 public class Asset {
@@ -23,20 +23,20 @@ public class Asset {
 	
 	public static void init() throws Exception {
 		
-		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/spritesheet.png"),
+		SpriteSheet blocks = new SpriteSheet(ImageTools.loadImage("/textures/blockSprites.png"),
 				Asset.SPRITE_WIDTH, Asset.SPRITE_HEIGHT);
 		
-		Asset.TEXTURE_YELLOW = new BlockTexture(sheet.getSprite(0, 0), sheet.getSprite(1, 0));
-		Asset.TEXTURE_BLUE = new BlockTexture(sheet.getSprite(0, 1), sheet.getSprite(1, 1));
-		Asset.TEXTURE_RED = new BlockTexture(sheet.getSprite(0, 2), sheet.getSprite(1, 2));
-		Asset.TEXTURE_GREEN = new BlockTexture(sheet.getSprite(0, 3), sheet.getSprite(1, 3));
-		Asset.TEXTURE_ORANGE = new BlockTexture(sheet.getSprite(0, 4), sheet.getSprite(1, 4));
+		Asset.TEXTURE_YELLOW = new BlockTexture(blocks.getSprite(0, 0), blocks.getSprite(1, 0));
+		Asset.TEXTURE_BLUE = new BlockTexture(blocks.getSprite(0, 1), blocks.getSprite(1, 1));
+		Asset.TEXTURE_RED = new BlockTexture(blocks.getSprite(0, 2), blocks.getSprite(1, 2));
+		Asset.TEXTURE_GREEN = new BlockTexture(blocks.getSprite(0, 3), blocks.getSprite(1, 3));
+		Asset.TEXTURE_ORANGE = new BlockTexture(blocks.getSprite(0, 4), blocks.getSprite(1, 4));
 		
-		Asset.TEXTURE_SQUAREBOMB = new BlockTexture(sheet.getSprite(0, 5), sheet.getSprite(0, 5));
-		Asset.TEXTURE_HORIZONTALBOMB = new BlockTexture(sheet.getSprite(0, 6), sheet.getSprite(0, 6));
-		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(sheet.getSprite(1, 6), sheet.getSprite(1, 6));
+		Asset.TEXTURE_SQUAREBOMB = new BlockTexture(blocks.getSprite(0, 5));
+		Asset.TEXTURE_HORIZONTALBOMB = new BlockTexture(blocks.getSprite(0, 6));
+		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(blocks.getSprite(1, 6));
 		
-		Asset.IMAGE_LOGO = ImageLoader.loadImage("/textures/logo.png");
+		Asset.IMAGE_LOGO = ImageTools.loadImage("/textures/logo.png");
 		
 		Asset.SOUND_ADD = new SoundClip("/sounds/add.wav");
 		Asset.SOUND_ADDFOUR = new SoundClip("/sounds/addFour.wav");
