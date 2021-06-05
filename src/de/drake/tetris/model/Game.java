@@ -3,6 +3,7 @@ package de.drake.tetris.model;
 import java.util.ArrayList;
 
 import de.drake.tetris.config.GameMode;
+import de.drake.tetris.log.Logger;
 import de.drake.tetris.model.util.GameStatus;
 import de.drake.tetris.model.util.PlayerStatus;
 
@@ -11,7 +12,7 @@ public class Game {
 	/**
 	 * Speichert den aktuellen Zustand des Spiels.
 	 */
-	private GameStatus status = GameStatus.PREPARED;
+	private GameStatus status;
 	
 	/**
 	 * Der Zeitpunkt, an dem zuletzt ein "Tick" erfolgt ist
@@ -30,6 +31,7 @@ public class Game {
 	
 	public void addPlayer(final Player player) {
 		this.players.add(player);
+		this.setStatus(GameStatus.PREPARED);
 	}
 	
 	public void tick() {
@@ -100,7 +102,7 @@ public class Game {
 						spieler.setStatus(PlayerStatus.LOSER);
 					}
 				}
-				this.status = GameStatus.ENDED;
+				this.setStatus(GameStatus.ENDED);
 			}
 			break;
 			
@@ -111,7 +113,7 @@ public class Game {
 						spieler.setStatus(PlayerStatus.WINNER);
 					}
 				}
-				this.status = GameStatus.ENDED;
+				this.setStatus(GameStatus.ENDED);
 			}
 			break;
 		
@@ -125,7 +127,7 @@ public class Game {
 						spieler.setStatus(PlayerStatus.LOSER);
 					}
 				}
-				this.status = GameStatus.ENDED;
+				this.setStatus(GameStatus.ENDED);
 			}
 			break;
 		
@@ -139,7 +141,7 @@ public class Game {
 						player.setStatus(PlayerStatus.LOSER);
 					}
 				}
-				this.status = GameStatus.ENDED;
+				this.setStatus(GameStatus.ENDED);
 			}
 			break;
 			
@@ -164,6 +166,7 @@ public class Game {
 	
 	public void setStatus(final GameStatus status) {
 		this.status = status;
+		Logger.write("Spielzustand geändert auf " + status);
 	}
 	
 }

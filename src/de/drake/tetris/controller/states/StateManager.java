@@ -1,5 +1,6 @@
 package de.drake.tetris.controller.states;
 
+import de.drake.tetris.log.Logger;
 import de.drake.tetris.view.Display;
 
 public class StateManager {
@@ -16,6 +17,7 @@ public class StateManager {
 	public static void setCurrentState(final State state) {
 		StateManager.currentState = state;
 		StateManager.display.setScreen(state.getScreen());
+		Logger.write("Wechsle zu " + state.getClass().getSimpleName() + "...");
 	}
 	
 	public static void tickCurrentState() {
