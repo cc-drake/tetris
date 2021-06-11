@@ -1,22 +1,16 @@
 package de.drake.tetris.model.spielfeld;
 
-import java.awt.image.BufferedImage;
-
 import de.drake.tetris.assets.gfx.BlockTexture;
 
-class Block implements BlockPaintObject {
+public class Block implements BlockPaintObject {
 	
 	private final int x;
 	
-	private int y;
+	private double y;
 	
 	private final BlockTexture texture;
 	
 	private final boolean isCheese;
-	
-	private BufferedImage currentAnimation = null;
-	
-	private double verticalShift = 0.;
 	
 	Block(final int x, final int y, final BlockTexture texture, final boolean isCheese) {
 		this.x = x;
@@ -25,13 +19,12 @@ class Block implements BlockPaintObject {
 		this.isCheese = isCheese;
 	}
 	
-	synchronized void move(final int y, final double newVerticalShift) {
+	public void move(final double y) {
 		this.y += y;
-		this.verticalShift = newVerticalShift;
 	}
-	
-	void setAnimation(final BufferedImage animation) {
-		this.currentAnimation = animation;
+
+	public void roundPosition() {
+		this.y = Math.round(this.y);
 	}
 	
 	boolean isCheese() {
@@ -43,7 +36,7 @@ class Block implements BlockPaintObject {
 	}
 	
 	int getY() {
-		return this.y;
+		return (int) Math.round(this.y);
 	}
 	
 	@Override
@@ -52,18 +45,13 @@ class Block implements BlockPaintObject {
 	}
 
 	@Override
-	public synchronized double getDoubleY() {
-		return this.y + this.verticalShift;
+	public double getDoubleY() {
+		return this.y;
 	}
 	
 	@Override
 	public BlockTexture getTexture() {
 		return this.texture;
-	}
-	
-	@Override
-	public BufferedImage getAnimation() {
-		return this.currentAnimation;
 	}
 	
 }

@@ -9,7 +9,7 @@ import de.drake.tetris.assets.gfx.SpriteSheet;
 
 public class Asset {
 	
-	public static BufferedImage IMAGE_LOGO;
+	public static BufferedImage IMAGE_LOGO, ERASER_CLEAR;
 	
 	public static BlockTexture TEXTURE_YELLOW, TEXTURE_BLUE, TEXTURE_RED, TEXTURE_GREEN,
 			TEXTURE_ORANGE, TEXTURE_SQUAREBOMB, TEXTURE_HORIZONTALBOMB, TEXTURE_VERTICALBOMB;
@@ -37,6 +37,7 @@ public class Asset {
 		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(blocks.getSprite(1, 6));
 		
 		Asset.IMAGE_LOGO = ImageTools.loadImage("/textures/logo.png");
+		Asset.ERASER_CLEAR = ImageTools.loadImage("/textures/eraserClear.png");
 		
 		Asset.SOUND_ADD = new SoundClip("/sounds/add.wav");
 		Asset.SOUND_ADDFOUR = new SoundClip("/sounds/addFour.wav");

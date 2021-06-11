@@ -4,6 +4,7 @@ import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
+import de.drake.tetris.model.animations.AnimationManager;
 import de.drake.tetris.model.processes.Process;
 import de.drake.tetris.model.spielfeld.Spielfeld;
 import de.drake.tetris.model.stones.Stone;
@@ -35,6 +36,11 @@ public class Player {
 	 * Der Zufallsgenerator, der die neuen Steine erzeugt
 	 */
 	private final StoneFactory steinFactory;
+	
+	/**
+	 * Verwaltet alle derzeit aktiven Animationen.
+	 */
+	private final AnimationManager animationManager;
 	
 	/**
 	 * Der Stein, der aktuell im Spielfeld fällt.
@@ -101,6 +107,7 @@ public class Player {
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new StoneFactory(random.nextLong());
+		this.animationManager = new AnimationManager();
 		this.nextStone = this.steinFactory.erzeugeRandomStein(this);
 		this.spawnStone();
 	}
@@ -253,6 +260,10 @@ public class Player {
 	 */
 	public Spielfeld getSpielfeld() {
 		return this.spielfeld;
+	}
+	
+	public AnimationManager getAnimationManager() {
+		return this.animationManager;
 	}
 	
 	public void destroyStone() {

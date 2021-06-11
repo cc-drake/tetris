@@ -1,16 +1,21 @@
 package de.drake.tetris.view.playerpanel;
 
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
+import de.drake.tetris.model.animations.RowAnimation;
 import de.drake.tetris.model.spielfeld.BlockPaintObject;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
@@ -46,7 +51,7 @@ class SpielfeldPanel extends JPanel {
 	@Override
 	public void paintComponent(final Graphics g) {
 		this.paintBackground(g);
-		this.paintBlocks(g);
+		this.paintBlockLayer(g);
 		this.paintStone(g);
 		this.paintStatus(g);
 		this.paintBorderline(g);
@@ -69,15 +74,79 @@ class SpielfeldPanel extends JPanel {
 		}
 	}
 	
-	private void paintBlocks(final Graphics g) {
+	private void paintBlockLayer(final Graphics g) {
+		BufferedImage blocklayer = this.paintBlocks();
+		RowAnimation ra = this.player.getAnimationManager().getRowAnimation();
+		if (ra != null) {
+			switch (ra.getType()) {
+			case CLEAR_ROW:
+				for (int row : ra.getRows()) {
+					blocklayer = this.clearRow(blocklayer, row, ra.getProgress());
+				}
+				break;
+			case DESTROY_ROW:
+				break;
+			}
+		}
+		
+		g.drawImage(blocklayer, 1, 1, null);
+	}
+
+	private BufferedImage paintBlocks() {
+		BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = image.createGraphics();
 		for (BlockPaintObject block : this.player.getSpielfeld().getBlocks()) {
-			if (block.getDoubleY() < 0)
-				continue;
 			g.drawImage(block.getTexture().getSpielfeldTexture(),
-					1 + (int) (block.getDoubleX() * this.block_width),
-					1 + (int) (block.getDoubleY() * this.block_height),
+					(int) (block.getDoubleX() * this.block_width),
+					(int) (block.getDoubleY() * this.block_height),
 					this.block_width, this.block_height, null);
 		}
+		g.dispose();
+		return image;
+	}
+	
+	private BufferedImage clearRow(final BufferedImage blocklayer, final int row,
+			final double progress) {
+		
+		//Resize Eraser
+		BufferedImage eraser = new BufferedImage(this.block_width / 2,
+				this.block_height, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = eraser.createGraphics();
+		g.drawImage(Asset.ERASER_CLEAR, 0, 0,
+				eraser.getWidth(), eraser.getHeight(), null);
+		g.dispose();
+		
+		//Calculate Positions
+		int y = this.block_height * row;
+		double center = blocklayer.getWidth() / 2. - .5;
+		int leftEraser = (int) Math.floor(center + eraser.getWidth() / 2.
+				- progress * (center + eraser.getWidth()));
+		int rightEraser = blocklayer.getWidth() - leftEraser - 1;
+		
+		//Rechteck ausschneiden
+		g = blocklayer.createGraphics();
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		g.fillRect(leftEraser, y, rightEraser - leftEraser + 1, this.block_height);
+		g.dispose();
+		
+		//Eraser einzeichnen
+		g = blocklayer.createGraphics();
+		g.setClip(0, y,
+				(int) Math.ceil(blocklayer.getWidth() / 2.),
+				this.block_height);
+		g.drawImage(eraser,
+				(int) Math.floor(leftEraser - eraser.getWidth() / 2.), y,
+				null);
+		g.setClip((int) Math.floor(blocklayer.getWidth() / 2.), y,
+				(int) Math.ceil(blocklayer.getWidth() / 2.),
+				this.block_height);
+		g.drawImage(eraser,
+				(int) Math.ceil(rightEraser - eraser.getWidth() / 2.), y,
+				null);
+		g.dispose();
+		
+		return blocklayer;
 	}
 	
 	private void paintStone(final Graphics g) {

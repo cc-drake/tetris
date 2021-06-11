@@ -5,6 +5,8 @@ import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.model.Player;
+import de.drake.tetris.model.processes.util.BlockMover;
+import de.drake.tetris.model.spielfeld.Block;
 
 public class FallingRowsProcess extends Process {
 	
@@ -12,7 +14,7 @@ public class FallingRowsProcess extends Process {
 	
 	private final int xMin, xMax;
 	
-	private final boolean hasBlocksToFall;
+	private final BlockMover mover;
 	
 	public FallingRowsProcess(final Player player, final HashSet<Integer> clearedRows,
 			final int xMin, final int xMax) {
@@ -20,32 +22,36 @@ public class FallingRowsProcess extends Process {
 		this.clearedRows = clearedRows;
 		this.xMin = xMin;
 		this.xMax = xMax;
-		this.hasBlocksToFall = this.clearedRows.isEmpty() ? false : player.getSpielfeld()
-				.setMovingBlocks(Collections.max(this.clearedRows), xMin, xMax);
+		if (!this.clearedRows.isEmpty()) {
+			HashSet<Block> movingBlocks = player.getSpielfeld()
+					.getBlocks(Collections.max(this.clearedRows), xMin, xMax);
+			this.mover = movingBlocks.isEmpty() ? null : new BlockMover(movingBlocks, 1);
+		} else {
+			this.mover = null;
+		}
 	}
 	
 	@Override
 	protected long getDuration() {
-		return this.hasBlocksToFall ? 50000000l : 0l;
+		return this.mover == null ? 0l : 50000000l;
 	}
 	
 	@Override
 	protected void update() {
-		if (this.hasBlocksToFall) {
-			super.getPlayer().getSpielfeld().moveBlocks(0, super.getProgress());	
+		if (this.mover != null) {
+			this.mover.move(this.getProgress());	
 		}
 	}
 	
 	@Override
 	protected void processCompleted() {
 		Player player = super.getPlayer();
-		if (!this.hasBlocksToFall) {
+		if (this.mover == null) {
 			player.startProcess(new AddRowsProcess(player));
 			return;
 		}
 		
 		Integer highestRow = Collections.max(this.clearedRows);
-		player.getSpielfeld().moveBlocks(1, 0.);
 		this.clearedRows.remove(highestRow);
 		HashSet<Integer> remainingRows = new HashSet<Integer>();
 		for (int row : this.clearedRows) {

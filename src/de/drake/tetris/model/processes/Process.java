@@ -33,7 +33,7 @@ public abstract class Process {
 		this.update();
 		
 		// Prozess beenden, wenn er abgeschlossen ist.
-		if (this.progress >= 1.) {
+		if (this.progress == 1.) {
 			this.processCompleted();
 		}
 		

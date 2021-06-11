@@ -21,19 +21,9 @@ public class Spielfeld {
 	private final HashSet<Block> blocks = new HashSet<Block>();
 	
 	/**
-	 * Eine Liste von Blocks, welche sich derzeit bewegen (z.B. fallende Blöcke).
-	 */
-	private HashSet<Block> movingBlocks;
-	
-	/**
 	 * Der Zufallsgenerator, der für die Erzeugung der Cheese-Rows zuständig ist
 	 */
 	private final Random random;
-	
-	/**
-	 * Speichert die Zahl der verbleibenden Käse-Reihen zwischen, um die Zugriffszeit zu verkürzen
-	 */
-	private int remainingCheeseRows = 0;
 	
 	/**
 	 * Speichert die zuletzt ausgegebene Zufallszahl zur Erzeugung von Cheesereihen.
@@ -46,7 +36,9 @@ public class Spielfeld {
 	 */
 	public Spielfeld(final long seed) {
 		this.random = new Random(seed);
-		this.generateCheeseRows(GameMode.getCheeseRows(), false);
+		for (int y = Config.hoehe - GameMode.getCheeseRows(); y < Config.hoehe ; y++) {
+			this.generateCheeseRow(y);
+		}
 	}
 	
 	public void clearRow(final int row) {
@@ -60,7 +52,6 @@ public class Spielfeld {
 		};
 		
 		this.blocks.removeIf(filter);
-		this.updateRemainingCheeseRows();
 	}
 
 	public void clearColumn(final int column) {
@@ -74,7 +65,6 @@ public class Spielfeld {
 		};
 		
 		this.blocks.removeIf(filter);
-		this.updateRemainingCheeseRows();
 	}
 	
 	/**
@@ -96,72 +86,38 @@ public class Spielfeld {
 		};
 		
 		this.blocks.removeIf(filter);
-		this.updateRemainingCheeseRows();
 	}
 	
 	/**
-	 * Markiert alle Blöcke als "moving", die sich im angegebenen Koordinatenbereich befinden.
-	 * @return Gibt zurück, ob sich im Koordinatenbereich Blöcke befinden.
+	 * Gibt alle Blöcke zurück, die sich im angegebenen Koordinatenbereich befinden.
 	 * @param yMax Unterer Rand des Koordinatenbereichs
 	 * @param xMin Linker Rand des Koordinatenbereichs
 	 * @param xMax Rechter Rand des Koordinatenbereichs
 	 */
-	public boolean setMovingBlocks(final int yMax, final int xMin, final int xMax) {
-		this.movingBlocks = new HashSet<Block>();
+	public HashSet<Block> getBlocks(final int yMax, final int xMin, final int xMax) {
+		HashSet<Block> result = new HashSet<Block>();
 		for (Block block : this.blocks) {
 			if ((block.getY() <= yMax)
 					&& (block.getX() >= xMin)
 					&& (block.getX() <= xMax)) {
-				this.movingBlocks.add(block);
+				result.add(block);
 			}
 		}
-		if (this.movingBlocks.isEmpty()) {
-			this.movingBlocks = null;
-			return false;
-		}
-		return true;
+		return result;
 	}
 	
-	public void moveBlocks(final int y, final double newVerticalShift) {
-		if (this.movingBlocks == null)
-			return;
-		for (Block block : this.movingBlocks) {
-			block.move(y, newVerticalShift);
+	public void generateCheeseRow(final int row) {
+		int rand = this.lastRand;
+		while (rand == this.lastRand) {
+			rand = this.random.nextInt(Config.breite);
 		}
+		this.lastRand = rand;
 		
-		this.updateRemainingCheeseRows();
-	}
-	
-	public void generateCheeseRows(final int amount, final boolean delayByVerticalShift) {
-		
-		for (Block block : this.blocks) {
-			block.move(-amount, delayByVerticalShift ? -amount : 0.);
+		for (int x = 0; x < Config.breite; x++) {
+			if (x == this.lastRand)
+				continue;
+			this.blocks.add(new Block(x, row, Asset.TEXTURE_ORANGE, true));
 		}
-		
-		for (int y = Config.hoehe - 1; y >= Config.hoehe - amount; y--) {
-			int rand = this.lastRand;
-			while (rand == this.lastRand) {
-				rand = this.random.nextInt(Config.breite);
-			}
-			this.lastRand = rand;
-			
-			for (int x = 0; x < Config.breite; x++) {
-				if (x == this.lastRand)
-					continue;
-				this.blocks.add(new Block(x, y, Asset.TEXTURE_ORANGE, true));
-			}
-		}
-		this.remainingCheeseRows += amount;
-	}
-	
-	private void updateRemainingCheeseRows() {
-		HashSet<Integer> cheeseRows = new HashSet<Integer>();
-		for (Block block : this.blocks) {
-			if (block.isCheese()) {
-				cheeseRows.add(block.getY());
-			}
-		}
-		this.remainingCheeseRows = cheeseRows.size();
 	}
 	
 	public void addBlocks(final HashSet<Position> positions, final BlockTexture texture,
@@ -169,7 +125,6 @@ public class Spielfeld {
 		for (Position position : positions) {
 			this.blocks.add(new Block(position.getX(), position.getY(), texture, isCheese));
 		}
-		this.updateRemainingCheeseRows();
 	}
 	
 	/**
@@ -180,7 +135,13 @@ public class Spielfeld {
 	}
 	
 	public int getRemainingCheeseRows() {
-		return this.remainingCheeseRows;
+		HashSet<Integer> cheeseRows = new HashSet<Integer>();
+		for (Block block : this.blocks) {
+			if (block.isCheese()) {
+				cheeseRows.add(block.getY());
+			}
+		}
+		return cheeseRows.size();
 	}
 
 	public boolean isBlocked(HashSet<Position> positions) {
