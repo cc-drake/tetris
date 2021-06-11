@@ -1,34 +1,32 @@
 package de.drake.tetris.model.animations;
 
-import java.util.HashSet;
-
 import de.drake.tetris.model.Player;
 
 public class RowAnimation extends Animation {
 	
 	private final RowAnimationType type;
 	
-	private final HashSet<Integer> rows;
+	private final int row;
 	
 	public RowAnimation(final RowAnimationType type, final Player player,
-			final HashSet<Integer> rows) {
+			final int row) {
 		super(player);
 		this.type = type;
-		this.rows = rows;
+		this.row = row;
 	}
 	
-	public HashSet<Integer> getRows() {
-		return this.rows;
+	public int getRow() {
+		return this.row;
 	}
-
+	
 	@Override
 	protected void registerAnimation(final AnimationManager manager) {
-		manager.setRowAnimation(this);
+		manager.addAnimation(this);
 	}
-
+	
 	@Override
 	protected void unregisterAnimation(final AnimationManager manager) {
-		manager.clearAnimation();
+		manager.removeAnimation(this);
 	}
 	
 	public RowAnimationType getType() {

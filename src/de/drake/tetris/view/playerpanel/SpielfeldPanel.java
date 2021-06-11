@@ -76,13 +76,10 @@ class SpielfeldPanel extends JPanel {
 	
 	private void paintBlockLayer(final Graphics g) {
 		BufferedImage blocklayer = this.paintBlocks();
-		RowAnimation ra = this.player.getAnimationManager().getRowAnimation();
-		if (ra != null) {
-			switch (ra.getType()) {
+		for (RowAnimation animation : this.player.getAnimationManager().getRowAnimations()) {
+			switch (animation.getType()) {
 			case CLEAR_ROW:
-				for (int row : ra.getRows()) {
-					blocklayer = this.clearRow(blocklayer, row, ra.getProgress());
-				}
+				blocklayer = this.clearRow(blocklayer, animation);
 				break;
 			case DESTROY_ROW:
 				break;
@@ -106,8 +103,8 @@ class SpielfeldPanel extends JPanel {
 		return image;
 	}
 	
-	private BufferedImage clearRow(final BufferedImage blocklayer, final int row,
-			final double progress) {
+	private BufferedImage clearRow(final BufferedImage blocklayer,
+			final RowAnimation animation) {
 		
 		//Resize Eraser
 		BufferedImage eraser = new BufferedImage(this.block_width / 2,
@@ -118,10 +115,10 @@ class SpielfeldPanel extends JPanel {
 		g.dispose();
 		
 		//Calculate Positions
-		int y = this.block_height * row;
+		int y = this.block_height * animation.getRow();
 		double center = blocklayer.getWidth() / 2. - .5;
 		int leftEraser = (int) Math.floor(center + eraser.getWidth() / 2.
-				- progress * (center + eraser.getWidth()));
+				- animation.getProgress() * (center + eraser.getWidth()));
 		int rightEraser = blocklayer.getWidth() - leftEraser - 1;
 		
 		//Rechteck ausschneiden

@@ -1,19 +1,21 @@
 package de.drake.tetris.model.animations;
 
+import java.util.HashSet;
+
 public class AnimationManager {
 	
-	private RowAnimation rowAnimation = null;
+	private final HashSet<RowAnimation> rowAnimations = new HashSet<RowAnimation>();
 	
-	public void setRowAnimation(final RowAnimation animation) {
-		this.rowAnimation = animation;
+	public void addAnimation(final RowAnimation animation) {
+		this.rowAnimations.add(animation);
 	}
 
-	public void clearAnimation() {
-		this.rowAnimation = null;
+	public void removeAnimation(final RowAnimation animation) {
+		this.rowAnimations.remove(animation);
 	}
 	
-	public RowAnimation getRowAnimation() {
-		return this.rowAnimation;
+	public HashSet<RowAnimation> getRowAnimations() {
+		return new HashSet<RowAnimation>(this.rowAnimations);
 	}
 
 }

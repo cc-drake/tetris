@@ -12,12 +12,14 @@ public class ClearRowProcess extends Process {
 	
 	private final HashSet<Integer> rowsToClear;
 	
-	public final RowAnimation animation;
+	public final HashSet<RowAnimation> animations = new HashSet<RowAnimation>();
 	
 	public ClearRowProcess(final Player player, final HashSet<Integer> rowsToClear) {
 		super(player);
 		this.rowsToClear = rowsToClear;
-		this.animation = new RowAnimation(RowAnimationType.CLEAR_ROW, player, rowsToClear);
+		for (int row : rowsToClear) {
+			this.animations.add(new RowAnimation(RowAnimationType.CLEAR_ROW, player, row));
+		}
 		
 		if (this.rowsToClear.size() >= 4) {
 			Asset.SOUND_TETRIS.play();
@@ -33,7 +35,9 @@ public class ClearRowProcess extends Process {
 	
 	@Override
 	protected void update() {
-		this.animation.setProgress(this.getProgress());
+		for (RowAnimation animation : this.animations) {
+			animation.setProgress(this.getProgress());
+		}
 	}
 	
 	@Override
@@ -43,7 +47,9 @@ public class ClearRowProcess extends Process {
 		for (int row : this.rowsToClear) {
 			player.getSpielfeld().clearRow(row);
 		}
-		this.animation.close();
+		for (RowAnimation animation : this.animations) {
+			animation.close();
+		}
 		
 		player.rowsCompleted(rowsToClear.size());
 		player.startProcess(new FallingRowsProcess(player, this.rowsToClear, 0, Config.breite - 1));

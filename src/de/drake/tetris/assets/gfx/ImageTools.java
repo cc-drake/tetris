@@ -26,6 +26,10 @@ public class ImageTools {
 		ImageIO.write(output, "png", new File(filename));
 	}
 	
+	public static void writeImage(BufferedImage image, final String filename) throws Exception {
+		ImageIO.write(image, "png", new File(filename));
+	}
+	
 	public static BufferedImage clone(final BufferedImage image) {
 		BufferedImage clone = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
 		Graphics2D g = clone.createGraphics();
