@@ -16,7 +16,7 @@ public class HorizontalBomb extends OneBlockStone {
 	@Override
 	public void detonate() {
 		Player player = super.getPlayer();
-		player.startProcess(new HorizontalBombProcess(player, this.getPosition().getY()));
+		player.startProcess(new HorizontalBombProcess(player, this.getPosition()));
 	}
 	
 	@Override

@@ -16,7 +16,7 @@ public class VerticalBomb extends OneBlockStone {
 	@Override
 	public void detonate() {
 		Player player = super.getPlayer();
-		player.startProcess(new VerticalBombProcess(player, this.getPosition().getX()));
+		player.startProcess(new VerticalBombProcess(player, this.getPosition()));
 	}
 
 	@Override

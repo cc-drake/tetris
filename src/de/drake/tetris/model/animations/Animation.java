@@ -1,28 +1,35 @@
 package de.drake.tetris.model.animations;
 
-import de.drake.tetris.model.Player;
-
-abstract class Animation {
+public class Animation {
 	
-	private final AnimationManager manager;
+	private final AnimationType type;
+	
+	private final double column;
+	
+	private final double row;
 	
 	private double progress = 0.;
 	
-	protected Animation(final Player player) {
-		this.manager = player.getAnimationManager();
-		this.registerAnimation(this.manager);
+	public Animation(final AnimationType type, final double column, final double row) {
+		this.type = type;
+		this.column = column;
+		this.row = row;
 	}
-	
-	protected abstract void registerAnimation(final AnimationManager manager);
-	
-	protected abstract void unregisterAnimation(final AnimationManager manager);
 	
 	public void setProgress(final double progress) {
 		this.progress = progress;
 	}
 	
-	public void close() {
-		this.unregisterAnimation(this.manager);
+	public AnimationType getType() {
+		return this.type;
+	}
+	
+	public double getColumn() {
+		return this.column;
+	}
+	
+	public double getRow() {
+		return this.row;
 	}
 	
 	public double getProgress() {

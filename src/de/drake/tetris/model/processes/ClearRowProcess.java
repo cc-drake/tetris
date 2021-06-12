@@ -5,20 +5,23 @@ import java.util.HashSet;
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.model.animations.RowAnimation;
-import de.drake.tetris.model.animations.RowAnimationType;
+import de.drake.tetris.model.animations.Animation;
+import de.drake.tetris.model.animations.AnimationType;
 
 public class ClearRowProcess extends Process {
 	
 	private final HashSet<Integer> rowsToClear;
 	
-	public final HashSet<RowAnimation> animations = new HashSet<RowAnimation>();
+	public final HashSet<Animation> animations = new HashSet<Animation>();
 	
 	public ClearRowProcess(final Player player, final HashSet<Integer> rowsToClear) {
 		super(player);
 		this.rowsToClear = rowsToClear;
 		for (int row : rowsToClear) {
-			this.animations.add(new RowAnimation(RowAnimationType.CLEAR_ROW, player, row));
+			Animation animation = new Animation(AnimationType.CLEAR_ROW,
+					Config.breite / 2. -.5, row);
+			this.animations.add(animation);
+			this.getPlayer().addAnimation(animation);
 		}
 		
 		if (this.rowsToClear.size() >= 4) {
@@ -35,7 +38,7 @@ public class ClearRowProcess extends Process {
 	
 	@Override
 	protected void update() {
-		for (RowAnimation animation : this.animations) {
+		for (Animation animation : this.animations) {
 			animation.setProgress(this.getProgress());
 		}
 	}
@@ -47,8 +50,8 @@ public class ClearRowProcess extends Process {
 		for (int row : this.rowsToClear) {
 			player.getSpielfeld().clearRow(row);
 		}
-		for (RowAnimation animation : this.animations) {
-			animation.close();
+		for (Animation animation : this.animations) {
+			player.removeAnimation(animation);
 		}
 		
 		player.rowsCompleted(rowsToClear.size());

@@ -2,14 +2,15 @@ package de.drake.tetris.model.processes;
 
 import de.drake.tetris.assets.Asset;
 import de.drake.tetris.model.Player;
+import de.drake.tetris.model.util.Position;
 
 public class VerticalBombProcess extends Process {
 
 	private final int column;
 
-	public VerticalBombProcess(final Player player, final int column) {
+	public VerticalBombProcess(final Player player, final Position position) {
 		super(player);
-		this.column = column;
+		this.column = position.getX();
 		
 		player.destroyStone();
 		Asset.SOUND_BOOM.play();

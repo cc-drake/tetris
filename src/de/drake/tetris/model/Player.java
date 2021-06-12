@@ -1,10 +1,11 @@
 package de.drake.tetris.model;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
-import de.drake.tetris.model.animations.AnimationManager;
+import de.drake.tetris.model.animations.Animation;
 import de.drake.tetris.model.processes.Process;
 import de.drake.tetris.model.spielfeld.Spielfeld;
 import de.drake.tetris.model.stones.Stone;
@@ -40,7 +41,7 @@ public class Player {
 	/**
 	 * Verwaltet alle derzeit aktiven Animationen.
 	 */
-	private final AnimationManager animationManager;
+	private final HashSet<Animation> animations;
 	
 	/**
 	 * Der Stein, der aktuell im Spielfeld fällt.
@@ -107,7 +108,7 @@ public class Player {
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new StoneFactory(random.nextLong());
-		this.animationManager = new AnimationManager();
+		this.animations = new HashSet<Animation>();
 		this.nextStone = this.steinFactory.erzeugeRandomStein(this);
 		this.spawnStone();
 	}
@@ -262,10 +263,6 @@ public class Player {
 		return this.spielfeld;
 	}
 	
-	public AnimationManager getAnimationManager() {
-		return this.animationManager;
-	}
-	
 	public void destroyStone() {
 		this.stone = null;
 	}
@@ -346,6 +343,18 @@ public class Player {
 
 	public int getPendingRows() {
 		return this.pendingRows;
+	}
+	
+	public void addAnimation(final Animation animation) {
+		this.animations.add(animation);
+	}
+
+	public void removeAnimation(final Animation animation) {
+		this.animations.remove(animation);
+	}
+	
+	public HashSet<Animation> getAnimations() {
+		return new HashSet<Animation>(this.animations);
 	}
 	
 }

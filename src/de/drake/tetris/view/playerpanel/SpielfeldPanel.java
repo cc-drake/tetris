@@ -15,7 +15,7 @@ import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
-import de.drake.tetris.model.animations.RowAnimation;
+import de.drake.tetris.model.animations.Animation;
 import de.drake.tetris.model.spielfeld.BlockPaintObject;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
@@ -76,12 +76,15 @@ class SpielfeldPanel extends JPanel {
 	
 	private void paintBlockLayer(final Graphics g) {
 		BufferedImage blocklayer = this.paintBlocks();
-		for (RowAnimation animation : this.player.getAnimationManager().getRowAnimations()) {
+		for (Animation animation : this.player.getAnimations()) {
 			switch (animation.getType()) {
 			case CLEAR_ROW:
+			case DESTROY_ROW:
 				blocklayer = this.clearRow(blocklayer, animation);
 				break;
-			case DESTROY_ROW:
+			case DESTROY_COLUMN:
+				break;
+			case DESTROY_SQUARE:
 				break;
 			}
 		}
@@ -103,8 +106,7 @@ class SpielfeldPanel extends JPanel {
 		return image;
 	}
 	
-	private BufferedImage clearRow(final BufferedImage blocklayer,
-			final RowAnimation animation) {
+	private BufferedImage clearRow(final BufferedImage blocklayer, final Animation animation) {
 		
 		//Resize Eraser
 		BufferedImage eraser = new BufferedImage(this.block_width / 2,
@@ -115,7 +117,7 @@ class SpielfeldPanel extends JPanel {
 		g.dispose();
 		
 		//Calculate Positions
-		int y = this.block_height * animation.getRow();
+		int y = this.block_height * (int) animation.getRow();
 		double center = blocklayer.getWidth() / 2. - .5;
 		int leftEraser = (int) Math.floor(center + eraser.getWidth() / 2.
 				- animation.getProgress() * (center + eraser.getWidth()));
