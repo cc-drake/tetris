@@ -19,6 +19,7 @@ import de.drake.tetris.model.animations.Animation;
 import de.drake.tetris.model.spielfeld.BlockPaintObject;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
+import de.drake.tetris.view.playerpanel.eraser.ClearEraser;
 import de.drake.tetris.view.screens.GameScreen;
 
 /**
@@ -106,22 +107,66 @@ class SpielfeldPanel extends JPanel {
 		return image;
 	}
 	
+//	private BufferedImage clearRow(final BufferedImage blocklayer, final Animation animation) {
+//		
+//		//Resize Eraser
+//		BufferedImage eraser = new BufferedImage(this.block_width / 2,
+//				this.block_height, BufferedImage.TYPE_4BYTE_ABGR);
+//		Graphics2D g = eraser.createGraphics();
+//		g.drawImage(Asset.ERASER_CLEAR, 0, 0,
+//				eraser.getWidth(), eraser.getHeight(), null);
+//		g.dispose();
+//		
+//		//Calculate Positions
+//		int y = this.block_height * (int) animation.getRow();
+//		double x = this.block_width * animation.getColumn();
+//		int leftEraser = (int) Math.floor(x + eraser.getWidth() / 2.
+//				- animation.getProgress() * (x + eraser.getWidth()));
+//		int rightEraser = blocklayer.getWidth() - leftEraser - 1;
+//		
+//		//Rechteck ausschneiden
+//		g = blocklayer.createGraphics();
+//		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+//		g.fillRect(leftEraser, y, rightEraser - leftEraser + 1, this.block_height);
+//		g.dispose();
+//		
+//		//Eraser einzeichnen
+//		g = blocklayer.createGraphics();
+//		g.setClip(0, y,
+//				(int) Math.ceil(blocklayer.getWidth() / 2.),
+//				this.block_height);
+//		g.drawImage(eraser,
+//				(int) Math.floor(leftEraser - eraser.getWidth() / 2.), y,
+//				null);
+//		g.setClip((int) Math.floor(blocklayer.getWidth() / 2.), y,
+//				(int) Math.ceil(blocklayer.getWidth() / 2.),
+//				this.block_height);
+//		g.drawImage(eraser,
+//				(int) Math.ceil(rightEraser - eraser.getWidth() / 2.), y,
+//				null);
+//		g.dispose();
+//		
+//		return blocklayer;
+//	}
+	
 	private BufferedImage clearRow(final BufferedImage blocklayer, final Animation animation) {
 		
-		//Resize Eraser
-		BufferedImage eraser = new BufferedImage(this.block_width / 2,
-				this.block_height, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g = eraser.createGraphics();
-		g.drawImage(Asset.ERASER_CLEAR, 0, 0,
-				eraser.getWidth(), eraser.getHeight(), null);
-		g.dispose();
+		//Calculate Eraser data
+		double sizeFactor = 0.25;
+		double horizontalSize = this.block_width * sizeFactor;
+		double verticalSize = this.block_height * sizeFactor;
+		double centerX = this.block_width * (animation.getColumn() + .5) - .5;
+		double centerY = this.block_height * (animation.getRow() + .5) - .5;
+		double maxShift = Math.max(centerX, this.getWidth() - centerX);
+		double horizontalShift = - horizontalSize
+				+ animation.getProgress() * (maxShift + 2 * horizontalSize);
+		double verticalShift = 0.;
 		
-		//Calculate Positions
-		int y = this.block_height * (int) animation.getRow();
-		double center = blocklayer.getWidth() / 2. - .5;
-		int leftEraser = (int) Math.floor(center + eraser.getWidth() / 2.
-				- animation.getProgress() * (center + eraser.getWidth()));
-		int rightEraser = blocklayer.getWidth() - leftEraser - 1;
+		new ClearEraser(verticalShift, verticalShift, verticalShift, verticalShift, verticalShift, verticalShift)
+		
+		int leftEraserX = (int) Math.floor(x + eraser.getWidth() / 2.
+				- animation.getProgress() * (x + eraser.getWidth()));
+		int rightEraserX = blocklayer.getWidth() - leftEraser - 1;
 		
 		//Rechteck ausschneiden
 		g = blocklayer.createGraphics();
@@ -149,18 +194,17 @@ class SpielfeldPanel extends JPanel {
 	}
 	
 	private void paintStone(final Graphics g) {
-		int zeile, spalte;
 		Stone stone = this.player.getStone();
 		if (stone == null)
 			return;
 		for (Position position : stone.getPositionen()) {
-			zeile = position.getY();
-			spalte = position.getX();
-			if (zeile < 0)
+			int column = position.getX();
+			int row = position.getY();
+			if (row < 0)
 				continue;
 			g.drawImage(stone.getTexture().getStoneTexture(),
-					1 + spalte * this.block_width,
-					1 + zeile * this.block_height,
+					1 + column * this.block_width,
+					1 + row * this.block_height,
 					this.block_width, this.block_height, null);
 		}
 	}
