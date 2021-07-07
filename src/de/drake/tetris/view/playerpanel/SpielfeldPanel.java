@@ -164,6 +164,7 @@ class SpielfeldPanel extends JPanel {
 		
 		new ClearEraser(verticalShift, verticalShift, verticalShift, verticalShift, verticalShift, verticalShift)
 		
+		
 		int leftEraserX = (int) Math.floor(x + eraser.getWidth() / 2.
 				- animation.getProgress() * (x + eraser.getWidth()));
 		int rightEraserX = blocklayer.getWidth() - leftEraser - 1;
