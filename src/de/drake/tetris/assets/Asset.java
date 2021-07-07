@@ -32,7 +32,7 @@ public class Asset {
 		Asset.TEXTURE_GREEN = new BlockTexture(blocks.getSprite(0, 3), blocks.getSprite(1, 3));
 		Asset.TEXTURE_ORANGE = new BlockTexture(blocks.getSprite(0, 4), blocks.getSprite(1, 4));
 		
-		Asset.TEXTURE_SQUAREBOMB = new BlockTexture(blocks.getSprite(0, 5));
+		Asset.TEXTURE_SQUAREBOMB = new BlockTexture(blocks.getSprite(1, 5));
 		Asset.TEXTURE_HORIZONTALBOMB = new BlockTexture(blocks.getSprite(0, 6));
 		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(blocks.getSprite(1, 6));
 		
