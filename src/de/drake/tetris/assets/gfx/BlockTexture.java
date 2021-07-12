@@ -12,10 +12,6 @@ public class BlockTexture {
 		this.stoneImage = stoneImage;
 		this.fieldImage = fieldImage;
 	}
-	
-	public BlockTexture(final BufferedImage image) {
-		this(image, image);
-	}
 
 	public BufferedImage getStoneTexture() {
 		return this.stoneImage;

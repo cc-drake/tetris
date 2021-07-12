@@ -1,6 +1,5 @@
 package de.drake.tetris.view.playerpanel;
 
-import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -8,10 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 
 import javax.swing.JPanel;
 
-import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Game;
 import de.drake.tetris.model.Player;
@@ -19,7 +18,8 @@ import de.drake.tetris.model.animations.Animation;
 import de.drake.tetris.model.spielfeld.BlockPaintObject;
 import de.drake.tetris.model.stones.Stone;
 import de.drake.tetris.model.util.Position;
-import de.drake.tetris.view.playerpanel.eraser.ClearEraser;
+import de.drake.tetris.view.playerpanel.eraser.Eraser;
+import de.drake.tetris.view.playerpanel.eraser.EraserFactory;
 import de.drake.tetris.view.screens.GameScreen;
 
 /**
@@ -76,16 +76,27 @@ class SpielfeldPanel extends JPanel {
 	}
 	
 	private void paintBlockLayer(final Graphics g) {
+		//Animations zwischenspeichern, damit zwischenzeitlich im Model entfernte Animations nicht zu Anzeigebugs führen
+		HashSet<Animation> animations = this.player.getAnimations();
 		BufferedImage blocklayer = this.paintBlocks();
-		for (Animation animation : this.player.getAnimations()) {
+		Eraser eraser;
+		for (Animation animation : animations) {
 			switch (animation.getType()) {
 			case CLEAR_ROW:
+				eraser = EraserFactory.createClearRowEraser(animation, this.block_width, this.block_height);
+				eraser.paint(blocklayer);
+				break;
 			case DESTROY_ROW:
-				blocklayer = this.clearRow(blocklayer, animation);
+				eraser = EraserFactory.createDestroyRowEraser(animation, this.block_width, this.block_height);
+				eraser.paint(blocklayer);
 				break;
 			case DESTROY_COLUMN:
+				eraser = EraserFactory.createDestroyColumnEraser(animation, this.block_width, this.block_height);
+				eraser.paint(blocklayer);
 				break;
 			case DESTROY_SQUARE:
+				eraser = EraserFactory.createDestroySquareEraser(animation, this.block_width, this.block_height);
+				eraser.paint(blocklayer);
 				break;
 			}
 		}
@@ -105,93 +116,6 @@ class SpielfeldPanel extends JPanel {
 		}
 		g.dispose();
 		return image;
-	}
-	
-//	private BufferedImage clearRow(final BufferedImage blocklayer, final Animation animation) {
-//		
-//		//Resize Eraser
-//		BufferedImage eraser = new BufferedImage(this.block_width / 2,
-//				this.block_height, BufferedImage.TYPE_4BYTE_ABGR);
-//		Graphics2D g = eraser.createGraphics();
-//		g.drawImage(Asset.ERASER_CLEAR, 0, 0,
-//				eraser.getWidth(), eraser.getHeight(), null);
-//		g.dispose();
-//		
-//		//Calculate Positions
-//		int y = this.block_height * (int) animation.getRow();
-//		double x = this.block_width * animation.getColumn();
-//		int leftEraser = (int) Math.floor(x + eraser.getWidth() / 2.
-//				- animation.getProgress() * (x + eraser.getWidth()));
-//		int rightEraser = blocklayer.getWidth() - leftEraser - 1;
-//		
-//		//Rechteck ausschneiden
-//		g = blocklayer.createGraphics();
-//		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-//		g.fillRect(leftEraser, y, rightEraser - leftEraser + 1, this.block_height);
-//		g.dispose();
-//		
-//		//Eraser einzeichnen
-//		g = blocklayer.createGraphics();
-//		g.setClip(0, y,
-//				(int) Math.ceil(blocklayer.getWidth() / 2.),
-//				this.block_height);
-//		g.drawImage(eraser,
-//				(int) Math.floor(leftEraser - eraser.getWidth() / 2.), y,
-//				null);
-//		g.setClip((int) Math.floor(blocklayer.getWidth() / 2.), y,
-//				(int) Math.ceil(blocklayer.getWidth() / 2.),
-//				this.block_height);
-//		g.drawImage(eraser,
-//				(int) Math.ceil(rightEraser - eraser.getWidth() / 2.), y,
-//				null);
-//		g.dispose();
-//		
-//		return blocklayer;
-//	}
-	
-	private BufferedImage clearRow(final BufferedImage blocklayer, final Animation animation) {
-		
-		//Calculate Eraser data
-		double sizeFactor = 0.25;
-		double horizontalSize = this.block_width * sizeFactor;
-		double verticalSize = this.block_height * sizeFactor;
-		double centerX = this.block_width * (animation.getColumn() + .5) - .5;
-		double centerY = this.block_height * (animation.getRow() + .5) - .5;
-		double maxShift = Math.max(centerX, this.getWidth() - centerX);
-		double horizontalShift = - horizontalSize
-				+ animation.getProgress() * (maxShift + 2 * horizontalSize);
-		double verticalShift = 0.;
-		
-		new ClearEraser(verticalShift, verticalShift, verticalShift, verticalShift, verticalShift, verticalShift)
-		
-		
-		int leftEraserX = (int) Math.floor(x + eraser.getWidth() / 2.
-				- animation.getProgress() * (x + eraser.getWidth()));
-		int rightEraserX = blocklayer.getWidth() - leftEraser - 1;
-		
-		//Rechteck ausschneiden
-		g = blocklayer.createGraphics();
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
-		g.fillRect(leftEraser, y, rightEraser - leftEraser + 1, this.block_height);
-		g.dispose();
-		
-		//Eraser einzeichnen
-		g = blocklayer.createGraphics();
-		g.setClip(0, y,
-				(int) Math.ceil(blocklayer.getWidth() / 2.),
-				this.block_height);
-		g.drawImage(eraser,
-				(int) Math.floor(leftEraser - eraser.getWidth() / 2.), y,
-				null);
-		g.setClip((int) Math.floor(blocklayer.getWidth() / 2.), y,
-				(int) Math.ceil(blocklayer.getWidth() / 2.),
-				this.block_height);
-		g.drawImage(eraser,
-				(int) Math.ceil(rightEraser - eraser.getWidth() / 2.), y,
-				null);
-		g.dispose();
-		
-		return blocklayer;
 	}
 	
 	private void paintStone(final Graphics g) {

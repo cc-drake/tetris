@@ -32,12 +32,11 @@ public class Asset {
 		Asset.TEXTURE_GREEN = new BlockTexture(blocks.getSprite(0, 3), blocks.getSprite(1, 3));
 		Asset.TEXTURE_ORANGE = new BlockTexture(blocks.getSprite(0, 4), blocks.getSprite(1, 4));
 		
-		Asset.TEXTURE_SQUAREBOMB = new BlockTexture(blocks.getSprite(1, 5));
-		Asset.TEXTURE_HORIZONTALBOMB = new BlockTexture(blocks.getSprite(0, 6));
-		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(blocks.getSprite(1, 6));
+		Asset.TEXTURE_SQUAREBOMB = new BlockTexture(blocks.getSprite(0, 6), blocks.getSprite(1, 6));
+		Asset.TEXTURE_HORIZONTALBOMB = new BlockTexture(blocks.getSprite(0, 7), blocks.getSprite(1, 7));
+		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(blocks.getSprite(0, 8), blocks.getSprite(1, 8));
 		
 		Asset.IMAGE_LOGO = ImageTools.loadImage("/textures/logo.png");
-		Asset.ERASER_CLEAR = ImageTools.loadImage("/textures/eraserClear.png");
 		
 		Asset.SOUND_ADD = new SoundClip("/sounds/add.wav");
 		Asset.SOUND_ADDFOUR = new SoundClip("/sounds/addFour.wav");

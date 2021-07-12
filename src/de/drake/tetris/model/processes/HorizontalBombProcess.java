@@ -19,6 +19,7 @@ public class HorizontalBombProcess extends Process {
 		super(player);
 		this.row = position.getY();
 		
+		player.getSpielfeld().addBlocks(player.getStone().getPositionen(), player.getStone().getTexture(), false);
 		player.destroyStone();
 		this.animation = new Animation(AnimationType.DESTROY_ROW, position.getX(), position.getY());
 		this.getPlayer().addAnimation(this.animation);
