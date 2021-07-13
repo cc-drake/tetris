@@ -1,6 +1,7 @@
 package de.drake.tetris.assets.gfx;
 
 import java.awt.AlphaComposite;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,8 +13,18 @@ import de.drake.tetris.assets.Asset;
 
 public class ImageTools {
 	
-	public static BufferedImage loadImage(final String path) throws Exception {
-		return ImageIO.read(Asset.class.getResource(path));
+	public static BufferedImage loadImage(final String path, final boolean containsTransparency) throws Exception {
+		BufferedImage image = ImageIO.read(Asset.class.getResource(path));
+		BufferedImage result;
+		if (containsTransparency) {
+			result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		} else {
+			result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+		}
+		Graphics g = result.createGraphics();
+		g.drawImage(image, 0, 0, null);
+		g.dispose();
+		return result;
 	}
 	
 	public static void writeImages(final ArrayList<BufferedImage> images, final String filename) throws Exception {

@@ -23,7 +23,7 @@ public class Asset {
 	
 	public static void init() throws Exception {
 		
-		SpriteSheet blocks = new SpriteSheet(ImageTools.loadImage("/textures/blockSprites.png"),
+		SpriteSheet blocks = new SpriteSheet(ImageTools.loadImage("/textures/blockSprites.png", false),
 				Asset.SPRITE_WIDTH, Asset.SPRITE_HEIGHT);
 		
 		Asset.TEXTURE_YELLOW = new BlockTexture(blocks.getSprite(0, 0), blocks.getSprite(1, 0));
@@ -36,7 +36,7 @@ public class Asset {
 		Asset.TEXTURE_HORIZONTALBOMB = new BlockTexture(blocks.getSprite(0, 7), blocks.getSprite(1, 7));
 		Asset.TEXTURE_VERTICALBOMB = new BlockTexture(blocks.getSprite(0, 8), blocks.getSprite(1, 8));
 		
-		Asset.IMAGE_LOGO = ImageTools.loadImage("/textures/logo.png");
+		Asset.IMAGE_LOGO = ImageTools.loadImage("/textures/logo.png", false);
 		
 		Asset.SOUND_ADD = new SoundClip("/sounds/add.wav");
 		Asset.SOUND_ADDFOUR = new SoundClip("/sounds/addFour.wav");

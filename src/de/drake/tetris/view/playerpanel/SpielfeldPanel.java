@@ -106,7 +106,7 @@ class SpielfeldPanel extends JPanel {
 
 	private BufferedImage paintBlocks() {
 		BufferedImage image = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_4BYTE_ABGR);
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = image.createGraphics();
 		for (BlockPaintObject block : this.player.getSpielfeld().getBlocks()) {
 			g.drawImage(block.getTexture().getSpielfeldTexture(),

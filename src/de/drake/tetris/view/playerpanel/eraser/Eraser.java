@@ -130,7 +130,7 @@ public class Eraser {
 		g.dispose();
 		
 		//Eraser zeichnen
-		BufferedImage eraserImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);//TODO
+		BufferedImage eraserImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);//TODO
 //		for (int x = 0; x < eraserImage.getWidth(); x++) {
 //			for (int y = 0; y < eraserImage.getHeight(); y++) {
 //				x / this.block_width
