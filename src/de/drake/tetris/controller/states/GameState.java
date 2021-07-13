@@ -80,7 +80,7 @@ public class GameState extends State {
 		this.game.tick();
 		
 		// GUI aktualisieren
-		this.screen.repaint();
+		this.screen.repaint(1l);
 		
 	}
 	
