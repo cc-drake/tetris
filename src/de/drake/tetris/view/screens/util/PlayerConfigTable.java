@@ -32,7 +32,7 @@ public class PlayerConfigTable extends OptionTable implements ChangeListener {
 		this.name = ComponentFactory.createJTextField(playerConfig.getName());
 		super.addOption("Spielername", name);
 		
-		this.initialSpeed = new NumberSpinner(playerConfig.getInitialSpeed(), 0., Config.FPS, .1);
+		this.initialSpeed = new NumberSpinner(playerConfig.getInitialSpeed(), 0., 100, .1);
 		super.addOption("Fallgeschwindigkeit", this.initialSpeed);
 	
 		this.inputType = new ListSpinner(InputDevice.allInputdevices.toArray(), 7, playerConfig.getInputDevice());

@@ -78,7 +78,7 @@ public class ConfigScreen extends JScrollPane {
 					this.hoehe = new NumberSpinner(Config.hoehe, 1, 100, 1);
 					table.addOption("Höhe des Spielfelds (Anzahl Felder)", this.hoehe);
 					
-					this.initialSpeed = new NumberSpinner(Config.initialSpeed, 0., Config.FPS, .1);
+					this.initialSpeed = new NumberSpinner(Config.initialSpeed, 0., 100, .1);
 					table.addOption("Initiale Fallgeschwindigkeit (Felder/Sekunde)", this.initialSpeed);
 					
 					this.keyRepeatDelay = new NumberSpinner(Config.keyRepeatDelay, 0, 1000, 10);

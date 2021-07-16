@@ -6,11 +6,6 @@ import de.drake.tetris.input.util.Key;
 
 public class Config {
 	
-	/**
-	 * Framerate in Aktionen pro Spieler pro Sekunde.
-	 */
-	public final static int FPS = 100;
-	
 	public final static int SIZE_TEXT = 15;
 	
 	public final static int SIZE_HEADER = 50;

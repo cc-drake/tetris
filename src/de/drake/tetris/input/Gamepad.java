@@ -4,8 +4,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-import de.drake.tetris.config.Config;
 import de.drake.tetris.input.util.Key;
+import de.drake.tetris.log.Logger;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;
@@ -62,22 +62,24 @@ public class Gamepad extends InputDevice implements Runnable {
 		this.component2key.remove(null);
 		
 		Thread thread = new Thread(this);
+		thread.setName("GamepadController");
 		thread.start();
 	}
 	
 	@Override
 	public void run() {
-		long timePerTick = 1000000000L / Config.FPS;
-		long lastTick = System.nanoTime();
 		while(true) {
-			if ((System.nanoTime() - lastTick) >= timePerTick) {
-				lastTick += timePerTick;
-				if (this.controller.poll() == false)
-					return;
-				if (this.hasFocus) {
-					this.updatePOVKeys();
-					this.updateButtons();
-				}
+			if (this.controller.poll() == false)
+				return;
+			if (this.hasFocus) {
+				this.updatePOVKeys();
+				this.updateButtons();
+			}
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				Logger.write("Fehler im Gamepad: sleep nicht möglich");
+				Logger.writeThrowable(e);
 			}
 		}
 	}
