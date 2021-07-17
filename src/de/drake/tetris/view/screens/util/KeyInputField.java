@@ -91,8 +91,9 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 			return;
 		this.setKey(key);
 		this.description.setBackground(this.bgColor);
-		// Leider ist es nicht möglich, den Listener zu deaktivieren, weil wir hier in einer Iteration über die KeyListener sind =>
-		// würde eine ConcurrentModification geben
+		this.isListening = false;
+		// Leider ist es nicht möglich, den Listener zu removen, weil wir hier in einer Iteration über die KeyListener sind =>
+		// würde eine ConcurrentModification geben. Daher erfolgt dies über den FocusListener.
 	}
 	
 	@Override
