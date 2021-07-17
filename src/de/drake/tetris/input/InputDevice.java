@@ -42,13 +42,13 @@ public abstract class InputDevice implements FocusListener {
 	}
 	
 	protected final void keyPressed(final Key key) {
-		for (KeyListener listener : this.listeners) {
+		for (KeyListener listener : new HashSet<KeyListener>(this.listeners)) {
 			listener.keyPressed(key);
 		}
 	}
 	
 	protected final void keyReleased(final Key key) {
-		for (KeyListener listener : this.listeners) {
+		for (KeyListener listener : new HashSet<KeyListener>(this.listeners)) {
 			listener.keyReleased(key);
 		}
 	}
