@@ -41,7 +41,7 @@ public class Spielfeld {
 		}
 	}
 	
-	public void clearRow(final int row) {
+	public synchronized void clearRow(final int row) {
 		Predicate<Block> filter = new Predicate<Block>() {
 
 			@Override
@@ -54,7 +54,7 @@ public class Spielfeld {
 		this.blocks.removeIf(filter);
 	}
 
-	public void clearColumn(final int column) {
+	public synchronized void clearColumn(final int column) {
 		Predicate<Block> filter = new Predicate<Block>() {
 
 			@Override
@@ -74,7 +74,7 @@ public class Spielfeld {
 	 * 		Der Mittelpunkt des zu entfernenden 3x3-Feldes.
 	 * 
 	 */
-	public void clear3x3(final Position mittelpunkt) {
+	public synchronized void clear3x3(final Position mittelpunkt) {
 		Predicate<Block> filter = new Predicate<Block>() {
 
 			@Override
@@ -94,7 +94,7 @@ public class Spielfeld {
 	 * @param xMin Linker Rand des Koordinatenbereichs
 	 * @param xMax Rechter Rand des Koordinatenbereichs
 	 */
-	public HashSet<Block> getBlocks(final int yMax, final int xMin, final int xMax) {
+	public synchronized HashSet<Block> getBlocks(final int yMax, final int xMin, final int xMax) {
 		HashSet<Block> result = new HashSet<Block>();
 		for (Block block : this.blocks) {
 			if ((block.getY() <= yMax)
@@ -106,7 +106,7 @@ public class Spielfeld {
 		return result;
 	}
 	
-	public void generateCheeseRow(final int row) {
+	public synchronized void generateCheeseRow(final int row) {
 		int rand = this.lastRand;
 		while (rand == this.lastRand) {
 			rand = this.random.nextInt(Config.breite);
@@ -120,7 +120,7 @@ public class Spielfeld {
 		}
 	}
 	
-	public void addBlocks(final HashSet<Position> positions, final BlockTexture texture,
+	public synchronized void addBlocks(final HashSet<Position> positions, final BlockTexture texture,
 			final boolean isCheese) {
 		for (Position position : positions) {
 			this.blocks.add(new Block(position.getX(), position.getY(), texture, isCheese));
@@ -130,11 +130,11 @@ public class Spielfeld {
 	/**
 	 * Gibt die Blöcke des Spielfelds zurück.
 	 */
-	public HashSet<BlockPaintObject> getBlocks() {
+	public synchronized HashSet<BlockPaintObject> getBlocks() {
 		return new HashSet<BlockPaintObject>(this.blocks);
 	}
 	
-	public int getRemainingCheeseRows() {
+	public synchronized int getRemainingCheeseRows() {
 		HashSet<Integer> cheeseRows = new HashSet<Integer>();
 		for (Block block : this.blocks) {
 			if (block.isCheese()) {
@@ -144,7 +144,7 @@ public class Spielfeld {
 		return cheeseRows.size();
 	}
 
-	public boolean isBlocked(HashSet<Position> positions) {
+	public synchronized boolean isBlocked(HashSet<Position> positions) {
 		for (Position position : positions) {
 			if (position.getX() < 0 || position.getX() >= Config.breite
 					|| position.getY() >= Config.hoehe)
@@ -161,7 +161,7 @@ public class Spielfeld {
 		return false;
 	}
 	
-	public boolean rowIsComplete(final int row) {
+	public synchronized boolean rowIsComplete(final int row) {
 		int blocks = 0;
 		
 		for (Block block : this.blocks) {
