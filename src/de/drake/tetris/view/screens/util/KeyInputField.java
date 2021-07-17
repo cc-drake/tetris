@@ -35,6 +35,8 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 	private final JTextField description;
 	
 	private Key key;
+	
+	private boolean isListening = false;
 
 	public KeyInputField(final JSpinner inputType, final Key initialValue) {
 		super();
@@ -73,6 +75,7 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 		if (e.getActionCommand() == this.edit) {
 			InputDevice inputDevice = (InputDevice) this.inputType.getValue();
 			inputDevice.addKeyListener(this);
+			this.isListening = true;
 			this.description.setBackground(Color.red);
 			return;
 		}
@@ -84,15 +87,17 @@ public class KeyInputField extends JPanel implements ActionListener, KeyListener
 
 	@Override
 	public void keyPressed(final Key key) {
+		if (!this.isListening)
+			return;
 		this.setKey(key);
 		this.description.setBackground(this.bgColor);
-		InputDevice.removeInputManagers();
+		// Leider ist es nicht möglich, den Listener zu deaktivieren, weil wir hier in einer Iteration über die KeyListener sind =>
+		// würde eine ConcurrentModification geben
 	}
-
+	
 	@Override
 	public void keyReleased(final Key key) {
 	}
-
 
 	@Override
 	public void focusGained(FocusEvent e) {
