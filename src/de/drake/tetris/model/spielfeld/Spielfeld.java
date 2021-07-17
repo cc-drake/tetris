@@ -1,7 +1,9 @@
 package de.drake.tetris.model.spielfeld;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import de.drake.tetris.assets.Asset;
@@ -18,7 +20,7 @@ public class Spielfeld {
 	/**
 	 * Eine Liste der Blöcke im Spielfeld.
 	 */
-	private final HashSet<Block> blocks = new HashSet<Block>();
+	private final Set<Block> blocks = Collections.synchronizedSet(new HashSet<Block>());
 	
 	/**
 	 * Der Zufallsgenerator, der für die Erzeugung der Cheese-Rows zuständig ist
@@ -41,7 +43,7 @@ public class Spielfeld {
 		}
 	}
 	
-	public synchronized void clearRow(final int row) {
+	public void clearRow(final int row) {
 		Predicate<Block> filter = new Predicate<Block>() {
 
 			@Override
@@ -54,7 +56,7 @@ public class Spielfeld {
 		this.blocks.removeIf(filter);
 	}
 
-	public synchronized void clearColumn(final int column) {
+	public void clearColumn(final int column) {
 		Predicate<Block> filter = new Predicate<Block>() {
 
 			@Override
@@ -74,7 +76,7 @@ public class Spielfeld {
 	 * 		Der Mittelpunkt des zu entfernenden 3x3-Feldes.
 	 * 
 	 */
-	public synchronized void clear3x3(final Position mittelpunkt) {
+	public void clear3x3(final Position mittelpunkt) {
 		Predicate<Block> filter = new Predicate<Block>() {
 
 			@Override
@@ -94,25 +96,26 @@ public class Spielfeld {
 	 * @param xMin Linker Rand des Koordinatenbereichs
 	 * @param xMax Rechter Rand des Koordinatenbereichs
 	 */
-	public synchronized HashSet<Block> getBlocks(final int yMax, final int xMin, final int xMax) {
+	public HashSet<Block> getBlocks(final int yMax, final int xMin, final int xMax) {
 		HashSet<Block> result = new HashSet<Block>();
-		for (Block block : this.blocks) {
-			if ((block.getY() <= yMax)
-					&& (block.getX() >= xMin)
-					&& (block.getX() <= xMax)) {
-				result.add(block);
+		synchronized (this.blocks) {
+			for (Block block : this.blocks) {
+				if ((block.getY() <= yMax)
+						&& (block.getX() >= xMin)
+						&& (block.getX() <= xMax)) {
+					result.add(block);
+				}
 			}
 		}
 		return result;
 	}
 	
-	public synchronized void generateCheeseRow(final int row) {
+	public void generateCheeseRow(final int row) {
 		int rand = this.lastRand;
 		while (rand == this.lastRand) {
 			rand = this.random.nextInt(Config.breite);
 		}
 		this.lastRand = rand;
-		
 		for (int x = 0; x < Config.breite; x++) {
 			if (x == this.lastRand)
 				continue;
@@ -120,7 +123,7 @@ public class Spielfeld {
 		}
 	}
 	
-	public synchronized void addBlocks(final HashSet<Position> positions, final BlockTexture texture,
+	public void addBlocks(final HashSet<Position> positions, final BlockTexture texture,
 			final boolean isCheese) {
 		for (Position position : positions) {
 			this.blocks.add(new Block(position.getX(), position.getY(), texture, isCheese));
@@ -130,43 +133,51 @@ public class Spielfeld {
 	/**
 	 * Gibt die Blöcke des Spielfelds zurück.
 	 */
-	public synchronized HashSet<BlockPaintObject> getBlocks() {
-		return new HashSet<BlockPaintObject>(this.blocks);
+	public HashSet<BlockPaintObject> getBlocks() {
+		synchronized (this.blocks) {
+			return new HashSet<BlockPaintObject>(this.blocks);
+		}
 	}
 	
-	public synchronized int getRemainingCheeseRows() {
+	public int getRemainingCheeseRows() {
 		HashSet<Integer> cheeseRows = new HashSet<Integer>();
-		for (Block block : this.blocks) {
-			if (block.isCheese()) {
-				cheeseRows.add(block.getY());
+		synchronized (this.blocks) {
+			for (Block block : this.blocks) {
+				if (block.isCheese()) {
+					cheeseRows.add(block.getY());
+				}
 			}
 		}
 		return cheeseRows.size();
 	}
 
-	public synchronized boolean isBlocked(HashSet<Position> positions) {
+	public boolean isBlocked(HashSet<Position> positions) {
 		for (Position position : positions) {
 			if (position.getX() < 0 || position.getX() >= Config.breite
 					|| position.getY() >= Config.hoehe)
 				return true;
 		}
 		
-		for (Block block : this.blocks) {
-			for (Position position : positions) {
-				if (block.getX() == position.getX() && block.getY() == position.getY()) {
-					return true;
+		synchronized (this.blocks) {
+			for (Block block : this.blocks) {
+				for (Position position : positions) {
+					if (block.getX() == position.getX() && block.getY() == position.getY()) {
+						return true;
+					}
 				}
 			}
 		}
 		return false;
 	}
 	
-	public synchronized boolean rowIsComplete(final int row) {
+	public boolean rowIsComplete(final int row) {
 		int blocks = 0;
 		
-		for (Block block : this.blocks) {
-			if (block.getY() == row) {
-				blocks++;
+		synchronized (this.blocks) {
+			for (Block block : this.blocks) {
+				if (block.getY() == row) {
+					blocks++;
+				}
 			}
 		}
 		
