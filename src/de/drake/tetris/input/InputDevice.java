@@ -2,7 +2,9 @@ package de.drake.tetris.input;
 
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
@@ -35,20 +37,28 @@ public abstract class InputDevice implements FocusListener {
 	
 	private final int type;
 	
-	private final HashSet<KeyListener> listeners = new HashSet<KeyListener>();
+	private final Set<KeyListener> listeners = Collections.synchronizedSet(new HashSet<KeyListener>());
 	
 	public final void addKeyListener(final KeyListener listener) {
 		this.listeners.add(listener);
 	}
 	
 	protected final void keyPressed(final Key key) {
-		for (KeyListener listener : new HashSet<KeyListener>(this.listeners)) {
+		HashSet<KeyListener> currentListener;
+		synchronized (this.listeners) {
+			currentListener = new HashSet<KeyListener>(this.listeners);
+		}
+		for (KeyListener listener : currentListener) {
 			listener.keyPressed(key);
 		}
 	}
 	
 	protected final void keyReleased(final Key key) {
-		for (KeyListener listener : new HashSet<KeyListener>(this.listeners)) {
+		HashSet<KeyListener> currentListener;
+		synchronized (this.listeners) {
+			currentListener = new HashSet<KeyListener>(this.listeners);
+		}
+		for (KeyListener listener : currentListener) {
 			listener.keyReleased(key);
 		}
 	}
