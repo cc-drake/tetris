@@ -1,7 +1,9 @@
 package de.drake.tetris.model;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.config.PlayerConfig;
@@ -41,7 +43,7 @@ public class Player {
 	/**
 	 * Verwaltet alle derzeit aktiven Animationen.
 	 */
-	private final HashSet<Animation> animations;
+	private final Set<Animation> animations;
 	
 	/**
 	 * Der Stein, der aktuell im Spielfeld fällt.
@@ -108,7 +110,7 @@ public class Player {
 		Random random = new Random(seed);
 		this.spielfeld = new Spielfeld(random.nextLong());
 		this.steinFactory = new StoneFactory(random.nextLong());
-		this.animations = new HashSet<Animation>();
+		this.animations = Collections.synchronizedSet(new HashSet<Animation>());
 		this.nextStone = this.steinFactory.erzeugeRandomStein(this);
 		this.spawnStone();
 	}
@@ -354,7 +356,11 @@ public class Player {
 	}
 	
 	public HashSet<Animation> getAnimations() {
-		return new HashSet<Animation>(this.animations);
+		HashSet<Animation> currentAnimations;
+		synchronized (this.animations) {
+			currentAnimations = new HashSet<Animation>(this.animations);
+		}
+		return currentAnimations;
 	}
 	
 }
