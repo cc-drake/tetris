@@ -25,7 +25,7 @@ abstract class OneBlockStone extends Stone {
 	}
 	
 	@Override
-	public synchronized boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
+	public boolean bewege(final int x, final int y, final Boolean imUhrzeigersinn) {
 		if (imUhrzeigersinn == null) {
 			return super.bewege(x, y, null);
 		}
