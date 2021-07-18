@@ -57,7 +57,7 @@ public class InputHandler implements KeyListener {
 		this.actionQueue.add(action);
 		if (Config.keyRepeatSpeed > 0 &&
 				(action == Action.LINKS || action == Action.RECHTS || action == Action.RUNTER)) {
-			Timer timer = new Timer(true);
+			Timer timer = new Timer("AutoRepeat for " + action, true);
 			timer.scheduleAtFixedRate(new KeyTask(this, action),
 					Config.keyRepeatDelay + 1000 / Config.keyRepeatSpeed,
 					1000 / Config.keyRepeatSpeed);
