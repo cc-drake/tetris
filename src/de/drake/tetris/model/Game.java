@@ -1,6 +1,6 @@
 package de.drake.tetris.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import de.drake.tetris.config.GameMode;
 import de.drake.tetris.log.Logger;
@@ -27,7 +27,7 @@ public class Game {
 	/**
 	 * Eine Liste der Player, die am Spiel teilnehmen.
 	 */
-	private final ArrayList<Player> players = new ArrayList<Player>(6);
+	private final HashSet<Player> players = new HashSet<Player>();
 	
 	public void addPlayer(final Player player) {
 		this.players.add(player);
@@ -156,7 +156,7 @@ public class Game {
 		return this.status;
 	}
 	
-	public ArrayList<Player> getPlayers() {
+	public HashSet<Player> getPlayers() {
 		return this.players;
 	}
 	
