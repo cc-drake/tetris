@@ -48,14 +48,14 @@ public class Asset {
 		Asset.SOUND_ROW = new SoundFile("/sounds/row.wav");
 		Asset.SOUND_TETRIS = new SoundFile("/sounds/tetris.wav");
 		
-		SoundPlayer.addSoundFile(Asset.SOUND_ADD, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_ADDFOUR, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_BOOM, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_DREH, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_DROP, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_FALL, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_ROW, 5);
-		SoundPlayer.addSoundFile(Asset.SOUND_TETRIS, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_ADD);
+		SoundPlayer.addSoundFile(Asset.SOUND_ADDFOUR);
+		SoundPlayer.addSoundFile(Asset.SOUND_BOOM);
+		SoundPlayer.addSoundFile(Asset.SOUND_DREH);
+		SoundPlayer.addSoundFile(Asset.SOUND_DROP);
+		SoundPlayer.addSoundFile(Asset.SOUND_FALL);
+		SoundPlayer.addSoundFile(Asset.SOUND_ROW);
+		SoundPlayer.addSoundFile(Asset.SOUND_TETRIS);
 		SoundPlayer.start();
 		
 	}

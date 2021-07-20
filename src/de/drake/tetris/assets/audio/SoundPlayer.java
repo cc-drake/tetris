@@ -11,17 +11,15 @@ public class SoundPlayer implements Runnable {
 	
 	private final static SoundPlayer instance = new SoundPlayer();
 	
-	private final HashMap<SoundFile, ConcurrentLinkedQueue<Clip>> soundQueues;
+	private final static int BUFFERS = 4;
 	
-	private final HashMap<SoundFile, Integer> buffers;
+	private final HashMap<SoundFile, ConcurrentLinkedQueue<Clip>> soundQueues;
 	
 	private SoundPlayer() {
 		this.soundQueues = new HashMap<SoundFile, ConcurrentLinkedQueue<Clip>>();
-		this.buffers = new HashMap<SoundFile, Integer>();
 	}
 	
-	public static void addSoundFile(final SoundFile soundFile, final int buffers) {
-		SoundPlayer.instance.buffers.put(soundFile, buffers);
+	public static void addSoundFile(final SoundFile soundFile) {
 		SoundPlayer.instance.soundQueues.put(soundFile, new ConcurrentLinkedQueue<Clip>());
 	}
 
@@ -32,7 +30,7 @@ public class SoundPlayer implements Runnable {
 			while (true) {
 				for (SoundFile file : this.soundQueues.keySet()) {
 					queue = this.soundQueues.get(file);
-					if (queue.size() < this.buffers.get(file)) {
+					if (queue.size() < SoundPlayer.BUFFERS) {
 						queue.offer(file.getClip());
 					}
 				}
