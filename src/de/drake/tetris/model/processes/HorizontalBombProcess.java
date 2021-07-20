@@ -3,6 +3,7 @@ package de.drake.tetris.model.processes;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.animations.Animation;
@@ -24,7 +25,7 @@ public class HorizontalBombProcess extends Process {
 		this.animation = new Animation(AnimationType.DESTROY_ROW, position.getX(), position.getY());
 		this.getPlayer().addAnimation(this.animation);
 		
-		Asset.SOUND_BOOM.play();
+		SoundPlayer.play(Asset.SOUND_BOOM);
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.processes.util.BlockMover;
 import de.drake.tetris.model.spielfeld.Block;
@@ -59,7 +60,7 @@ public class FallingRowsProcess extends Process {
 		}
 		
 		if (remainingRows.size() == 0) {
-			Asset.SOUND_FALL.play();
+			SoundPlayer.play(Asset.SOUND_FALL);
 			player.startProcess(new AddRowsProcess(player));
 		} else {
 			player.startProcess(new FallingRowsProcess(

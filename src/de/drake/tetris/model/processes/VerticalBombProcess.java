@@ -1,6 +1,7 @@
 package de.drake.tetris.model.processes;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.animations.Animation;
 import de.drake.tetris.model.animations.AnimationType;
@@ -21,7 +22,7 @@ public class VerticalBombProcess extends Process {
 		this.animation = new Animation(AnimationType.DESTROY_COLUMN, position.getX(), position.getY());
 		this.getPlayer().addAnimation(this.animation);
 		
-		Asset.SOUND_BOOM.play();
+		SoundPlayer.play(Asset.SOUND_BOOM);
 	}
 	
 	@Override

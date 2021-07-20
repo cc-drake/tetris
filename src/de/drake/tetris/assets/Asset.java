@@ -2,7 +2,8 @@ package de.drake.tetris.assets;
 
 import java.awt.image.BufferedImage;
 
-import de.drake.tetris.assets.audio.SoundClip;
+import de.drake.tetris.assets.audio.SoundFile;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.assets.gfx.BlockTexture;
 import de.drake.tetris.assets.gfx.ImageTools;
 import de.drake.tetris.assets.gfx.SpriteSheet;
@@ -14,7 +15,7 @@ public class Asset {
 	public static BlockTexture TEXTURE_YELLOW, TEXTURE_BLUE, TEXTURE_RED, TEXTURE_GREEN,
 			TEXTURE_ORANGE, TEXTURE_SQUAREBOMB, TEXTURE_HORIZONTALBOMB, TEXTURE_VERTICALBOMB;
 	
-	public static SoundClip SOUND_ADD, SOUND_ADDFOUR, SOUND_BOOM, SOUND_DREH, SOUND_DROP,
+	public static SoundFile SOUND_ADD, SOUND_ADDFOUR, SOUND_BOOM, SOUND_DREH, SOUND_DROP,
 			SOUND_EMPTY, SOUND_FALL, SOUND_ROW, SOUND_TETRIS;
 	
 	public final static int SPRITE_WIDTH = 60;
@@ -38,15 +39,24 @@ public class Asset {
 		
 		Asset.IMAGE_LOGO = ImageTools.loadImage("/textures/logo.png", false);
 		
-		Asset.SOUND_ADD = new SoundClip("/sounds/add.wav");
-		Asset.SOUND_ADDFOUR = new SoundClip("/sounds/addFour.wav");
-		Asset.SOUND_BOOM = new SoundClip("/sounds/boom.wav");
-		Asset.SOUND_DREH = new SoundClip("/sounds/dreh.wav");
-		Asset.SOUND_DROP = new SoundClip("/sounds/drop.wav");
-		Asset.SOUND_EMPTY = new SoundClip("/sounds/empty.wav");
-		Asset.SOUND_FALL = new SoundClip("/sounds/fall.wav");
-		Asset.SOUND_ROW = new SoundClip("/sounds/row.wav");
-		Asset.SOUND_TETRIS = new SoundClip("/sounds/tetris.wav");
+		Asset.SOUND_ADD = new SoundFile("/sounds/add.wav");
+		Asset.SOUND_ADDFOUR = new SoundFile("/sounds/addFour.wav");
+		Asset.SOUND_BOOM = new SoundFile("/sounds/boom.wav");
+		Asset.SOUND_DREH = new SoundFile("/sounds/dreh.wav");
+		Asset.SOUND_DROP = new SoundFile("/sounds/drop.wav");
+		Asset.SOUND_FALL = new SoundFile("/sounds/fall.wav");
+		Asset.SOUND_ROW = new SoundFile("/sounds/row.wav");
+		Asset.SOUND_TETRIS = new SoundFile("/sounds/tetris.wav");
+		
+		SoundPlayer.addSoundFile(Asset.SOUND_ADD, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_ADDFOUR, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_BOOM, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_DREH, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_DROP, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_FALL, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_ROW, 5);
+		SoundPlayer.addSoundFile(Asset.SOUND_TETRIS, 5);
+		SoundPlayer.start();
 		
 	}
 	

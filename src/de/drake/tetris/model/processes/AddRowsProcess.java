@@ -3,6 +3,7 @@ package de.drake.tetris.model.processes;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.processes.util.BlockMover;
@@ -26,9 +27,9 @@ public class AddRowsProcess extends Process {
 		this.mover = new BlockMover(movingBlocks, - this.rowsToAdd);
 		
 		if (this.rowsToAdd >= 4) {
-			Asset.SOUND_ADDFOUR.play();
+			SoundPlayer.play(Asset.SOUND_ADDFOUR);
 		} else if (this.rowsToAdd > 0) {
-			Asset.SOUND_ADD.play();
+			SoundPlayer.play(Asset.SOUND_ADD);
 		}
 	}
 	

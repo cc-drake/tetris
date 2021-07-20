@@ -5,7 +5,6 @@ import java.util.Random;
 
 import javax.swing.JComponent;
 
-import de.drake.tetris.assets.Asset;
 import de.drake.tetris.config.PlayerConfig;
 import de.drake.tetris.input.util.InputHandler;
 import de.drake.tetris.model.Game;
@@ -43,10 +42,6 @@ public class GameState extends State {
 			this.inputHandlers.put(player, config.createInputHandler());
 		}
 		this.screen = new GameScreen(this.game);
-		
-		// Der erste Sound im Spiel führt zu einem Lag,
-		// daher wird bei der Initialisierung bereits ein stiller Sound abgespielt.
-		Asset.SOUND_EMPTY.play();
 	}
 	
 	@Override

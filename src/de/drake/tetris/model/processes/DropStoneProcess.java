@@ -3,6 +3,7 @@ package de.drake.tetris.model.processes;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.spielfeld.Spielfeld;
 import de.drake.tetris.model.stones.Stone;
@@ -13,7 +14,7 @@ public class DropStoneProcess extends Process {
 	public DropStoneProcess(final Player player) {
 		super(player);
 
-		Asset.SOUND_DROP.play();
+		SoundPlayer.play(Asset.SOUND_DROP);
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.assets.gfx.BlockTexture;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
@@ -94,7 +95,7 @@ public abstract class Stone implements Cloneable {
 		this.mittelpunkt.verschiebe(x, y);
 		if (imUhrzeigersinn != null) {
 			this.drehung = this.getNewDrehung(this.drehung, imUhrzeigersinn);
-			Asset.SOUND_DREH.play();
+			SoundPlayer.play(Asset.SOUND_DREH);
 		}
 		return true;
 	}

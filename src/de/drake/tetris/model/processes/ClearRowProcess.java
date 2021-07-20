@@ -3,6 +3,7 @@ package de.drake.tetris.model.processes;
 import java.util.HashSet;
 
 import de.drake.tetris.assets.Asset;
+import de.drake.tetris.assets.audio.SoundPlayer;
 import de.drake.tetris.config.Config;
 import de.drake.tetris.model.Player;
 import de.drake.tetris.model.animations.Animation;
@@ -25,9 +26,9 @@ public class ClearRowProcess extends Process {
 		}
 		
 		if (this.rowsToClear.size() >= 4) {
-			Asset.SOUND_TETRIS.play();
+			SoundPlayer.play(Asset.SOUND_TETRIS);
 		} else if (this.rowsToClear.size() > 0) {
-			Asset.SOUND_ROW.play();
+			SoundPlayer.play(Asset.SOUND_ROW);
 		}
 	}
 	
