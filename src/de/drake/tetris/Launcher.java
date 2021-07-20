@@ -29,8 +29,7 @@ class Launcher {
 			Asset.init();
 			InputDevice.init();
 			StateManager.init(new Display());
-			Thread gameLoop = new Thread(new GameLoop());
-			gameLoop.setName("GameLoop");
+			Thread gameLoop = new Thread(new GameLoop(), "GameLoop");
 			gameLoop.start();
 		} catch (Throwable e) {
 			Logger.write("Fehler bei der Spielinitialisierung:");

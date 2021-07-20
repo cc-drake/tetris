@@ -61,8 +61,8 @@ public class Gamepad extends InputDevice implements Runnable {
 				new Key(KeyEvent.VK_9, "Taste 9"));
 		this.component2key.remove(null);
 		
-		Thread thread = new Thread(this);
-		thread.setName("GamepadController");
+		Thread thread = new Thread(this, "GamepadController");
+		thread.setDaemon(true);
 		thread.start();
 	}
 	
